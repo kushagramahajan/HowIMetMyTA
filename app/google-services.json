@@ -1,0 +1,87 @@
+{
+  "project_info": {
+    "project_number": "233164014854",
+    "project_id": "firebase-meetupapp"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233164014854:android:a54321503dd8280f",
+        "android_client_info": {
+          "package_name": "com.example.kushagra.meetupapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233164014854-o795ag5vtclnke8hn57muva1tt06587o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kushagra.meetupapp",
+            "certificate_hash": "EC9ADDBB17881B4929EFB0FB65A15E7CDA3C3EE6"
+          }
+        },
+        {
+          "client_id": "233164014854-rairp5hilpqh0t15c98v38uhhfdvoeah.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKPE2tIz0JYh2WeRC8GamHYSkREGr25Bo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233164014854:android:617f9961395b0447",
+        "android_client_info": {
+          "package_name": "com.example.kushagra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233164014854-190hdmlgpo7nb96cq0d770o4d43sd1do.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kushagra",
+            "certificate_hash": "EC9ADDBB17881B4929EFB0FB65A15E7CDA3C3EE6"
+          }
+        },
+        {
+          "client_id": "233164014854-rairp5hilpqh0t15c98v38uhhfdvoeah.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKPE2tIz0JYh2WeRC8GamHYSkREGr25Bo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
