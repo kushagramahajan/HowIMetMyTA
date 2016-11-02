@@ -30,6 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SplashScreen extends AppCompatActivity
 {
     private final int SPLASH_DISPLAY_LENGTH = 1000;
+    String[] newQeuries,oldQueries;
 
 
     public static boolean isOnline()
@@ -72,14 +73,15 @@ public class SplashScreen extends AppCompatActivity
                 {
                     boolean isAnyOld = response.body().isAnyOld();
                     boolean isAnyNew = response.body().isAnyNew();
-
+                    oldQueries=response.body().getOldQueryId();
+                    newQeuries=response.body().getNewQueryId();
 
                     if(isAnyOld==true && isAnyNew==false){              //student
                         getPendingOldQueries();
 
                     }
                     else if(isAnyNew==true){                //ta
-
+                        getPendingNewQueries();
                     }
 
 
@@ -105,6 +107,52 @@ public class SplashScreen extends AppCompatActivity
 
     }
 
+    private void getPendingNewQueries(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(AllCoursesActivity.IP_ADD)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ServerApi service = retrofit.create(ServerApi.class);
+
+        // sending individual query ids for new
+        //handling by ta
+
+        for(int i=0;i<newQueries.length;i++) {
+            Call<Messege[]> call = service.getPendingNewQueryList(newQueries[i]);
+            call.enqueue(new Callback<Messege[]>() {
+                @Override
+                public void onResponse(Call<Messege[]> call, Response<Messege[]> response) {
+                    Log.d(MainActivity.TAG, "inside on response for getting new pending queries ");
+
+                    if (response.body() != null) {
+
+                        Messege[] messforaquery = response.body();
+
+                        //handle the array of messages returned
+
+
+
+                    } else {
+                        Log.d(MainActivity.TAG, "Response Body null");
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<Messege[]> call, Throwable t) {
+                    Log.d(MainActivity.TAG, "Failure to get new messages for query" + call.toString());
+
+                }
+            });
+        }
+
+
+
+    }
+
+
     private void getPendingOldQueries(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AllCoursesActivity.IP_ADD)
@@ -112,38 +160,43 @@ public class SplashScreen extends AppCompatActivity
                 .build();
 
         ServerApi service = retrofit.create(ServerApi.class);
-        Call< Messege[] > call = service.getPendingOldQueryList();
 
 
-        call.enqueue(new Callback<Messege[]>() {
-            @Override
-            public void onResponse(Call<Messege[]> call, Response<Messege[]> response)
-            {
-                Log.d(MainActivity.TAG , "inside on response for getting old pending queries " );
+        //sending the individual query ids for old
 
-                if(response.body()!=null)
-                {
-                    Messege[] messforaquery = response.body();
+        for(int i=0;i<oldQueries.length;i++) {
+            Call<Messege[]> call = service.getPendingOldQueryList(oldQueries[i]);
+
+
+            call.enqueue(new Callback<Messege[]>() {
+                @Override
+                public void onResponse(Call<Messege[]> call, Response<Messege[]> response) {
+                    Log.d(MainActivity.TAG, "inside on response for getting old pending queries ");
+
+                    if (response.body() != null) {
+
+                        Messege[] messforaquery = response.body();
+
+                        //handle the array of messages returned
+
+
+
+                    } else {
+                        Log.d(MainActivity.TAG, "Response Body null");
+
+                    }
 
                 }
-                else
-                {
-                    Log.d(MainActivity.TAG , "Response Body null");
+
+                @Override
+                public void onFailure(Call<Messege[]> call, Throwable t) {
+                    Log.d(MainActivity.TAG, "Failure to get old messages for query" + call.toString());
 
                 }
-
-            }
-
-            @Override
-            public void onFailure(Call<Messege[]> call, Throwable t)
-            {
-                Log.d(MainActivity.TAG , "Failure to get old messages for query"  + call.toString() );
-
-            }
-        });
+            });
 
 
-
+        }
 
     }
 

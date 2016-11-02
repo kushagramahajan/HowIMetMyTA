@@ -38,7 +38,11 @@ public interface ServerApi
     Call<StatusClass> getStatus();
 
     @POST("/app/old/message")
-    Call<Messege[] > getPendingOldQueryList(@Body StudentQueryClass studentQueryClass);
+    Call<Messege[] > getPendingOldQueryList(@Body String queryid);
+
+    @POST("/app/new/message")
+    Call<Messege[] > getPendingNewQueryList(@Body String queryid);
+
 
 
 }
