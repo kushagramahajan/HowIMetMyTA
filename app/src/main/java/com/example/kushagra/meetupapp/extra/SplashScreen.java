@@ -12,13 +12,19 @@ import android.widget.Toast;
 import com.example.kushagra.meetupapp.AllCoursesActivity;
 import com.example.kushagra.meetupapp.MainActivity;
 import com.example.kushagra.meetupapp.Messege;
+import com.example.kushagra.meetupapp.Query;
 import com.example.kushagra.meetupapp.R;
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.db.objects.Course;
+import com.example.kushagra.meetupapp.db.objects.StudentIdClass;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StatusClass;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -30,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SplashScreen extends AppCompatActivity
 {
     private final int SPLASH_DISPLAY_LENGTH = 1000;
-    String[] newQeuries,oldQueries;
+    String[] newQueries,oldQueries;
 
 
     public static boolean isOnline()
@@ -58,8 +64,10 @@ public class SplashScreen extends AppCompatActivity
                 .build();
 
         ServerApi service = retrofit.create(ServerApi.class);
-        ArrayList<String> allCourses = null;
-        Call<StatusClass> call = service.getStatus();
+        SharedPreferences editor = getApplicationContext()
+                .getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
+
+        Call<StatusClass> call = service.getStatus( new StatusClass(editor.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"default@de.com")));
 
         Log.d(MainActivity.TAG , "inside checkpendingrequest");
 
@@ -74,7 +82,7 @@ public class SplashScreen extends AppCompatActivity
                     boolean isAnyOld = response.body().isAnyOld();
                     boolean isAnyNew = response.body().isAnyNew();
                     oldQueries=response.body().getOldQueryId();
-                    newQeuries=response.body().getNewQueryId();
+                    newQueries=response.body().getNewQueryId();
 
                     if(isAnyOld==true && isAnyNew==false){              //student
                         getPendingOldQueries();
@@ -176,6 +184,41 @@ public class SplashScreen extends AppCompatActivity
                     if (response.body() != null) {
 
                         Messege[] messforaquery = response.body();
+                        FileInputStream fileIn = null;// Read serial file.
+                        try {
+                            SharedPreferences sharedPreferences = getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
+                            String file_name=sharedPreferences.getString(AllCoursesActivity.COURSE_NAME_EXTRA,"default course name");
+
+                            fileIn = new FileInputStream(new File(this.getFilesDir(), file_name));
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        ObjectInputStream in = null;// input the read file.
+                        try {
+                            in = new ObjectInputStream(fileIn);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        ArrayList<Query> Querarr= null;
+                        try {
+                            Querarr = (ArrayList<Query>) in.readObject();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        int position=Integer.parseInt();
+                        Query modquer=Querarr.get(position);
+                        ArrayList<Messege> messArr=modquer.getMesseges();
+
+                        for(int i=0;i<messforaquery.length;i++)
+                        {
+                            messArr.add(messforaquery[i]);
+                        }
+
+                        modquer.setMesseges(messArr);
+                        Querarr.set(position,modquer);
 
                         //handle the array of messages returned
 

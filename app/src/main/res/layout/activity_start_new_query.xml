@@ -43,7 +43,7 @@
         android:paddingBottom="20dp" />
 
     <CheckBox
-        android:text="I want to use free time slots from my schedule"
+        android:text="I want receiver use free time slots sender my schedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="clickCheck"
@@ -63,7 +63,7 @@
         android:visibility="invisible" >
 
         <TextView
-            android:text="I am free from :"
+            android:text="I am free sender :"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView4"
@@ -86,7 +86,7 @@
                 android:onClick="clickFromTime" />
 
             <TextView
-                android:text="to"
+                android:text="receiver"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView2"

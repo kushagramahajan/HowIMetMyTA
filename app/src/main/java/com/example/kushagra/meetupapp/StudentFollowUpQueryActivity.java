@@ -1,6 +1,7 @@
 package com.example.kushagra.meetupapp;
 
 
+import android.content.SharedPreferences;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Editmessege=(EditText)findViewById(R.id.messege);
+        Editmessege=(EditText)findViewById(R.id.message);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_follow_up_query);
 
@@ -30,7 +31,9 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
         FileInputStream fileIn = null;// Read serial file.
         try {
-            fileIn = new FileInputStream(new File(this.getFilesDir(), AllCoursesActivity.COURSE_NAME_EXTRA));
+            SharedPreferences sharedPreferences = getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
+            String file_name=sharedPreferences.getString(AllCoursesActivity.COURSE_NAME_EXTRA,"default course name");
+            fileIn = new FileInputStream(new File(this.getFilesDir(), file_name));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -53,7 +56,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         Query modquer=Querarr.get(position);
         ArrayList<Messege> messArr=modquer.getMesseges();
 
-        // proper display of the messages
+        // proper display of the messages for a query
 
 
     }
@@ -62,7 +65,11 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
     public void clickSendMessege(View v) throws IOException, ClassNotFoundException {
         String messege=Editmessege.getText().toString();
 
-        FileInputStream fileIn = new FileInputStream(new File(this.getFilesDir(), AllCoursesActivity.COURSE_NAME_EXTRA));// Read serial file.
+        SharedPreferences sharedPreferences = getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
+        String file_name=sharedPreferences.getString(AllCoursesActivity.COURSE_NAME_EXTRA,"default course name");
+
+        FileInputStream fileIn = new FileInputStream(new File(this.getFilesDir(), file_name));// Read serial file.
+
         ObjectInputStream in = new ObjectInputStream(fileIn);// input the read file.
         ArrayList<Query> Querarr= (ArrayList<Query>) in.readObject();
         int position=Integer.parseInt(getIntent().getStringExtra("position"));
@@ -71,9 +78,11 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         Messege toadd= new Messege(AllCoursesActivity.EMAIL_ID_EXTRA,modquer.getReceiver(),messege);
 
 
-        //check wheher posotion from 0 or 1
+        //check wheher posotion sender 0 or 1
         modquer.getMesseges().add(toadd);
         Querarr.set(position,modquer);
+
+        //write the Querarr
 
     }
 

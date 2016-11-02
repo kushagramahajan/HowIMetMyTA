@@ -20,6 +20,7 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.kushagra.meetupapp.db.DbContract;
 import com.example.kushagra.meetupapp.db.objects.Course;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StudentQueryClass;
@@ -46,6 +47,7 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
 
     AutoCompleteTextView tags,ta;
     TextView totime, fromtime, date;
+    EditText title,description;
     CheckBox check;
     LinearLayout ll;
     int year,month,day,fHour,fMinute,tHour, tMinute;
@@ -76,6 +78,10 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
 
         //tags = (MultiAutoCompleteTextView) this.findViewById(R.id.tags);
         ta = (AutoCompleteTextView) this.findViewById(R.id.ta);
+
+        title=(EditText)findViewById(R.id.title);
+        description=(EditText)findViewById(R.id.description);
+
         totime = (TextView) findViewById(R.id.totime);
         fromtime = (TextView) findViewById(R.id.fromtime);
         date = (TextView) findViewById(R.id.date);
@@ -86,56 +92,12 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
         String course = "cn";
         String[] suggestion=new String[0] ;
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AllCoursesActivity.IP_ADD)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        tas = new String[2];
+        tas[0]="pranks@iiitd.ac.in";
+        tas[1]="kushagra.mahajan27@gmail.com";
 
-        ServerApi service = retrofit.create(ServerApi.class);
-        String courseId=getIntent().getStringExtra("course");
-
-        Course selectedCourse = new Course(courseId);
-
-        Call< Course > call = service.getSpecificCourseData(selectedCourse);
-        call.enqueue(new Callback<Course>() {
-            String[] suggestTA = new String[0];
-
-            @Override
-            public void onResponse(Call<Course> call, Response<Course> response) {
-                if(response.body()!=null)
-                {
-
-              //    suggestion is array list for suggestions, populate ot accordingly
-                //    tas &suggestTA is for TA suggestions
-                    Course temp = response.body();
-                    ArrayList<String> TAarray = temp.getTaArray();
-                    suggestTA = (String[]) TAarray.toArray();
-                    tas=suggestTA;
-
-//                      this if for tagss
-//                    ArrayAdapter<String> course_adapter = new ArrayAdapter<String>(this,
-//                    android.R.layout.simple_dropdown_item_1line,suggestion);
-//                    tags.setAdapter(course_adapter);
-//                    tags.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer() );
-
-                    ArrayAdapter<String> ta_adapter = new ArrayAdapter<>(mContext,android.R.layout.simple_dropdown_item_1line,tas);
-                    ta.setAdapter(ta_adapter);
-
-                }
-                else{
-
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<Course> call, Throwable t) {
-
-            }
-        });
-
-
+        ArrayAdapter<String> ta_adapter = new ArrayAdapter<>(mContext,android.R.layout.simple_dropdown_item_1line,tas);
+        ta.setAdapter(ta_adapter);
 
 
     }
@@ -180,9 +142,25 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
         FileOutputStream fileOut=new FileOutputStream(new File(this.getFilesDir(),file_name));
 
         FileInputStream fileIn = new FileInputStream(new File(this.getFilesDir(),file_name));// Read serial file.
-        ObjectInputStream in = new ObjectInputStream(fileIn);// input the read file.
+        ObjectInputStream in = null;
+        boolean flag = false;
+        try
+        {in = new ObjectInputStream(fileIn);// input the read file.
+        }
+            catch(Exception e)
+            {
+                flag=true;
+            }
 
-        ArrayList<Query> Querarr= (ArrayList<Query>) in.readObject();// allocate it to the object file already instanciated.
+        ArrayList<Query> Querarr;
+        if(!flag)
+        {
+            Querarr= (ArrayList<Query>) in.readObject();// allocate it receiver the object file already instanciated.
+        }
+        else
+        {
+            Querarr = new ArrayList<>();
+        }
 
 
 //        ArrayList<Query> Querarr = new ArrayList<>();
@@ -191,7 +169,8 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
         Query toaddobj=new Query(editText.getText().toString(),editTextDesp.getText().toString(),editTextTA.getText().toString(),new ArrayList<Messege>());
 
         Querarr.add(toaddobj);
-        in.close();//closes the input stream.
+        if(in!=null)
+            in.close();//closes the input stream.
         fileIn.close();//closes the file data stream.
 
 

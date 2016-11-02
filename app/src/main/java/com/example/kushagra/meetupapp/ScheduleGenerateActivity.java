@@ -31,7 +31,7 @@ public class ScheduleGenerateActivity extends AppCompatActivity
     private void retrieveTotalSchedule()
     {
         /*
-        get from ui;
+        get sender ui;
         pranks
          */
         ArrayList<ScheduleSlot> slots = new ArrayList<>();

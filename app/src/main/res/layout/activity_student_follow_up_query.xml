@@ -36,7 +36,7 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/list"
         android:layout_below="@+id/text"
-        android:layout_above="@+id/messege">
+        android:layout_above="@+id/message">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,12 +49,12 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/messege"
+        android:id="@+id/message"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/send"
         android:maxLines="5"
-        android:hint="type messege" />
+        android:hint="type message" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
         app:srcCompat="@android:drawable/ic_menu_send"
         android:id="@+id/send"
         android:onClick="clickSendMessege"
-        android:layout_alignTop="@+id/messege"
+        android:layout_alignTop="@+id/message"
         style="@style/Widget.AppCompat.ImageButton"
         android:background="@android:color/transparent"
         android:layout_alignParentEnd="true"

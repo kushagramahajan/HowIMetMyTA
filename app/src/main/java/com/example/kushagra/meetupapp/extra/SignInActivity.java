@@ -144,7 +144,8 @@ public class SignInActivity extends AppCompatActivity implements
             String personName = acct.getDisplayName();
             String personEmail = acct.getEmail();
 
-            SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = getApplicationContext()
+                    .getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE).edit();
             editor.putString(AllCoursesActivity.EMAIL_ID_EXTRA, personEmail);
             editor.putString(AllCoursesActivity.USER_NAME_EXTRA, personName);
             Log.d(MainActivity.TAG, personName  + "personName");

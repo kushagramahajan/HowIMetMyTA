@@ -6,6 +6,7 @@ package com.example.kushagra.meetupapp.network.model;
 
 public class StudentQueryClass
 {
+    String queryId;
     private String title,description,studentId , courseId;
     boolean isGeneric;
 

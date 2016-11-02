@@ -5,35 +5,35 @@ package com.example.kushagra.meetupapp;
  */
 
 public class Messege {
-    String from,to,messege;
+    String sender, receiver, message;
 
     public Messege(String from, String to, String messege) {
-        this.from = from;
-        this.to = to;
-        this.messege = messege;
+        this.sender = from;
+        this.receiver = to;
+        this.message = messege;
     }
 
-    public String getFrom() {
-        return from;
+    public String getSender() {
+        return sender;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
-    public String getTo() {
-        return to;
+    public String getReceiver() {
+        return receiver;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
-    public String getMessege() {
-        return messege;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMessege(String messege) {
-        this.messege = messege;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

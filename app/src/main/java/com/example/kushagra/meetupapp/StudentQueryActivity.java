@@ -46,71 +46,6 @@ public class StudentQueryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AllCoursesActivity.IP_ADD)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ServerApi service = retrofit.create(ServerApi.class);
-        ArrayList<String> allCourses = null;
-        Call< ArrayList<String> > call = service.getAllCoursesList();
-
-        Log.d(MainActivity.TAG , "Inside Fetch");
-
-        call.enqueue(new Callback<ArrayList<String>>() {
-            @Override
-            public void onResponse(Call<ArrayList<String>> call, Response<ArrayList<String>> response)
-            {
-                Log.d(MainActivity.TAG , response.body().size()+" " );
-
-                if(response.body()!=null)
-                {
-                    ArrayList<com.example.kushagra.meetupapp.db.objects.Course> clist = new ArrayList<com.example.kushagra.meetupapp.db.objects.Course>();
-                    ArrayList<String> allcoures = response.body();
-
-                    Log.d(MainActivity.TAG , "Inner part" + response.body() );
-                    for(int i=0;i<allcoures.size();i++){
-                        String cid=allcoures.get(i).split(";")[0];
-                        String cname=allcoures.get(i).split(";")[1];
-                        com.example.kushagra.meetupapp.db.objects.Course ctemp=new com.example.kushagra.meetupapp.db.objects.Course(cid,cname,null);
-                        clist.add(ctemp);
-                    }
-
-                    DbManipulate dbMan=new DbManipulate(getApplicationContext());
-                    dbMan.insertAllCourses(clist);
-
-                    SharedPreferences sharedPreferences = getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
-
-
-                    if(sharedPreferences.getBoolean(AllCoursesActivity.IS_LOGGED_IN_EXTRA , false))
-                    {
-
-                        Intent intent = new Intent(getApplicationContext(), AllCoursesActivity.class);
-                        startActivity(intent);
-
-                    }
-                    else
-                    {
-                        Intent intent = new Intent(getApplicationContext(),SignInActivity.class);
-                        startActivity(intent);
-                    }
-
-                }
-                else
-                {
-                    Log.d(MainActivity.TAG , "Response Body null");
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<String>> call, Throwable t)
-            {
-                Log.d(MainActivity.TAG , "Failure to get  queries"  + call.toString() );
-
-            }
-        });
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -144,9 +79,16 @@ public class StudentQueryActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        Log.i("HAHA","HAHA");
+        ArrayList<Query> Querarr=null;
         try {
-            ArrayList<Query> Querarr= (ArrayList<Query>) in.readObject();// allocate it to the object file already instanciated.
+            if(in==null)
+                myQueries=Querarr;
+            else {
+                Querarr = (ArrayList<Query>) in.readObject();// allocate it receiver the object file already instanciated.
+                myQueries=Querarr;
+            }
+        } catch (FileNotFoundException e) {
             myQueries=Querarr;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

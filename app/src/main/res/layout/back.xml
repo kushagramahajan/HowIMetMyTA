@@ -20,7 +20,7 @@
             android:id="@+id/email" />
 
         <TextView
-            android:text="Please select from given courses :"
+            android:text="Please select sender given courses :"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView3"

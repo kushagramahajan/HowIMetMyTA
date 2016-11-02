@@ -12,12 +12,26 @@ public class StatusClass {
 
     String[] oldQueryId;
     String[] newQueryId;
+    String studentId;
 
     public StatusClass(boolean isAnyOld, boolean isAnyNew, String[] oldQueryId,String[] newQueryId) {
         this.isAnyOld = isAnyOld;
         this.isAnyNew = isAnyNew;
         this.oldQueryId = oldQueryId;
         this.newQueryId = newQueryId;
+    }
+
+    public StatusClass(String studentId) {
+
+        this.studentId = studentId;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public boolean isAnyOld() {
