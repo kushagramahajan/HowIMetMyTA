@@ -139,8 +139,8 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
 
         String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_NAME_EXTRA);
         Log.i("PPPPPPPP","--"+file_name+"--");
-        FileOutputStream fileOut=new FileOutputStream(new File(this.getFilesDir(),file_name));
 
+        FileOutputStream fileOut=new FileOutputStream(new File(this.getFilesDir(),file_name));
         FileInputStream fileIn = new FileInputStream(new File(this.getFilesDir(),file_name));// Read serial file.
         ObjectInputStream in = null;
         boolean flag = false;

@@ -6,6 +6,7 @@ import com.example.kushagra.meetupapp.db.objects.StudentIdClass;
 import com.example.kushagra.meetupapp.network.model.StatusClass;
 import com.example.kushagra.meetupapp.network.model.StudentQueryClass;
 import com.example.kushagra.meetupapp.network.model.StudentRegisterClass;
+import com.example.kushagra.meetupapp.network.model.TaNewMessage;
 
 import java.util.ArrayList;
 
@@ -42,7 +43,7 @@ public interface ServerApi
     Call<Messege[] > getPendingOldQueryList(@Body String queryid);
 
     @POST("/app/ta/fetch")
-    Call<Messege[] > getPendingNewQueryList(@Body String queryid);
+    Call<TaNewMessage > getPendingNewQueryList(@Body TaNewMessage queryid);
 
 
 

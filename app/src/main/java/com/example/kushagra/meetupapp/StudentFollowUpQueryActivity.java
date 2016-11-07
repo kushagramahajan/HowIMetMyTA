@@ -13,8 +13,10 @@ import com.example.kushagra.meetupapp.db.DbContract;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class StudentFollowUpQueryActivity extends AppCompatActivity {
@@ -69,8 +71,11 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         String file_name=sharedPreferences.getString(AllCoursesActivity.COURSE_NAME_EXTRA,"default course name");
 
         FileInputStream fileIn = new FileInputStream(new File(this.getFilesDir(), file_name));// Read serial file.
+        FileOutputStream fileOut = new FileOutputStream(new File(this.getFilesDir(), file_name));
 
         ObjectInputStream in = new ObjectInputStream(fileIn);// input the read file.
+        ObjectOutputStream out=new ObjectOutputStream(fileOut);
+
         ArrayList<Query> Querarr= (ArrayList<Query>) in.readObject();
         int position=Integer.parseInt(getIntent().getStringExtra("position"));
 
@@ -83,6 +88,14 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         Querarr.set(position,modquer);
 
         //write the Querarr
+
+        out.writeObject(Querarr);
+        if(in!=null)
+            in.close();
+        if(out!=null)
+            out.close();
+        fileIn.close();
+        fileOut.close();
 
     }
 

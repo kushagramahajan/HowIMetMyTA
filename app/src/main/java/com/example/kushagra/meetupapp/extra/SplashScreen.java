@@ -19,6 +19,7 @@ import com.example.kushagra.meetupapp.db.objects.Course;
 import com.example.kushagra.meetupapp.db.objects.StudentIdClass;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StatusClass;
+import com.example.kushagra.meetupapp.network.model.TaNewMessage;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -129,17 +130,70 @@ public class SplashScreen extends AppCompatActivity
         //handling by ta
 
         for(int i=0;i<newQueries.length;i++) {
-            Call<Messege[]> call = service.getPendingNewQueryList(newQueries[i]);
-            call.enqueue(new Callback<Messege[]>() {
+            TaNewMessage queryid=new TaNewMessage(newQueries[i]);
+            Call<TaNewMessage> call = service.getPendingNewQueryList(queryid);
+            call.enqueue(new Callback<TaNewMessage>() {
                 @Override
-                public void onResponse(Call<Messege[]> call, Response<Messege[]> response) {
+                public void onResponse(Call<TaNewMessage> call, Response<TaNewMessage> response) {
                     Log.d(MainActivity.TAG, "inside on response for getting new pending queries ");
 
                     if (response.body() != null) {
 
-                        Messege[] messforaquery = response.body();
+                        TaNewMessage messforaquery = response.body();
 
                         //handle the array of messages returned
+                        String file_name=messforaquery.getCourseId();
+                        FileOutputStream fileOut=null;
+                        FileInputStream fileIn=null;
+
+                        try {
+                            fileOut=new FileOutputStream(new File(getApplicationContext().getFilesDir(),file_name));
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            fileIn = new FileInputStream(new File(getApplicationContext().getFilesDir(),file_name));// Read serial file.
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        boolean flag = false;
+                        ObjectInputStream in = null;
+
+                        try
+                        {in = new ObjectInputStream(fileIn);// input the read file.
+                        }
+                        catch(Exception e)
+                        {
+                            flag=true;
+                        }
+
+                        ArrayList<Query> Querarr = null;
+                        if(!flag)
+                        {
+                            try {
+                                Querarr= (ArrayList<Query>) in.readObject();// allocate it receiver the object file already instanciated.
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else
+                        {
+                            Querarr = new ArrayList<>();
+                        }
+
+                        Query newquery=new Query(messforaquery.getTitle(),messforaquery.getDescription(),messforaquery.getTaId(),new ArrayList<Messege>());
+                        Querarr.add(newquery);
+
+                        ObjectOutputStream out=null;
+
+                        try {
+                            out = new ObjectOutputStream(fileOut);
+                            out.writeObject(Querarr);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
 
 
@@ -151,8 +205,8 @@ public class SplashScreen extends AppCompatActivity
                 }
 
                 @Override
-                public void onFailure(Call<Messege[]> call, Throwable t) {
-                    Log.d(MainActivity.TAG, "Failure to get new messages for query" + call.toString());
+                public void onFailure(Call<TaNewMessage> call, Throwable t) {
+                    Log.d(MainActivity.TAG, "Failure to get new messages for newquery" + call.toString());
 
                 }
             });
@@ -244,6 +298,12 @@ public class SplashScreen extends AppCompatActivity
 
 
                             out.writeObject(Querarr);
+                            if(out!=null)
+                                out.close();
+                            if(in!=null)
+                                in.close();
+                            fileIn.close();
+                            fileOut.close();
 
                         }
                         } catch (ClassNotFoundException e) {
