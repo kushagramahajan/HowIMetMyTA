@@ -23,8 +23,10 @@ import com.example.kushagra.meetupapp.network.model.StatusClass;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -185,43 +187,70 @@ public class SplashScreen extends AppCompatActivity
 
                         Messege[] messforaquery = response.body();
                         FileInputStream fileIn = null;// Read serial file.
+                        FileOutputStream fileOut=null;
                         try {
                             SharedPreferences sharedPreferences = getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
                             String file_name=sharedPreferences.getString(AllCoursesActivity.COURSE_NAME_EXTRA,"default course name");
 
-                            fileIn = new FileInputStream(new File(this.getFilesDir(), file_name));
+                            fileIn = new FileInputStream(new File(getApplicationContext().getFilesDir(), file_name));
+                            fileOut= new FileOutputStream(new File(getApplicationContext().getFilesDir(), file_name));
+
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
                         ObjectInputStream in = null;// input the read file.
+                        ObjectOutputStream out=null;
                         try {
                             in = new ObjectInputStream(fileIn);
+                            out= new ObjectOutputStream(fileOut);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                         ArrayList<Query> Querarr= null;
+
                         try {
                             Querarr = (ArrayList<Query>) in.readObject();
+
+                        //find sender
+                        String from=messforaquery[0].getSender();
+                        int position=0;
+                        int l;
+                        for(l=0;l<Querarr.size();l++){
+                            if(Querarr.get(l).getReceiver().equals(from)){
+                                position=l;
+                                break;
+                            }
+                        }
+                        if(l==Querarr.size()){
+                            Log.d("MainActivity","No query found to insert the message");
+                        }
+                        else {
+                            Query modquer = Querarr.get(position);
+                            ArrayList<Messege> messArr = modquer.getMesseges();
+
+                            for (int k = 0; k< messforaquery.length; k++) {
+                                messArr.add(messforaquery[k]);
+                            }
+
+                            modquer.setMesseges(messArr);
+                            Querarr.set(position, modquer);
+
+                            //handle the array of messages returned
+                            ///
+                            ///
+                            ///
+
+
+
+
+                            out.writeObject(Querarr);
+
+                        }
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
-                        int position=Integer.parseInt();
-                        Query modquer=Querarr.get(position);
-                        ArrayList<Messege> messArr=modquer.getMesseges();
-
-                        for(int i=0;i<messforaquery.length;i++)
-                        {
-                            messArr.add(messforaquery[i]);
-                        }
-
-                        modquer.setMesseges(messArr);
-                        Querarr.set(position,modquer);
-
-                        //handle the array of messages returned
-
 
 
                     } else {
