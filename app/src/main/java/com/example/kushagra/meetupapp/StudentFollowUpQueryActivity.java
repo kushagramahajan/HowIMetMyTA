@@ -2,13 +2,16 @@ package com.example.kushagra.meetupapp;
 
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -74,10 +77,20 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
         for(com.example.kushagra.meetupapp.Messege m : messArr)
         {
-            TextView t = new TextView(this);
+            View view;
+            view = getLayoutInflater().inflate(R.layout.msg_balloon,null );
+            TextView t = (TextView)view.findViewById(R.id.msg_text);
             t.setTextAlignment(m.getSender().equals("me")?View.TEXT_ALIGNMENT_TEXT_END:View.TEXT_ALIGNMENT_TEXT_START);
             t.setText(m.getMessage());
-            msg_list.addView(t);
+            if(m.getSender().equals("me"))
+            {
+                t.setTextColor(Color.rgb(153,0,0));
+            }
+            else
+            {
+                t.setTextColor(Color.rgb(0,0,153));
+            }
+            msg_list.addView(view);
         }
 
     }

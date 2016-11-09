@@ -15,6 +15,11 @@
         <activity android:name=".LoginActivity" >
         </activity>
         <activity android:name=".AllCoursesActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".extra.SplashScreen">
         </activity>
@@ -24,11 +29,6 @@
         <activity android:name=".ScheduleGenerateActivity" />
         <activity android:name=".TaQueryActivity" />
         <activity android:name=".StudentFollowUpQueryActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".StudentQueryActivity"
