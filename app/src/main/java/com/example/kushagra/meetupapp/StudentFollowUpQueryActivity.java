@@ -2,11 +2,15 @@ package com.example.kushagra.meetupapp;
 
 
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.example.kushagra.meetupapp.db.DbContract;
 
@@ -22,12 +26,14 @@ import java.util.ArrayList;
 public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
     EditText Editmessege;
+    LinearLayout msg_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Editmessege=(EditText)findViewById(R.id.message);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_follow_up_query);
+        Editmessege=(EditText)findViewById(R.id.message);
+        msg_list = (LinearLayout)findViewById(R.id.msg_list);
 
         // get the particular query object
 
@@ -42,7 +48,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         ObjectInputStream in = null;// input the read file.
         try {
             in = new ObjectInputStream(fileIn);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         ArrayList<Query> Querarr= null;
@@ -50,7 +56,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
             Querarr = (ArrayList<Query>) in.readObject();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         int position=Integer.parseInt(getIntent().getStringExtra("position"));
@@ -60,6 +66,19 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
         // proper display of the messages for a query
 
+//        messArr = new ArrayList<>();
+//        messArr.add(new Messege("ta","me","i wanna drink ur blood"));
+//        messArr.add(new Messege("me","ta","no i wanna drink urs, plz"));
+//        messArr.add(new Messege("ta","me","no, i wanna drink ur blood, or else grade reduction"));
+//        messArr.add(new Messege("me","ta","ok. i'll just gonna cut me-self"));
+
+        for(com.example.kushagra.meetupapp.Messege m : messArr)
+        {
+            TextView t = new TextView(this);
+            t.setTextAlignment(m.getSender().equals("me")?View.TEXT_ALIGNMENT_TEXT_END:View.TEXT_ALIGNMENT_TEXT_START);
+            t.setText(m.getMessage());
+            msg_list.addView(t);
+        }
 
     }
 

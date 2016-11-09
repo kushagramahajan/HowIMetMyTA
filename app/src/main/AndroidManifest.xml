@@ -17,18 +17,19 @@
         <activity android:name=".AllCoursesActivity" >
         </activity>
         <activity android:name=".extra.SplashScreen">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".extra.SignInActivity" />
         <activity android:name=".FormActivity" />
         <activity android:name=".StartNewStudentQueryActivity" />
         <activity android:name=".ScheduleGenerateActivity" />
         <activity android:name=".TaQueryActivity" />
-        <activity android:name=".StudentFollowUpQueryActivity" />
+        <activity android:name=".StudentFollowUpQueryActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".StudentQueryActivity"
             android:label="@string/title_activity_student_query"
