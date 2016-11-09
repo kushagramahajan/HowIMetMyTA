@@ -51,6 +51,7 @@ public class QueryAdapter extends RecyclerView.Adapter
         public void onClick(View v) {
             //Toast.makeText(itemView.getContext(),"Card Clicked - " + getAdapterPosition(),Toast.LENGTH_SHORT).show();
             Intent i = new Intent(v.getContext(),StudentFollowUpQueryActivity.class);
+
             i.putExtra("position", getAdapterPosition());
             i.putExtra( AllCoursesActivity.COURSE_NAME_EXTRA ,subtitle.getText().toString());
             v.getContext().startActivity(i);

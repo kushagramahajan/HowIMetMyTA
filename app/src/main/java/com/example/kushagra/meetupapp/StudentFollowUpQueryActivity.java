@@ -62,7 +62,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        int position=Integer.parseInt(getIntent().getStringExtra("position"));
+        int position=getIntent().getIntExtra("position",0);
 
         Query modquer=Querarr.get(position);
         ArrayList<Messege> messArr=modquer.getMesseges();
