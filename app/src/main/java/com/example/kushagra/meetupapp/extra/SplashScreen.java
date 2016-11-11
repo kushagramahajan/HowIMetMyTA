@@ -41,7 +41,6 @@ public class SplashScreen extends AppCompatActivity
     private final int SPLASH_DISPLAY_LENGTH = 1000;
     String[] newQueries,oldQueries;
 
-
     public static boolean isOnline()
     {
 
@@ -195,8 +194,6 @@ public class SplashScreen extends AppCompatActivity
                             e.printStackTrace();
                         }
 
-
-
                     } else {
                         Log.d(MainActivity.TAG, "Response Body null");
 
@@ -206,6 +203,7 @@ public class SplashScreen extends AppCompatActivity
 
                 @Override
                 public void onFailure(Call<TaNewMessage> call, Throwable t) {
+
                     Log.d(MainActivity.TAG, "Failure to get new messages for newquery" + call.toString());
 
                 }
