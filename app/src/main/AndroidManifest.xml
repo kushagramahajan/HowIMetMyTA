@@ -12,15 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity" >
-        </activity>
-        <activity android:name=".AllCoursesActivity" >
-        </activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".AllCoursesActivity" />
         <activity android:name=".extra.SplashScreen">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".extra.SignInActivity" />
@@ -38,6 +36,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.kushagra.meetupapp.AllCoursesActivity" />
         </activity>
+        <activity android:name=".StartNewTaQueryActivity" />
+        <activity android:name=".TaFollowUpQueryActivity"></activity>
     </application>
 
 </manifest>
