@@ -10,7 +10,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private Button mLoginButton;
-    public static final String TAG = "MeetUp";
+    public static final String TAG = "SP_Main";
 
 
 

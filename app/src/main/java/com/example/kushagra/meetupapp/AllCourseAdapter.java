@@ -1,5 +1,6 @@
 package com.example.kushagra.meetupapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.kushagra.meetupapp.db.DbContract;
 import com.example.kushagra.meetupapp.db.objects.Course;
 
 import java.util.ArrayList;
@@ -21,9 +21,12 @@ public class AllCourseAdapter extends RecyclerView.Adapter
 {
 
     private ArrayList<Course> list;
+    private Context mContext;
 
-    public AllCourseAdapter(ArrayList<Course> list)
+    public AllCourseAdapter(ArrayList<Course> list ,Context mContext)
     {
+
+        this.mContext = mContext;
         this.list = list;
     }
 
@@ -48,12 +51,15 @@ public class AllCourseAdapter extends RecyclerView.Adapter
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View v)
+        {
             //Toast.makeText(itemView.getContext(),"Card Clicked - " + getAdapterPosition(),Toast.LENGTH_SHORT).show();
             Intent i = new Intent(v.getContext(),StudentQueryActivity.class);
 
-            i.putExtra( AllCoursesActivity.COURSE_ID_EXTRA ,item.getCourseName());
+            i.putExtra( AllCoursesActivity.COURSE_ID_EXTRA , item.getCourseName() );
             i.putExtra(AllCoursesActivity.COURSE_NAME_EXTRA,subtitle.getText().toString());
+
+            Log.d(MainActivity.TAG , "CourseId Current" + item.getCourseId() );
 
             v.getContext().startActivity(i);
         }

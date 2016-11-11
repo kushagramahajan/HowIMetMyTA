@@ -2,7 +2,6 @@ package com.example.kushagra.meetupapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -12,24 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import com.example.kushagra.meetupapp.db.DbContract;
-import com.example.kushagra.meetupapp.db.DbManipulate;
-import com.example.kushagra.meetupapp.db.objects.*;
-import com.example.kushagra.meetupapp.extra.SignInActivity;
-import com.example.kushagra.meetupapp.network.api.ServerApi;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class StudentQueryActivity extends AppCompatActivity {
 
@@ -54,7 +40,10 @@ public class StudentQueryActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(mContext, StartNewStudentQueryActivity.class);
 
-                i.putExtra(AllCoursesActivity.COURSE_NAME_EXTRA,getIntent().getStringExtra(AllCoursesActivity.COURSE_NAME_EXTRA));
+                Log.d(MainActivity.TAG , "Name" + getIntent().getStringExtra(AllCoursesActivity.COURSE_NAME_EXTRA)
+                    + "Id" + getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA ));
+                i.putExtra(AllCoursesActivity.COURSE_NAME_EXTRA , getIntent().getStringExtra(AllCoursesActivity.COURSE_NAME_EXTRA));
+                i.putExtra(AllCoursesActivity.COURSE_ID_EXTRA , getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA ));
 
                 startActivity(i);
             }
@@ -74,26 +63,29 @@ public class StudentQueryActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         ObjectInputStream in = null;// input the read file.
-        try {
+        try
+        {
             in = new ObjectInputStream(fileIn);
-        } catch (IOException e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
         Log.i("HAHA","HAHA");
         ArrayList<Query> Querarr=null;
-        try {
-            if(in==null)
+        try
+        {
+            if(in == null || in.readObject()==null || (ArrayList<Query>) in.readObject() == null )
                 myQueries=Querarr;
-            else {
+            else
+            {
                 Querarr = (ArrayList<Query>) in.readObject();// allocate it receiver the object file already instanciated.
                 myQueries=Querarr;
             }
-        } catch (FileNotFoundException e) {
-            myQueries=Querarr;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        catch (Exception e)
+        {
+            myQueries = Querarr;
         }
 
 //        myQueries.add(new Query("Ttile1","cse101",new ArrayList<Messege>()));

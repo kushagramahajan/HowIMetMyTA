@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity
     ArrayAdapter<String> spinnerAdapter;
     ArrayList<String> serverCourses;
 
-    private static final String TAG = "LoginActivity";
+    private static final String TAG ="SP_Main";
 
     DbManipulate dbManipulate;
 
@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity
         serverCourses = new ArrayList<String>();
         DbManipulate dbMan=new DbManipulate(getApplicationContext());
         a= dbMan.getAllCourses();
+
         for (Course c : a)
         {
             serverCourses.add(c.getCourseName());
@@ -142,7 +143,9 @@ public class LoginActivity extends AppCompatActivity
                     }
 
                     @Override
-                    public void onFailure(Call<StudentRegisterClass> call, Throwable t) {
+                    public void onFailure(Call<StudentRegisterClass> call, Throwable t)
+                    {
+
 
                     }
 
@@ -161,6 +164,7 @@ public class LoginActivity extends AppCompatActivity
 
 
         Intent i = new Intent(getApplicationContext(), AllCoursesActivity.class);
+
                 startActivity(i);
 
     }

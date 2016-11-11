@@ -16,22 +16,18 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
-import com.example.kushagra.meetupapp.db.DbContract;
-import com.example.kushagra.meetupapp.db.objects.Course;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StudentQueryClass;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -119,6 +115,7 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
         String studentId = sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA, "");
 
         String courseId = getIntent().getStringExtra( AllCoursesActivity.COURSE_ID_EXTRA );
+
         EditText editText = (EditText)findViewById(R.id.title);
         EditText editTextDesp = (EditText)findViewById(R.id.description);
         EditText editTextTA = (EditText)findViewById(R.id.ta);
@@ -137,8 +134,10 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
         );
 
 
-        String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_NAME_EXTRA);
-        Log.i("PPPPPPPP","--"+file_name+"--");
+        String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
+
+        Log.d(AllCoursesActivity.TAG , "--"+file_name+"--");
+        Toast.makeText(this,file_name+"..", Toast.LENGTH_LONG).show();
 
         FileOutputStream fileOut=new FileOutputStream(new File(this.getFilesDir(),file_name));
         FileInputStream fileIn = new FileInputStream(new File(this.getFilesDir(),file_name));// Read serial file.
@@ -183,6 +182,7 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
             public void onResponse(Call<StudentQueryClass> call, Response<StudentQueryClass> response)
             {
                 Log.d(MainActivity.TAG ," Query done");
+
 
             }
 

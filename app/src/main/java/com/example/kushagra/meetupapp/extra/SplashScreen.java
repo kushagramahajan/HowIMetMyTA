@@ -16,7 +16,6 @@ import com.example.kushagra.meetupapp.Query;
 import com.example.kushagra.meetupapp.R;
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.db.objects.Course;
-import com.example.kushagra.meetupapp.db.objects.StudentIdClass;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StatusClass;
 import com.example.kushagra.meetupapp.network.model.TaNewMessage;
@@ -71,7 +70,7 @@ public class SplashScreen extends AppCompatActivity
 
         Call<StatusClass> call = service.getStatus( new StatusClass(editor.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"default@de.com")));
 
-        Log.d(MainActivity.TAG , "inside checkpendingrequest");
+        Log.d(MainActivity.TAG , "inside check pending request");
 
 
         call.enqueue(new Callback<StatusClass>() {
@@ -86,11 +85,13 @@ public class SplashScreen extends AppCompatActivity
                     oldQueries=response.body().getOldQueryId();
                     newQueries=response.body().getNewQueryId();
 
-                    if(isAnyOld==true && isAnyNew==false){              //student
+                    if(isAnyOld==true && isAnyNew==false)
+                    {              //student
                         getPendingOldQueries();
 
                     }
-                    else if(isAnyNew==true){                //ta
+                    else if(isAnyNew==true)
+                    {                //ta
                         getPendingNewQueries();
                     }
 
@@ -141,18 +142,23 @@ public class SplashScreen extends AppCompatActivity
                         TaNewMessage messforaquery = response.body();
 
                         //handle the array of messages returned
-                        String file_name=messforaquery.getCourseId();
+                        String file_name = messforaquery.getCourseId();
                         FileOutputStream fileOut=null;
                         FileInputStream fileIn=null;
 
-                        try {
+                        try
+                        {
                             fileOut=new FileOutputStream(new File(getApplicationContext().getFilesDir(),file_name));
-                        } catch (FileNotFoundException e) {
+                        }
+                        catch (Exception e)
+                        {
                             e.printStackTrace();
                         }
-                        try {
+
+                        try
+                        {
                             fileIn = new FileInputStream(new File(getApplicationContext().getFilesDir(),file_name));// Read serial file.
-                        } catch (FileNotFoundException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         boolean flag = false;
@@ -436,10 +442,12 @@ public class SplashScreen extends AppCompatActivity
         if(isNotLoggedIn() && isOnline())
         {
             fetchFromServerUpdateDB();
-
+            Log.d(AllCoursesActivity.TAG , "Splash NotLoggedIn isOnline");
         }
         else if( !isNotLoggedIn() && isOnline())
         {
+            Log.d(AllCoursesActivity.TAG , "Splash Going ahead");
+
             fetchFromServerUpdateDB();
 
             checkforPendingMessages();

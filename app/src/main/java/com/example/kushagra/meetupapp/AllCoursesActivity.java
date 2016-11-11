@@ -16,7 +16,8 @@ public class AllCoursesActivity extends AppCompatActivity
 {
     public static final String  SHARED_PREF_FILE_NAME = "com.example.kushagra.mySharedPref";
 
-    public static final String IP_ADD = "http://192.168.55.220:8080";
+    public static final String IP_ADD = "http://192.168.55.147:8080";
+    public static final String TAG = "SP_Main";
 
     public static final String IS_LOGGED_IN_EXTRA = "com.exmaple.kushagra.isLoggedIn";
     public static final String USER_NAME_EXTRA = "com.exmaple.kushagra.userName";
@@ -47,7 +48,7 @@ public class AllCoursesActivity extends AppCompatActivity
         DbManipulate dbManipulate = new DbManipulate(getApplicationContext());
                 myCourses = dbManipulate.getMyCourses();
 
-                    AllCourseAdapter adapter = new AllCourseAdapter(myCourses);
+                    AllCourseAdapter adapter = new AllCourseAdapter(myCourses , getApplicationContext());
 
                     list.setAdapter(adapter);
                     list.setLayoutManager(new LinearLayoutManager( mContext ));
