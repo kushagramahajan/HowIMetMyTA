@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.example.kushagra.meetupapp.AllCoursesActivity;
 import com.example.kushagra.meetupapp.MainActivity;
-import com.example.kushagra.meetupapp.Messege;
+import com.example.kushagra.meetupapp.Message;
 import com.example.kushagra.meetupapp.Query;
 import com.example.kushagra.meetupapp.R;
 import com.example.kushagra.meetupapp.db.DbManipulate;
@@ -148,7 +148,9 @@ public class SplashScreen extends AppCompatActivity
 
                         try
                         {
-                            fileOut=new FileOutputStream(new File(getApplicationContext().getFilesDir(),file_name));
+                            File file = new File(getApplicationContext().getFilesDir(),file_name);
+                            System.out.println("FILENAME SS : "+file.getAbsolutePath());
+                            fileOut=new FileOutputStream(file);
                         }
                         catch (Exception e)
                         {
@@ -188,7 +190,7 @@ public class SplashScreen extends AppCompatActivity
                             Querarr = new ArrayList<>();
                         }
 
-                        Query newquery=new Query(messforaquery.getTitle(),messforaquery.getDescription(),messforaquery.getTaId(),new ArrayList<Messege>());
+                        Query newquery=new Query(messforaquery.getTitle(),messforaquery.getDescription(),messforaquery.getTaId(),new ArrayList<Message>());
                         Querarr.add(newquery);
 
                         ObjectOutputStream out=null;
@@ -233,17 +235,17 @@ public class SplashScreen extends AppCompatActivity
         //sending the individual query ids for old
 
         for(int i=0;i<oldQueries.length;i++) {
-            Call<Messege[]> call = service.getPendingOldQueryList(oldQueries[i]);
+            Call<Message[]> call = service.getPendingOldQueryList(oldQueries[i]);
 
 
-            call.enqueue(new Callback<Messege[]>() {
+            call.enqueue(new Callback<Message[]>() {
                 @Override
-                public void onResponse(Call<Messege[]> call, Response<Messege[]> response) {
+                public void onResponse(Call<Message[]> call, Response<Message[]> response) {
                     Log.d(MainActivity.TAG, "inside on response for getting old pending queries ");
 
                     if (response.body() != null) {
 
-                        Messege[] messforaquery = response.body();
+                        Message[] messforaquery = response.body();
                         FileInputStream fileIn = null;// Read serial file.
                         FileOutputStream fileOut=null;
                         try {
@@ -284,13 +286,13 @@ public class SplashScreen extends AppCompatActivity
                         }
                         else {
                             Query modquer = Querarr.get(position);
-                            ArrayList<Messege> messArr = modquer.getMesseges();
+                            ArrayList<Message> messArr = modquer.getMessages();
 
                             for (int k = 0; k< messforaquery.length; k++) {
                                 messArr.add(messforaquery[k]);
                             }
 
-                            modquer.setMesseges(messArr);
+                            modquer.setMessages(messArr);
                             Querarr.set(position, modquer);
 
                             //handle the array of messages returned
@@ -302,12 +304,19 @@ public class SplashScreen extends AppCompatActivity
 
 
                             out.writeObject(Querarr);
-                            if(out!=null)
-                                out.close();
-                            if(in!=null)
-                                in.close();
-                            fileIn.close();
-                            fileOut.close();
+                            try
+                            {
+                                if(out!=null)
+                                    out.close();
+                                if(in!=null)
+                                    in.close();
+                                fileIn.close();
+                                fileOut.close();
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
 
                         }
                         } catch (ClassNotFoundException e) {
@@ -325,7 +334,7 @@ public class SplashScreen extends AppCompatActivity
                 }
 
                 @Override
-                public void onFailure(Call<Messege[]> call, Throwable t) {
+                public void onFailure(Call<Message[]> call, Throwable t) {
                     Log.d(MainActivity.TAG, "Failure to get old messages for query" + call.toString());
 
                 }

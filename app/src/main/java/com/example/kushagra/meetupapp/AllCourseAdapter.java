@@ -35,7 +35,8 @@ public class AllCourseAdapter extends RecyclerView.Adapter
         private TextView title,subtitle;
         private Course item;
 
-        public ItemHolder(final View itemView) {
+        public ItemHolder(final View itemView)
+        {
             super(itemView);
 
             title = (TextView) itemView.findViewById(R.id.course);
@@ -56,10 +57,13 @@ public class AllCourseAdapter extends RecyclerView.Adapter
             //Toast.makeText(itemView.getContext(),"Card Clicked - " + getAdapterPosition(),Toast.LENGTH_SHORT).show();
             Intent i = new Intent(v.getContext(),StudentQueryActivity.class);
 
-            i.putExtra( AllCoursesActivity.COURSE_ID_EXTRA , item.getCourseName() );
-            i.putExtra(AllCoursesActivity.COURSE_NAME_EXTRA,subtitle.getText().toString());
+            i.putExtra( AllCoursesActivity.COURSE_ID_EXTRA , title.getText().toString() );
+            //i.putExtra( "MAMA" , title.getText().toString() );
+            i.putExtra(AllCoursesActivity.COURSE_NAME_EXTRA , subtitle.getText().toString());
 
-            Log.d(MainActivity.TAG , "CourseId Current" + item.getCourseId() );
+
+            Log.d(MainActivity.TAG , "CourseId Current" + title.getText().toString()
+             + subtitle.getText().toString() );
 
             v.getContext().startActivity(i);
         }

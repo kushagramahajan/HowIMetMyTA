@@ -21,9 +21,11 @@ public class QueryAdapter extends RecyclerView.Adapter
 {
 
     private ArrayList<Query> list;
+    private String currentCoutseId;
 
-    public QueryAdapter(ArrayList<Query> list)
+    public QueryAdapter(ArrayList<Query> list , String currentCourseId )
     {
+        this.currentCoutseId = currentCourseId;
         this.list = list;
     }
 
@@ -53,7 +55,7 @@ public class QueryAdapter extends RecyclerView.Adapter
             Intent i = new Intent(v.getContext(),StudentFollowUpQueryActivity.class);
 
             i.putExtra("position", getAdapterPosition());
-            i.putExtra( AllCoursesActivity.COURSE_NAME_EXTRA ,subtitle.getText().toString());
+            i.putExtra( AllCoursesActivity.COURSE_ID_EXTRA , currentCoutseId );
             v.getContext().startActivity(i);
         }
     }

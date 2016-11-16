@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_menu_send"
         android:id="@+id/send"
-        android:onClick="clickSendMessege"
+        android:onClick="clickSendMessage"
         android:layout_alignTop="@+id/message"
         style="@style/Widget.AppCompat.ImageButton"
         android:background="@android:color/transparent"

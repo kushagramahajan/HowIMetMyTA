@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,6 +36,7 @@ public class StudentQueryActivity extends AppCompatActivity {
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,7 +56,7 @@ public class StudentQueryActivity extends AppCompatActivity {
         list = (RecyclerView) findViewById(R.id.list);
 
         ArrayList<Query> myQueries = new ArrayList<>();
-        String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_NAME_EXTRA);
+        String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA);
 
         FileInputStream fileIn = null;// Read serial file.
         try {
@@ -71,28 +73,53 @@ public class StudentQueryActivity extends AppCompatActivity {
         {
             e.printStackTrace();
         }
-        Log.i("HAHA","HAHA");
-        ArrayList<Query> Querarr=null;
-        try
+
+        ArrayList<Query> Querarr = null;
+        Log.d(MainActivity.TAG, (in==null) + " stats");
+        /*try
         {
-            if(in == null || in.readObject()==null || (ArrayList<Query>) in.readObject() == null )
-                myQueries=Querarr;
+            if (in == null || in.readObject() == null || (ArrayList<Query>) in.readObject() == null)
+            {
+                Log.d(MainActivity.TAG ," readObj"+  in.readObject() );
+
+                myQueries = new ArrayList<>();
+            }
             else
             {
                 Querarr = (ArrayList<Query>) in.readObject();// allocate it receiver the object file already instanciated.
-                myQueries=Querarr;
+                Log.d(MainActivity.TAG , Querarr.toString() + " "  + "Querr");
+                myQueries = (ArrayList<Query>)Querarr.clone();
+
             }
-        }
-        catch (Exception e)
+        }*/
+        try
         {
-            myQueries = Querarr;
+            fileIn = new FileInputStream(new File(this.getFilesDir(),file_name));// Read serial file.
+            in = null;
+            in = new ObjectInputStream(fileIn);
+            myQueries = (ArrayList<Query>) in.readObject();
+            Log.d( MainActivity.TAG ,"TITLER" + myQueries.get(0).getTitle());
+
         }
+        catch (EOFException e )
+        {
+            Log.d(MainActivity.TAG  , " MALA ");
+            e.printStackTrace();
+            Log.d(MainActivity.TAG , "exception inside Querr");
+            myQueries = Querarr;
 
-//        myQueries.add(new Query("Ttile1","cse101",new ArrayList<Messege>()));
-//        myQueries.add(new Query("MAD","cse201",new ArrayList<Messege>()));
-//        myQueries.add(new Query("MC","cse301",new ArrayList<Messege>()));
+        }
+        catch (Exception fe)
+        {
+            fe.printStackTrace();
+        }
+//        myQueries.add(new Query("Ttile1","cse101",new ArrayList<Message>()));
+//        myQueries.add(new Query("MAD","cse201",new ArrayList<Message>()));
+//        myQueries.add(new Query("MC","cse301",new ArrayList<Message>()));
 
-        QueryAdapter adapter = new QueryAdapter(myQueries);
+        String currentCourseId  =  getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
+
+        QueryAdapter adapter = new QueryAdapter(myQueries , currentCourseId );
 
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager( mContext ));

@@ -1,21 +1,16 @@
 package com.example.kushagra.meetupapp;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-
-import com.example.kushagra.meetupapp.db.DbContract;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,42 +35,61 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
         // get the particular query object
 
+        String file_name = getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA);
+//        String file_name = getIntent().getStringExtra("MAMA");
+
+
+        Log.d(MainActivity.TAG , file_name + " ...");
+
         FileInputStream fileIn = null;// Read serial file.
-        try {
-            SharedPreferences sharedPreferences = getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
-            String file_name=sharedPreferences.getString(AllCoursesActivity.COURSE_NAME_EXTRA,"default course name");
+        try
+        {
             fileIn = new FileInputStream(new File(this.getFilesDir(), file_name));
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e)
+        {
             e.printStackTrace();
         }
         ObjectInputStream in = null;// input the read file.
-        try {
+        try
+        {
             in = new ObjectInputStream(fileIn);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
         ArrayList<Query> Querarr= null;
-        try {
+        try
+        {
             Querarr = (ArrayList<Query>) in.readObject();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+        }
+        catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        int position=getIntent().getIntExtra("position",0);
+        catch(IOException io)
+        {
+            io.printStackTrace();
+        }
 
-        Query modquer=Querarr.get(position);
-        ArrayList<Messege> messArr=modquer.getMesseges();
+        Log.d(MainActivity.TAG , Querarr.size()+ " " +
+                "" );
+
+
+        int position = getIntent().getIntExtra("position",0);
+
+        Query modquer = Querarr.get(position);
+        ArrayList<Message> messArr=modquer.getMessages();
 
         // proper display of the messages for a query
 
 //        messArr = new ArrayList<>();
-//        messArr.add(new Messege("ta","me","i wanna drink ur blood"));
-//        messArr.add(new Messege("me","ta","no i wanna drink urs, plz"));
-//        messArr.add(new Messege("ta","me","no, i wanna drink ur blood, or else grade reduction"));
-//        messArr.add(new Messege("me","ta","ok. i'll just gonna cut me-self"));
+//        messArr.add(new Message("ta","me","i wanna drink ur blood"));
+//        messArr.add(new Message("me","ta","no i wanna drink urs, plz"));
+//        messArr.add(new Message("ta","me","no, i wanna drink ur blood, or else grade reduction"));
+//        messArr.add(new Message("me","ta","ok. i'll just gonna cut me-self"));
 
-        for(com.example.kushagra.meetupapp.Messege m : messArr)
+        for(Message m : messArr)
         {
             View view;
             view = getLayoutInflater().inflate(R.layout.msg_balloon,null );
@@ -96,12 +110,13 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
     }
 
 
-    public void clickSendMessege(View v) throws IOException, ClassNotFoundException {
-        String messege=Editmessege.getText().toString();
+    public void clickSendMessage(View v) throws IOException, ClassNotFoundException
+    {
+        String message = Editmessege.getText().toString();
 
-        SharedPreferences sharedPreferences = getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
-        String file_name=sharedPreferences.getString(AllCoursesActivity.COURSE_NAME_EXTRA,"default course name");
 
+        String file_name = getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA);
+        Log.d(MainActivity.TAG , "inside click Msg  courseID"+ file_name );
         FileInputStream fileIn = new FileInputStream(new File(this.getFilesDir(), file_name));// Read serial file.
         FileOutputStream fileOut = new FileOutputStream(new File(this.getFilesDir(), file_name));
 
@@ -109,25 +124,38 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         ObjectOutputStream out=new ObjectOutputStream(fileOut);
 
         ArrayList<Query> Querarr= (ArrayList<Query>) in.readObject();
-        int position=Integer.parseInt(getIntent().getStringExtra("position"));
+        int position = Integer.parseInt(getIntent().getStringExtra("position"));
 
-        Query modquer=Querarr.get(position);
-        Messege toadd= new Messege(AllCoursesActivity.EMAIL_ID_EXTRA,modquer.getReceiver(),messege);
+        Query modquer = Querarr.get(position);
+
+
+        SharedPreferences sp = getApplicationContext()
+                .getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE);
+
+        String my_emailId = sp.getString(AllCoursesActivity.EMAIL_ID_EXTRA , "default@email.com");
+
+        Log.d(AllCoursesActivity.TAG , "emailId" + my_emailId );
+        Message toadd = new Message(
+                my_emailId
+                ,modquer.getReceiver(),message);
 
 
         //check wheher posotion sender 0 or 1
-        modquer.getMesseges().add(toadd);
+
+        modquer.getMessages().add(toadd);
         Querarr.set(position,modquer);
 
         //write the Querarr
 
         out.writeObject(Querarr);
-        if(in!=null)
+
+        if( in != null)
             in.close();
-        if(out!=null)
+        if( out != null )
             out.close();
+
         fileIn.close();
-        fileOut.close();
+        fileOut.close() ;
 
     }
 

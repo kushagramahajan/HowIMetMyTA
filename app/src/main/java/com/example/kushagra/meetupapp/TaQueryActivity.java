@@ -40,7 +40,8 @@ public class TaQueryActivity extends AppCompatActivity {
 
         ArrayList<Query> myQueries = new ArrayList<>();
 
-        QueryAdapter adapter = new QueryAdapter(myQueries);
+
+        QueryAdapter adapter = new QueryAdapter(myQueries , "" );
 
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager( mContext ));

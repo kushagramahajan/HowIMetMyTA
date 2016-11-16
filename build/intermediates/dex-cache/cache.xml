@@ -30,21 +30,21 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\Himanshu Sagar\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.6.1\b9d63507329a7178e026fc334f87587ee5070ac5\gson-2.6.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="b9d63507329a7178e026fc334f87587ee5070ac5">
-        <dex dex="D:\Mobile_Comp\Projects\mc_proj_student_new\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.6.1_dce637c2c54aecb80e16dc5775a2856dcba540ea\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="D:\Mobile_Comp\Projects\mc_proj_student_new\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.3.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
         sha1="fd76d95678a6b2b8a49bb8a9fb5bcef7aedb70e7">
         <dex dex="D:\Mobile_Comp\Projects\mc_proj_student_new\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-8.3.0_b111799b9b1adee2a0c19d6700652715fa14e7af\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Himanshu Sagar\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.6.1\b9d63507329a7178e026fc334f87587ee5070ac5\gson-2.6.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="b9d63507329a7178e026fc334f87587ee5070ac5">
+        <dex dex="D:\Mobile_Comp\Projects\mc_proj_student_new\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.6.1_dce637c2c54aecb80e16dc5775a2856dcba540ea\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -187,7 +187,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
-        sha1="3229156cc3ae436b35170eb142b62bf0ea2a11ef">
+        sha1="50244623766838a4c7128b7b0dbff9f602e279df">
         <dex dex="D:\Mobile_Comp\Projects\mc_proj_student_new\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_e3cae97a027b4aba5c02c7c009f4d2242a80e2aa\classes.dex" />
     </item>
     <item
@@ -196,7 +196,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
-        sha1="cfda433ec02798b4aded01749ed1919a2a02e2d2">
+        sha1="4cb1dfed453a0d8d8ba20e2c063eb13fdf36219d">
         <dex dex="D:\Mobile_Comp\Projects\mc_proj_student_new\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_1674e0eff11548c71066550ccc3eb8bc13040645\classes.dex" />
     </item>
 

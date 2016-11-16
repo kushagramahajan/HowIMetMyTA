@@ -4,10 +4,10 @@ package com.example.kushagra.meetupapp;
  * Created by Prankul on 27-10-2016.
  */
 
-public class Messege {
+public class Message {
     String sender, receiver, message;
 
-    public Messege(String from, String to, String messege) {
+    public Message(String from, String to, String messege) {
         this.sender = from;
         this.receiver = to;
         this.message = messege;

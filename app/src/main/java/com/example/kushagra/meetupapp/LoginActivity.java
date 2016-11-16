@@ -20,6 +20,8 @@ import com.example.kushagra.meetupapp.db.objects.Course;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StudentRegisterClass;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -113,6 +115,13 @@ public class LoginActivity extends AppCompatActivity
         for(Course c : myCourses)
         {
             Log.d(MainActivity.TAG , c.getCourseName() + c.getCourseId());
+            File file = new File(getApplicationContext().getFilesDir(),c.getCourseId());
+            try {
+                file.createNewFile();
+                System.out.println("FILEPATH LA : "+file.getAbsoluteFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 //check the ips
                 Retrofit retrofit = new Retrofit.Builder()

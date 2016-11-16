@@ -165,9 +165,10 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
 //        ArrayList<Query> Querarr = new ArrayList<>();
 
 
-        Query toaddobj=new Query(editText.getText().toString(),editTextDesp.getText().toString(),editTextTA.getText().toString(),new ArrayList<Messege>());
+        Query toaddobj=new Query(editText.getText().toString(),editTextDesp.getText().toString(),editTextTA.getText().toString(),new ArrayList<Message>());
 
         Querarr.add(toaddobj);
+
         if(in!=null)
             in.close();//closes the input stream.
         fileIn.close();//closes the file data stream.
@@ -176,12 +177,24 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
         ObjectOutputStream out= new ObjectOutputStream(fileOut);
         out.writeObject(Querarr);
 
+        out.close();
+        fileOut.close();
+
+        fileIn = new FileInputStream(new File(this.getFilesDir(),file_name));// Read serial file.
+        in = null;
+        in = new ObjectInputStream(fileIn);
+        Querarr= (ArrayList<Query>) in.readObject();
+        System.out.println(Querarr.get(0).getTitle());
+
+        in.close();fileIn.close();
+
+
         Call<StudentQueryClass> call = service.sendQuery(studentQueryClass);
         call.enqueue(new Callback<StudentQueryClass>() {
             @Override
             public void onResponse(Call<StudentQueryClass> call, Response<StudentQueryClass> response)
             {
-                Log.d(MainActivity.TAG ," Query done");
+                Log.d(MainActivity.TAG ," Query done Response");
 
 
             }

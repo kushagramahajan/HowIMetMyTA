@@ -1,8 +1,7 @@
 package com.example.kushagra.meetupapp.network.api;
 
-import com.example.kushagra.meetupapp.Messege;
+import com.example.kushagra.meetupapp.Message;
 import com.example.kushagra.meetupapp.db.objects.Course;
-import com.example.kushagra.meetupapp.db.objects.StudentIdClass;
 import com.example.kushagra.meetupapp.network.model.StatusClass;
 import com.example.kushagra.meetupapp.network.model.StudentQueryClass;
 import com.example.kushagra.meetupapp.network.model.StudentRegisterClass;
@@ -40,7 +39,7 @@ public interface ServerApi
     Call<StatusClass> getStatus(@Body StatusClass studentId);
 
     @POST("/app/undeliveredChat")
-    Call<Messege[] > getPendingOldQueryList(@Body String queryid);
+    Call<Message[] > getPendingOldQueryList(@Body String queryid);
 
     @POST("/app/ta/fetch")
     Call<TaNewMessage > getPendingNewQueryList(@Body TaNewMessage queryid);
