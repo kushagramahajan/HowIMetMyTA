@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.kushagra.meetupapp.db.DbContract;
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.db.objects.Course;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -27,8 +30,6 @@ public class AllCoursesActivity extends AppCompatActivity
 
     private Context mContext;
     RecyclerView list;
-
-
 
 
 
@@ -59,21 +60,27 @@ public class AllCoursesActivity extends AppCompatActivity
 
 */
 
-
         //get all the courses
         list = (RecyclerView) findViewById(R.id.list);
 
         ArrayList<Course> myCourses;
 
-                myCourses = dbManipulate.getMyCourses();
+        myCourses = dbManipulate.getMyCourses();
 
-                    AllCourseAdapter adapter = new AllCourseAdapter(myCourses , getApplicationContext());
+        AllCourseAdapter adapter = new AllCourseAdapter(myCourses , getApplicationContext());
 
-                    list.setAdapter(adapter);
-                    list.setLayoutManager(new LinearLayoutManager( mContext ));
-
-
-
+        /*File file = new File(getApplicationContext().getFilesDir(),"CSEWEE");
+        if(!file.exists())
+        {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        myCourses.add(new Course("CSE101","CSEWEE",null));*/
+        list.setAdapter(adapter);
+        list.setLayoutManager(new LinearLayoutManager( mContext ));
 
     }
 

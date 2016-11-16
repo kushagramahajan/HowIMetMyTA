@@ -50,6 +50,7 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
     int year,month,day,fHour,fMinute,tHour, tMinute;
     public String[] tas;
     Context mContext;
+    File file;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -144,46 +145,82 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
             public void onResponse(Call<StudentQueryClass> call, Response<StudentQueryClass> response)
             {
                 Log.d(MainActivity.TAG ," Query done Response");
-                if(response.body()!=null){
+                if(response.body()!=null)
+                {
                     Query qadd=new Query(response.body().getQueryId(),response.body().getTitle(),response.body().getDescription(),editTextTA.getText().toString(),null);
 
 
                     String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
-                    FileOutputStream fileOut=null;
-                    try {
-                        fileOut=new FileOutputStream(new File(getApplicationContext().getFilesDir(),file_name));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    FileInputStream fileIn = null;// Read serial file.
-                    try {
-                        fileIn = new FileInputStream(new File(getApplicationContext().getFilesDir(),file_name));
-                        fileOut= new FileOutputStream(new File(getApplicationContext().getFilesDir(),file_name));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    ObjectInputStream in = null;
-                    ObjectOutputStream out=null;
 
-                    boolean flag = false;
+                    file = new File(getApplicationContext().getFilesDir(),file_name);
+
+//                    FileOutputStream fileOut=null;
+//                    try {
+//                        fileOut=new FileOutputStream(new File(getApplicationContext().getFilesDir(),file_name));
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    FileInputStream fileIn = null;// Read serial file.
+//                    try {
+//                        fileIn = new FileInputStream(new File(getApplicationContext().getFilesDir(),file_name));
+//                        fileOut= new FileOutputStream(new File(getApplicationContext().getFilesDir(),file_name));
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+                    ObjectInputStream ois = null;
+
                     try
-                    {in = new ObjectInputStream(fileIn);// input the read file.
-                        out= new ObjectOutputStream(fileOut);
-
+                    {
+                        ois = new ObjectInputStream(new FileInputStream(file));// input the read file.
                     }
                     catch(Exception e)
                     {
-                        flag=true;
+                        e.printStackTrace();
                     }
 
-                    ArrayList<Query> Querarr;
-                    try {
-                        Querarr= (ArrayList<Query>) in.readObject();
-                        Querarr.add(qadd);
-                        out.writeObject(Querarr);
+                    ArrayList<Query> Querarr = new ArrayList<Query>();
 
+//                    try
+//                    {
+//                        Querarr= (ArrayList<Query>) in.readObject();
+//                        Querarr.add(qadd);
+//                        out.writeObject(Querarr);
+//
+//                    }
+//                    catch (ClassNotFoundException e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                    catch (IOException e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+
+                    try {
+                        Querarr = (ArrayList<Query>) ois.readObject() ;
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        ois.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    ObjectOutputStream oos = null;
+
+                    try {
+                        oos = new ObjectOutputStream(new FileOutputStream(file));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        oos.writeObject(Querarr);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -195,18 +232,15 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
 //        System.out.println(Querarr.get(0).getTitle());
 
                     try {
-                        in.close();out.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        fileIn.close();fileOut.close();
+                        oos.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
 
-                }else{
+                }
+                else
+                {
                     Log.d(MainActivity.TAG,"null respons on sending qeury");
                 }
 
