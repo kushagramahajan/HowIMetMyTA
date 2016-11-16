@@ -28,7 +28,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -38,7 +37,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class StartNewStudentQueryActivity extends AppCompatActivity
+public class StartNewStudentQueryActivity extends AppCompatActivity 
 {
 
     AutoCompleteTextView tags,ta;
@@ -152,39 +151,12 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
             }
 
         ArrayList<Query> Querarr;
-        if(!flag)
-        {
-            Querarr= (ArrayList<Query>) in.readObject();// allocate it receiver the object file already instanciated.
-        }
-        else
-        {
-            Querarr = new ArrayList<>();
-        }
 
-
-//        ArrayList<Query> Querarr = new ArrayList<>();
-
-
-        Query toaddobj=new Query(editText.getText().toString(),editTextDesp.getText().toString(),editTextTA.getText().toString(),new ArrayList<Message>());
-
-        Querarr.add(toaddobj);
-
-        if(in!=null)
-            in.close();//closes the input stream.
-        fileIn.close();//closes the file data stream.
-
-
-        ObjectOutputStream out= new ObjectOutputStream(fileOut);
-        out.writeObject(Querarr);
-
-        out.close();
-        fileOut.close();
-
-        fileIn = new FileInputStream(new File(this.getFilesDir(),file_name));// Read serial file.
-        in = null;
-        in = new ObjectInputStream(fileIn);
-        Querarr= (ArrayList<Query>) in.readObject();
-        System.out.println(Querarr.get(0).getTitle());
+//        fileIn = new FileInputStream(new File(this.getFilesDir(),file_name));// Read serial file.
+//        in = null;
+//        in = new ObjectInputStream(fileIn);
+//        Querarr= (ArrayList<Query>) in.readObject();
+//        System.out.println(Querarr.get(0).getTitle());
 
         in.close();fileIn.close();
 

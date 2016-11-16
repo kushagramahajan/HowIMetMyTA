@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import static com.example.kushagra.meetupapp.db.DbContract.ScheduleEntry.COLUMN_NAME_TYPE;
+
 /**
  * Created by Himanshu Sagar on 20-10-2016.
  */
@@ -26,21 +28,36 @@ public class DbHelper extends SQLiteOpenHelper
     private static final String SQL_CREATE_ENTRIES =
             " CREATE TABLE " + DbContract.ScheduleEntry.TABLE_NAME + " (" +
                     DbContract.ScheduleEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ," +
-                    DbContract.ScheduleEntry.COLUMN_NAME_TYPE + TEXT_TYPE + COMMA_SEP +
+                    COLUMN_NAME_TYPE + TEXT_TYPE + COMMA_SEP +
                     DbContract.ScheduleEntry.COLUMN_NAME_DAY + TEXT_TYPE + COMMA_SEP +
                     DbContract.ScheduleEntry.COLUMN_NAME_TIME_BEGIN + TEXT_TYPE + COMMA_SEP +
                     DbContract.ScheduleEntry.COLUMN_NAME_TIME_END + TEXT_TYPE +
                     " )";
 
+
+    private static final String SQL_CREATE_MESSAGE_TABLE =
+            " CREATE TABLE " + DbContract.TableMessages.TABLE_NAME + " (" +
+                    DbContract.TableMessages.COLUMN_NAME_MESSAGE_SENDER + TEXT_TYPE + COMMA_SEP +
+                    DbContract.TableMessages.COLUMN_NAME_MESSAGE_RECIEVER + TEXT_TYPE + COMMA_SEP +
+                    DbContract.TableMessages.COLUMN_NAME_MESSAGE_STRING + TEXT_TYPE + COMMA_SEP +
+                    DbContract.TableMessages.COLUMN_NAME_MESSAGE_QUERY_ID + TEXT_TYPE +
+                    " )";
+
+
+
+    private static final String SQL_DELETE_MESSAGE_TABLE =
+    "DROP TABLE IF EXISTS " + DbContract.TableMessages.TABLE_NAME;
+
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DbContract.ScheduleEntry.TABLE_NAME;
 
 
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db)
+    {
         db.execSQL(SQL_CREATE_ENTRIES);
         db.execSQL(SQL_CREATE_ENTRIES_ALL);
         db.execSQL(SQL_CREATE_ENTRIES_MY);
-
+        db.execSQL(SQL_CREATE_MESSAGE_TABLE);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -49,6 +66,7 @@ public class DbHelper extends SQLiteOpenHelper
         db.execSQL(SQL_DELETE_ENTRIES);
         db.execSQL(SQL_DELETE_ENTRIES_ALL);
         db.execSQL(SQL_DELETE_ENTRIES_MY);
+        db.execSQL(SQL_DELETE_MESSAGE_TABLE);
         onCreate(db);
     }
 

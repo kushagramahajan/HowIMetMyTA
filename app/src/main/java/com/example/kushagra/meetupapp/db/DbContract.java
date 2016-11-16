@@ -45,6 +45,20 @@ public final class DbContract
 
     }
 
+    public static class TableMessages implements BaseColumns
+    {
+
+        public static final String TABLE_NAME = "MyMessages";
+        public static final String COLUMN_NAME_MESSAGE_RECIEVER = "recv";
+        public static final String COLUMN_NAME_MESSAGE_SENDER = "sender";
+        public static final String COLUMN_NAME_MESSAGE_STRING = "string";
+        public static final String COLUMN_NAME_MESSAGE_QUERY_ID = "string";
+
+
+
+
+    }
+
 
 
 }
