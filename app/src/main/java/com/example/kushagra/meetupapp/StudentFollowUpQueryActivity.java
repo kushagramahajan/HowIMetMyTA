@@ -3,7 +3,6 @@ package com.example.kushagra.meetupapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -78,34 +77,40 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                 "" );
 
 
-        int position = getIntent().getIntExtra("position",0);
+// this is original code to add messages to the array list
 
-        Query modquer = Querarr.get(position);
-        ArrayList<Message> messArr=modquer.getMessages();
+//        int position=getIntent().getIntExtra("position",0);
+//
+//        Query modquer=Querarr.get(position);
+//        ArrayList<Message> messArr=modquer.getMessages();
 
-        // proper display of the messages for a query
 
-//        messArr = new ArrayList<>();
-//        messArr.add(new Message("ta","me","i wanna drink ur blood"));
-//        messArr.add(new Message("me","ta","no i wanna drink urs, plz"));
-//        messArr.add(new Message("ta","me","no, i wanna drink ur blood, or else grade reduction"));
-//        messArr.add(new Message("me","ta","ok. i'll just gonna cut me-self"));
+        //used this code to add following shit messages for testing. pleasee remove
 
-        for(Message m : messArr)
+
+        ArrayList<Message> messArr;
+
+        messArr = new ArrayList<>();
+        messArr.add(new Message("ta","me","i wanna drink ur blood"));
+        messArr.add(new Message("me","ta","no i wanna drink urs, plz"));
+        messArr.add(new Message("ta","me","no, i wanna drink ur blood, or else grade reduction"));
+        messArr.add(new Message("me","ta","ok. i'll just gonna cut me-self"));
+
+
+        //code to add message UI
+        for(com.example.kushagra.meetupapp.Message m : messArr)
         {
             View view;
-            view = getLayoutInflater().inflate(R.layout.msg_balloon,null );
-            TextView t = (TextView)view.findViewById(R.id.msg_text);
-            t.setTextAlignment(m.getSender().equals("me")?View.TEXT_ALIGNMENT_TEXT_END:View.TEXT_ALIGNMENT_TEXT_START);
-            t.setText(m.getMessage());
             if(m.getSender().equals("me"))
             {
-                t.setTextColor(Color.rgb(153,0,0));
+                view = getLayoutInflater().inflate(R.layout.msg_balloon_me,null);
             }
             else
             {
-                t.setTextColor(Color.rgb(0,0,153));
+                view = getLayoutInflater().inflate(R.layout.msg_balloon_them,null);
             }
+            TextView t = (TextView)view.findViewById(R.id.msg_text);
+            t.setText(m.getMessage());
             msg_list.addView(view);
         }
 
