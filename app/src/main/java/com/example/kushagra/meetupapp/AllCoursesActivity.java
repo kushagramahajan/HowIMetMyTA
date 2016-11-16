@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.db.objects.Course;
@@ -42,7 +41,7 @@ public class AllCoursesActivity extends AppCompatActivity
         mContext = getApplicationContext();
         DbManipulate dbManipulate = new DbManipulate(getApplicationContext());
 
-
+    /*
 
         String s = "destruction";
         dbManipulate.insertMessageOfQuery(new Message("me" ,"you" ,"go to hell") , s );
@@ -58,7 +57,7 @@ public class AllCoursesActivity extends AppCompatActivity
             Log.d(MainActivity.TAG , message.getSender() + " ====" + message.getReceiver());
         }
 
-
+*/
 
 
         //get all the courses
