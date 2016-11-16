@@ -38,7 +38,7 @@ public class DbHelper extends SQLiteOpenHelper
     private static final String SQL_CREATE_MESSAGE_TABLE =
             " CREATE TABLE " + DbContract.TableMessages.TABLE_NAME + " (" +
                     DbContract.TableMessages.COLUMN_NAME_MESSAGE_SENDER + TEXT_TYPE + COMMA_SEP +
-                    DbContract.TableMessages.COLUMN_NAME_MESSAGE_RECIEVER + TEXT_TYPE + COMMA_SEP +
+                    DbContract.TableMessages.COLUMN_NAME_MESSAGE_RECEIVER + TEXT_TYPE + COMMA_SEP +
                     DbContract.TableMessages.COLUMN_NAME_MESSAGE_STRING + TEXT_TYPE + COMMA_SEP +
                     DbContract.TableMessages.COLUMN_NAME_MESSAGE_QUERY_ID + TEXT_TYPE +
                     " )";

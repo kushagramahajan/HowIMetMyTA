@@ -137,6 +137,7 @@ public class SplashScreen extends AppCompatActivity
                 public void onResponse(Call<TaNewMessage> call, Response<TaNewMessage> response) {
                     Log.d(MainActivity.TAG, "inside on response for getting new pending queries ");
 
+
                     if (response.body() != null) {
 
                         TaNewMessage messforaquery = response.body();
@@ -234,7 +235,8 @@ public class SplashScreen extends AppCompatActivity
 
         //sending the individual query ids for old
 
-        for(int i=0;i<oldQueries.length;i++) {
+        for(int i=0;i<oldQueries.length;i++)
+        {
             Call<Message[]> call = service.getPendingOldQueryList(oldQueries[i]);
 
 

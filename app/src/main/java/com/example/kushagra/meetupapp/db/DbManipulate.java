@@ -270,27 +270,32 @@ public class DbManipulate
     }
 
 
-    ArrayList<Message> getAllMessagesOfQueryId(String queryId)
+    public ArrayList<Message> getAllMessagesOfQueryId(String queryIdValue)
     {
         ArrayList<Message> resultMsg = new ArrayList<>();
 
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        String[] whereValues = {
-                queryId
+        String[] selectionArgs = {
+                 queryIdValue
         };
 
-        String[] whereCols = {
-                DbContract.TableMessages.COLUMN_NAME_MESSAGE_QUERY_ID
+        String[] projection =
+                {
+                DbContract.TableMessages.COLUMN_NAME_MESSAGE_QUERY_ID,
+                        DbContract.TableMessages.COLUMN_NAME_MESSAGE_STRING,
+                        DbContract.TableMessages.COLUMN_NAME_MESSAGE_SENDER,
+                        DbContract.TableMessages.COLUMN_NAME_MESSAGE_RECEIVER,
         };
 
+        String selection = DbContract.TableMessages.COLUMN_NAME_MESSAGE_QUERY_ID + " = ?";
 
         Cursor cursor = db.query(
-                DbContract.TableMessages.TABLE_NAME,                     // The table to query
-                null,                               // The columns to return
-                DbContract.TableMessages.COLUMN_NAME_MESSAGE_QUERY_ID,                                // The columns for the WHERE clause
-                whereValues,                            // The values for the WHERE clause
+                DbContract.TableMessages.TABLE_NAME ,                     // The table to query
+                projection  , // ,                               // The columns to return
+                selection , // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
                 null                                // The sort order
@@ -304,7 +309,7 @@ public class DbManipulate
             resultMsg.add(
                     new Message(
                     cursor.getString( cursor.getColumnIndex(DbContract.TableMessages.COLUMN_NAME_MESSAGE_SENDER) ),
-                            cursor.getString( cursor.getColumnIndex(DbContract.TableMessages.COLUMN_NAME_MESSAGE_RECIEVER) ),
+                            cursor.getString( cursor.getColumnIndex(DbContract.TableMessages.COLUMN_NAME_MESSAGE_RECEIVER) ),
                     cursor.getString( cursor.getColumnIndex(DbContract.TableMessages.COLUMN_NAME_MESSAGE_STRING ) )
             ));
 
@@ -325,7 +330,7 @@ public class DbManipulate
     }
 
     //Handle MEssages Corresponding to a specific Query
-    void insertMessageOfQuery(Message msg, String queryID)
+    public void insertMessageOfQuery(Message msg, String queryID)
     {
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
@@ -333,10 +338,10 @@ public class DbManipulate
         ContentValues values = new ContentValues();
         values.put(DbContract.TableMessages.COLUMN_NAME_MESSAGE_QUERY_ID , queryID );
         values.put(DbContract.TableMessages.COLUMN_NAME_MESSAGE_SENDER , msg.getSender() );
-        values.put(DbContract.TableMessages.COLUMN_NAME_MESSAGE_RECIEVER , msg.getReceiver() );
+        values.put(DbContract.TableMessages.COLUMN_NAME_MESSAGE_RECEIVER, msg.getReceiver() );
         values.put(DbContract.TableMessages.COLUMN_NAME_MESSAGE_STRING , msg.getMessage() );
 
-        db.insert(DbContract.TableMessages.TABLE_NAME, null, values);
+        db.insert(DbContract.TableMessages.TABLE_NAME , null, values);
 
 
 

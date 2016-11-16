@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity
         myCourses = new ArrayList<>();
 
         serverCourses = new ArrayList<String>();
+
         DbManipulate dbMan=new DbManipulate(getApplicationContext());
         a= dbMan.getAllCourses();
 
@@ -79,6 +80,16 @@ public class LoginActivity extends AppCompatActivity
         SharedPreferences sh=getApplicationContext().getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
 
         email.setText(sh.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user"));
+
+
+        /*
+
+        Demo
+
+
+
+
+         */
 
     }
 
