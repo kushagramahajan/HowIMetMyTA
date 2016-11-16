@@ -10,6 +10,14 @@ public class StudentQueryClass
     private String title,description,studentId , courseId;
     boolean isGeneric;
 
+    public String getQueryId() {
+        return queryId;
+    }
+
+    public void setQueryId(String queryId) {
+        this.queryId = queryId;
+    }
+
     public String getTaId() {
         return taId;
     }

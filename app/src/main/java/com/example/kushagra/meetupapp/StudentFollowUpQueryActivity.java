@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.kushagra.meetupapp.db.DbManipulate;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -138,6 +140,9 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         Message toadd = new Message(
                 my_emailId
                 ,modquer.getReceiver(),message);
+
+        DbManipulate dbman=new DbManipulate(getApplicationContext());
+
 
 
         //check wheher posotion sender 0 or 1

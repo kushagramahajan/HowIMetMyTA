@@ -9,17 +9,27 @@ import java.util.ArrayList;
 
 public class Query implements Serializable {
     String title,query,receiver;
+    String queryId;
     ArrayList<Message> messages;
 
-    public Query(String title, String query, String receiver,ArrayList<Message> messages) {
+    public Query(String qid, String title, String query, String receiver,ArrayList<Message> messages) {
         this.title = title;
         this.query = query;
         this.receiver=receiver;
         this.messages = messages;
+        this.queryId=qid;
     }
 
     public String getReceiver() {
         return receiver;
+    }
+
+    public String getQueryId() {
+        return queryId;
+    }
+
+    public void setQueryId(String queryId) {
+        this.queryId = queryId;
     }
 
     public void setReceiver(String receiver) {
