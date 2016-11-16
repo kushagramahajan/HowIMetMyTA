@@ -130,7 +130,8 @@ public class SplashScreen extends AppCompatActivity
         //handling by ta
 
         for(int i=0;i<newQueries.length;i++) {
-            TaNewMessage queryid=new TaNewMessage(newQueries[i]);
+            final String temp=newQueries[i];
+           TaNewMessage queryid=new TaNewMessage(newQueries[i]);
             Call<TaNewMessage> call = service.getPendingNewQueryList(queryid);
             call.enqueue(new Callback<TaNewMessage>() {
                 @Override
@@ -191,7 +192,7 @@ public class SplashScreen extends AppCompatActivity
                             Querarr = new ArrayList<>();
                         }
 
-                        Query newquery=new Query(messforaquery.getTitle(),messforaquery.getDescription(),messforaquery.getTaId(),new ArrayList<Message>());
+                        Query newquery=new Query(temp,messforaquery.getTitle(),messforaquery.getDescription(),messforaquery.getTaId(),new ArrayList<Message>());
                         Querarr.add(newquery);
 
                         ObjectOutputStream out=null;

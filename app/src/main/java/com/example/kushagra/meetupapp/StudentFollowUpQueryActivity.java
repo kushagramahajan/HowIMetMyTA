@@ -141,18 +141,19 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                 my_emailId
                 ,modquer.getReceiver(),message);
 
-        DbManipulate dbman=new DbManipulate(getApplicationContext());
 
+        DbManipulate dbman=new DbManipulate(getApplicationContext());
+        dbman.insertMessageOfQuery(toadd,modquer.getQueryId());
 
 
         //check wheher posotion sender 0 or 1
 
-        modquer.getMessages().add(toadd);
-        Querarr.set(position,modquer);
+//        modquer.getMessages().add(toadd);
+//        Querarr.set(position,modquer);
 
         //write the Querarr
 
-        out.writeObject(Querarr);
+//        out.writeObject(Querarr);
 
         if( in != null)
             in.close();
