@@ -77,12 +77,6 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
 
         title=(EditText)findViewById(R.id.title);
         description=(EditText)findViewById(R.id.description);
-
-        totime = (TextView) findViewById(R.id.totime);
-        fromtime = (TextView) findViewById(R.id.fromtime);
-        date = (TextView) findViewById(R.id.date);
-        check = (CheckBox) findViewById(R.id.check);
-        ll = (LinearLayout) findViewById(R.id.ll);
         mContext = getApplicationContext();
 
         String course = "cn";
@@ -145,102 +139,21 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                 Log.d(MainActivity.TAG ," Query done Response");
                 if(response.body()!=null)
                 {
+                    // new object
                     Query qadd=new Query(response.body().getQueryId(),response.body().getTitle(),response.body().getDescription(),editTextTA.getText().toString(),null);
 
-
+                    //file initialization
                     String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
-
                     file = new File(getApplicationContext().getFilesDir(),file_name);
 
-//                    FileOutputStream fileOut=null;
-//                    try {
-//                        fileOut=new FileOutputStream(new File(getApplicationContext().getFilesDir(),file_name));
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    FileInputStream fileIn = null;// Read serial file.
-//                    try {
-//                        fileIn = new FileInputStream(new File(getApplicationContext().getFilesDir(),file_name));
-//                        fileOut= new FileOutputStream(new File(getApplicationContext().getFilesDir(),file_name));
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-                    ObjectInputStream ois = null;
+                    //read from old file
+                    ArrayList<Query> Querarr = readQueryFile(file);
 
-                    try
-                    {
-                        ois = new ObjectInputStream(new FileInputStream(file));// input the read file.
-                    }
-                    catch(Exception e)
-                    {
-                        e.printStackTrace();
-                    }
+                    //add new data
+                    Querarr.add(qadd);
 
-                    ArrayList<Query> Querarr = new ArrayList<Query>();
-
-//                    try
-//                    {
-//                        Querarr= (ArrayList<Query>) in.readObject();
-//                        Querarr.add(qadd);
-//                        out.writeObject(Querarr);
-//
-//                    }
-//                    catch (ClassNotFoundException e)
-//                    {
-//                        e.printStackTrace();
-//                    }
-//                    catch (IOException e)
-//                    {
-//                        e.printStackTrace();
-//                    }
-
-                    try {
-                        Querarr = (ArrayList<Query>) ois.readObject() ;
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (NullPointerException n)
-                    {
-                        n.printStackTrace();
-                    }
-
-                    try {
-                        ois.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (NullPointerException n)
-                    {
-                        n.printStackTrace();
-                    }
-
-                    ObjectOutputStream oos = null;
-
-                    try {
-                        oos = new ObjectOutputStream(new FileOutputStream(file));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    try {
-                        oos.writeObject(Querarr);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-//        fileIn = new FileInputStream(new File(this.getFilesDir(),file_name));// Read serial file.
-//        in = null;
-//        in = new ObjectInputStream(fileIn);
-//        Querarr= (ArrayList<Query>) in.readObject();
-//        System.out.println(Querarr.get(0).getTitle());
-
-                    try {
-                        oos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
+                    //write new data
+                    writeQueryFile(file,Querarr);
 
                 }
                 else
@@ -260,77 +173,74 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
         finish();
     }
 
-    public void clickToTime(View v)
+    ArrayList<Query> readQueryFile(File file)
     {
-        final Calendar c = Calendar.getInstance();
-        tHour = c.get(Calendar.HOUR_OF_DAY);
-        tMinute = c.get(Calendar.MINUTE);
+        ObjectInputStream ois = null;
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                new TimePickerDialog.OnTimeSetListener() {
-
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
-
-                        totime.setText(hourOfDay + ":" + minute);
-                    }
-                }, tHour, tMinute, false);
-        timePickerDialog.show();
-    }
-    public void clickFromTime(View v)
-    {
-        final Calendar c = Calendar.getInstance();
-        fHour = c.get(Calendar.HOUR_OF_DAY);
-        fMinute = c.get(Calendar.MINUTE);
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                new TimePickerDialog.OnTimeSetListener() {
-
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
-
-                        fromtime.setText(hourOfDay + ":" + minute);
-                    }
-                }, fHour, fMinute, false);
-        timePickerDialog.show();
-    }
-    public void clickDate(View v)
-    {
-        final Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
-        day = c.get(Calendar.DAY_OF_MONTH);
-
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
-
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
-
-                        date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-
-                    }
-                }, year, month, day);
-        datePickerDialog.show();
-    }
-    public void clickCheck(View v)
-    {
-        if(check.isChecked())
+        try
         {
-            int h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getResources().getDisplayMetrics());
-            ViewGroup.LayoutParams params = ll.getLayoutParams();
-            params.height = h;
-            ll.setLayoutParams(params);
+            ois = new ObjectInputStream(new FileInputStream(file));// input the read file.
+            Log.d("FILETAG","Object Input stream opened...");
         }
-        else
+        catch(Exception e)
         {
-            ViewGroup.LayoutParams params = ll.getLayoutParams();
-            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            ll.setLayoutParams(params);
+            e.printStackTrace();
+            Log.d("FILETAG","Object Input did not stream opened...");
+        }
+
+        ArrayList<Query> Querarr = new ArrayList<Query>();
+
+        try {
+            Querarr = (ArrayList<Query>) ois.readObject() ;
+            Log.d("FILE_FUNC","File read of size "+Querarr.size());
+        } catch (ClassNotFoundException e) {
+            Log.d("FILE_FUNC","File read me Class not found");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.d("FILE_FUNC","File read me IO");
+            e.printStackTrace();
+        } catch (NullPointerException n)
+        {
+            n.printStackTrace();
+            Log.d("FILE_FUNC","File read me null pointer");
+        }
+
+        try {
+            ois.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException n)
+        {
+            n.printStackTrace();
+        }
+        return Querarr;
+    }
+
+    void writeQueryFile(File file, ArrayList<Query> Querarr)
+    {
+        ObjectOutputStream oos = null;
+
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(file));
+            Log.d("FILE_FUNC","File output stream opened");
+        } catch (IOException e) {
+            Log.d("FILE_FUNC","File output stream did not");
+            e.printStackTrace();
+        }
+
+        try {
+            oos.writeObject(Querarr);
+            Log.d("FILE_FUNC","File written of size "+Querarr.size());
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("FILE_FUNC","File was not written");
+        }
+
+        try {
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+
 }

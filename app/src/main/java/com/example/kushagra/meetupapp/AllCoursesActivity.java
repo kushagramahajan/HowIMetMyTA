@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.db.objects.Course;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -66,7 +68,7 @@ public class AllCoursesActivity extends AppCompatActivity
 
         AllCourseAdapter adapter = new AllCourseAdapter(myCourses , getApplicationContext());
 
-        /*File file = new File(getApplicationContext().getFilesDir(),"CSEWEE");
+        File file = new File(getApplicationContext().getFilesDir(),"CSEWEE");
         if(!file.exists())
         {
             try {
@@ -75,7 +77,7 @@ public class AllCoursesActivity extends AppCompatActivity
                 e.printStackTrace();
             }
         }
-        myCourses.add(new Course("CSE101","CSEWEE",null));*/
+        myCourses.add(new Course("CSE101","CSEWEE",null));
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager( mContext ));
 

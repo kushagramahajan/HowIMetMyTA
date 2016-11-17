@@ -15,9 +15,13 @@
         <activity android:name=".LoginActivity" >
         </activity>
         <activity android:name=".AllCoursesActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".extra.SplashScreen">
-
 
         </activity>
         <activity android:name=".extra.SignInActivity" />
@@ -42,11 +46,6 @@
             android:name=".navDrawer.CommonCoursesListActivity"
             android:label="@string/title_activity_courses_list_common"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
 
 

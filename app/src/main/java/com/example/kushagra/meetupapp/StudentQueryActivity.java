@@ -15,6 +15,7 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
@@ -22,6 +23,8 @@ public class StudentQueryActivity extends AppCompatActivity {
 
     Context mContext;
     RecyclerView list;
+    QueryAdapter adapter;
+    ArrayList<Query> Querarr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,81 +51,84 @@ public class StudentQueryActivity extends AppCompatActivity {
                 i.putExtra(AllCoursesActivity.COURSE_ID_EXTRA , getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA ));
 
                 startActivity(i);
+                finish();
             }
         });
 
-
-        //get all the queries
         list = (RecyclerView) findViewById(R.id.list);
 
         ArrayList<Query> myQueries = new ArrayList<>();
         String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA);
 
-        FileInputStream fileIn = null;// Read serial file.
-        try {
-            fileIn = new FileInputStream(new File(this.getFilesDir(),file_name));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        ObjectInputStream in = null;// input the read file.
-        try
-        {
-            in = new ObjectInputStream(fileIn);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        File file = new File(getApplicationContext().getFilesDir(),file_name);
 
-        ArrayList<Query> Querarr = null;
-        Log.d(MainActivity.TAG, (in==null) + " stats");
-        /*try
-        {
-            if (in == null || in.readObject() == null || (ArrayList<Query>) in.readObject() == null)
-            {
-                Log.d(MainActivity.TAG ," readObj"+  in.readObject() );
+        Querarr = readQueryFile(file);
 
-                myQueries = new ArrayList<>();
-            }
-            else
-            {
-                Querarr = (ArrayList<Query>) in.readObject();// allocate it receiver the object file already instanciated.
-                Log.d(MainActivity.TAG , Querarr.toString() + " "  + "Querr");
-                myQueries = (ArrayList<Query>)Querarr.clone();
 
-            }
-        }*/
-        try
-        {
-            fileIn = new FileInputStream(new File(this.getFilesDir(),file_name));// Read serial file.
-            in = null;
-            in = new ObjectInputStream(fileIn);
-            myQueries = (ArrayList<Query>) in.readObject();
-            Log.d( MainActivity.TAG ,"TITLER" + myQueries.get(0).getTitle());
-
-        }
-        catch (EOFException e )
-        {
-            Log.d(MainActivity.TAG  , " MALA ");
-            e.printStackTrace();
-            Log.d(MainActivity.TAG , "exception inside Querr");
-            myQueries = Querarr;
-
-        }
-        catch (Exception fe)
-        {
-            fe.printStackTrace();
-        }
-//        myQueries.add(new Query("Ttile1","cse101",new ArrayList<Message>()));
-//        myQueries.add(new Query("MAD","cse201",new ArrayList<Message>()));
-//        myQueries.add(new Query("MC","cse301",new ArrayList<Message>()));
+//        myQueries.add(new Query("Ttile1","cse101","1","1",new ArrayList<Message>()));
+//        myQueries.add(new Query("MAD","cse201","1","1",new ArrayList<Message>()));
+//        myQueries.add(new Query("MC","cse301","1","1",new ArrayList<Message>()));
 
         String currentCourseId  =  getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
 
-        QueryAdapter adapter = new QueryAdapter(myQueries , currentCourseId );
+        adapter = new QueryAdapter(Querarr , currentCourseId );
 
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager( mContext ));
     }
 
+
+    ArrayList<Query> readQueryFile(File file)
+    {
+        ObjectInputStream ois = null;
+
+        try
+        {
+            ois = new ObjectInputStream(new FileInputStream(file));// input the read file.
+            Log.d("FILE_FUNC","Object Input stream opened...");
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Log.d("FILE_FUNC","Object Input did not stream opened...");
+        }
+
+        ArrayList<Query> Querarr = new ArrayList<Query>();
+
+        try
+        {
+            Querarr = (ArrayList<Query>) ois.readObject() ;
+            Log.d("FILE_FUNC","File read of size "+Querarr.size());
+        }
+        catch (ClassNotFoundException e)
+        {
+            Log.d("FILE_FUNC","File read me Class not found");
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            Log.d("FILE_FUNC","File read me IO");
+            e.printStackTrace();
+        }
+        catch (NullPointerException n)
+        {
+            n.printStackTrace();
+            Log.d("FILE_FUNC","File read me null pointer");
+        }
+
+        try
+        {
+            ois.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        catch (NullPointerException n)
+        {
+            n.printStackTrace();
+        }
+
+        return Querarr;
+    }
 }

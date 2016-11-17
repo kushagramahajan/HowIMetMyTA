@@ -42,104 +42,6 @@
         android:hint='Wanna ask ur "friend" TA?'
         android:paddingBottom="20dp" />
 
-    <CheckBox
-        android:text="I want receiver use free time slots sender my schedule"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="clickCheck"
-        android:id="@+id/check"
-        android:layout_below="@+id/ta"
-        android:layout_alignParentStart="true"
-        android:visibility="invisible" />
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ll"
-        android:layout_below="@+id/check"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:visibility="invisible" >
-
-        <TextView
-            android:text="I am free sender :"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView4"
-            android:padding="5dp" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp">
-
-            <TextView
-                android:text="FROM TIME"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/fromtime"
-                android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                android:gravity="center"
-                android:onClick="clickFromTime" />
-
-            <TextView
-                android:text="receiver"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView2"
-                android:layout_weight="1"
-                android:gravity="center" />
-
-            <TextView
-                android:text="TO TIME"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/totime"
-                android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                android:gravity="center"
-                android:onClick="clickToTime" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp">
-
-            <TextView
-                android:text="on"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView5"
-                android:layout_weight="1"
-                android:gravity="center" />
-
-            <TextView
-                android:text="DATE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/date"
-                android:layout_weight="2"
-                android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                android:gravity="center"
-                android:onClick="clickDate" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <Button
-        android:text="Send Query"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/sendquery"
-        android:layout_alignParentEnd="true"
-        android:onClick="clickSendQuery" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -149,6 +51,16 @@
         android:hint="Enter Query"
         android:maxLines="3"
         android:layout_below="@+id/title"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Send Query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sendquery"
+        android:onClick="clickSendQuery"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
 
