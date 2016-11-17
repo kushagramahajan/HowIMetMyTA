@@ -17,19 +17,15 @@
         <activity android:name=".AllCoursesActivity" >
         </activity>
         <activity android:name=".extra.SplashScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".extra.SignInActivity" />
         <activity android:name=".FormActivity" />
         <activity android:name=".StartNewStudentQueryActivity" />
         <activity android:name=".ScheduleGenerateActivity" />
         <activity android:name=".TaQueryActivity" />
-        <activity android:name=".StudentFollowUpQueryActivity">
-        </activity>
+        <activity android:name=".StudentFollowUpQueryActivity"></activity>
         <activity
             android:name=".StudentQueryActivity"
             android:label="@string/title_activity_student_query"
@@ -40,7 +36,23 @@
                 android:value="com.example.kushagra.meetupapp.AllCoursesActivity" />
         </activity>
         <activity android:name=".StartNewTaQueryActivity" />
-        <activity android:name=".TaFollowUpQueryActivity"></activity>
+        <activity android:name=".TaFollowUpQueryActivity" />
+
+        <activity
+            android:name=".navDrawer.CommonCoursesListActivity"
+            android:label="@string/title_activity_courses_list_common"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+
+
+        </activity>
+
     </application>
 
 </manifest>

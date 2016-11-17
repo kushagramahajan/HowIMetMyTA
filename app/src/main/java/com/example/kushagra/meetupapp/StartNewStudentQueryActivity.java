@@ -18,14 +18,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StudentQueryClass;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -203,12 +201,18 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
+                    } catch (NullPointerException n)
+                    {
+                        n.printStackTrace();
                     }
 
                     try {
                         ois.close();
                     } catch (IOException e) {
                         e.printStackTrace();
+                    } catch (NullPointerException n)
+                    {
+                        n.printStackTrace();
                     }
 
                     ObjectOutputStream oos = null;

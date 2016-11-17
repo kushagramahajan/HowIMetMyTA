@@ -54,9 +54,17 @@ public final class DbContract
         public static final String COLUMN_NAME_MESSAGE_STRING = "messageString";
         public static final String COLUMN_NAME_MESSAGE_QUERY_ID = "queryId";
 
+    }
 
-
-
+    public static class TableStudentQueries implements BaseColumns
+    {
+        public static final String TABLE_NAME = "TableQueries";
+        public static final String COLUMN_NAME_COURSE_ID = "courseIdx";
+        public static final String COLUMN_NAME_DESCRIPTION = "courseDesp";
+        public static final String COLUMN_NAME_TITLE = "querytitle";
+        public static final String COLUMN_NAME_TA_ID = "taId";
+        public static final String COLUMN_NAME_QUERY_ID = "queryID";
+        
     }
 
 
