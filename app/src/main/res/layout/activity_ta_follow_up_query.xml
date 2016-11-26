@@ -73,7 +73,7 @@
         app:srcCompat="@drawable/ic_transfer_within_a_station_black_24dp"
         android:id="@+id/meet"
         android:onClick="onMeetClicked"
-        android:background="@android:drawable/screen_background_light_transparent"
+        android:background="@android:color/transparent"
         android:layout_below="@+id/list"
         android:layout_toStartOf="@+id/send"
         android:layout_alignParentBottom="true"

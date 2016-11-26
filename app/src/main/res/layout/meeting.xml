@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:padding = "16dp">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/s">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:text="Select date :"
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView8"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <DatePicker
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/date" />
+
+            <TextView
+                android:text="Select time :"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView9"
+                android:padding="5dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <TimePicker
+                android:padding="5dp"
+                android:text="Time :"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/time" />
+
+            <EditText
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/venue"
+                android:hint="Venue"
+                android:maxLines="2" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <Button
+                    android:text="Save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_save"
+                    android:layout_weight="1"
+                    style="@style/Widget.AppCompat.Button.Borderless" />
+
+                <Button
+                    android:text="Discard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_discard"
+                    android:layout_weight="1"
+                    style="@style/Widget.AppCompat.Button.Borderless" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
