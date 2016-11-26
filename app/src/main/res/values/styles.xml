@@ -30,5 +30,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="GreenIt" parent="AppTheme" >
+        <item name="colorPrimary">@color/colorPrimaryGreenIt</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkGreenIt</item>
+        <item name="colorAccent">@color/colorAccentGreenIt</item>
+    </style>
+
+    <style name="GreenIt.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
 </resources>

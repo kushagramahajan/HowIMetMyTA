@@ -56,8 +56,8 @@ public class SplashScreen extends AppCompatActivity
         return false;
     }
 
-
-    private void checkforPendingMessages(){
+    private void checkforPendingMessages()
+    {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AllCoursesActivity.IP_ADD)
@@ -118,7 +118,8 @@ public class SplashScreen extends AppCompatActivity
 
     }
 
-    private void getPendingNewQueries(){
+    private void getPendingNewQueries()
+    {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AllCoursesActivity.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -224,8 +225,8 @@ public class SplashScreen extends AppCompatActivity
 
     }
 
-
-    private void getPendingOldQueries(){
+    private void getPendingOldQueries()
+    {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AllCoursesActivity.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -348,7 +349,6 @@ public class SplashScreen extends AppCompatActivity
 
     }
 
-
     private void fetchFromServerUpdateDB()
     {
         Retrofit retrofit = new Retrofit.Builder()
@@ -436,6 +436,7 @@ public class SplashScreen extends AppCompatActivity
 
 
     }
+
     private boolean isNotLoggedIn()
     {
 
@@ -450,6 +451,7 @@ public class SplashScreen extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        getSupportActionBar().hide();
 
         if(isNotLoggedIn() && isOnline())
         {

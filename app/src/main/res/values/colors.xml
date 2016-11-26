@@ -10,5 +10,9 @@
         <color name="blue_grey_800">#37474F</color>
         <color name="blue_grey_900">#263238</color>
     <color name="MyMsg">#e0ffc6</color>
+    <color name="Neutral">#E0E0F8</color>
+    <color name="colorPrimaryGreenIt">#8bc34a</color>
+    <color name="colorPrimaryDarkGreenIt">#689f38</color>
+    <color name="colorAccentGreenIt">#2e7d32</color>
 
 </resources>
