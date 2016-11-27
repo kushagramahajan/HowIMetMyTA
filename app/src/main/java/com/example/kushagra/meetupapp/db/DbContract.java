@@ -29,6 +29,16 @@ public final class DbContract
 
     }
 
+    public static class CourseQueryMapping implements BaseColumns
+    {
+        public static final String TABLE_NAME = "CourseQuery";
+
+        public static final String COLUMN_NAME_COURSE_ID = "cqcourseId";
+        public static final String COLUMN_NAME_QUERY_ID = "cqqueryId";
+
+    }
+
+
     public static class AllCourses implements BaseColumns
     {
         public static final String TABLE_NAME = "allCourses";

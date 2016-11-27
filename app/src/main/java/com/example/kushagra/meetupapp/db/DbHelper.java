@@ -45,6 +45,8 @@ public class DbHelper extends SQLiteOpenHelper
 
 
 
+
+
     private static final String SQL_DELETE_MESSAGE_TABLE =
     "DROP TABLE IF EXISTS " + DbContract.TableMessages.TABLE_NAME;
 
@@ -59,6 +61,8 @@ public class DbHelper extends SQLiteOpenHelper
         db.execSQL(SQL_CREATE_ENTRIES_MY);
         db.execSQL(SQL_CREATE_MESSAGE_TABLE);
 
+        db.execSQL(SQL_CREATE_COURSE_QUERY);
+
         db.execSQL(SQL_CREATE_TA_QUERIES);
         db.execSQL(SQL_CREATE_ENTRIES_TA_SIDE_MY_COURSES);
     }
@@ -70,7 +74,7 @@ public class DbHelper extends SQLiteOpenHelper
         db.execSQL(SQL_DELETE_ENTRIES_ALL);
         db.execSQL(SQL_DELETE_ENTRIES_MY);
         db.execSQL(SQL_DELETE_MESSAGE_TABLE);
-
+        db.execSQL(SQL_DELETE_COURSE_QUERY);
 
         db.execSQL(SQL_DELETE_TA_QUERIES);
         db.execSQL(SQL_DELETE_ENTRIES_TA_SIDE_MY_COURSES);
@@ -97,6 +101,14 @@ public class DbHelper extends SQLiteOpenHelper
                     " )";
 
 
+    public static final String SQL_CREATE_COURSE_QUERY =
+            "CREATE TABLE " + DbContract.CourseQueryMapping.TABLE_NAME + " (" +
+                    DbContract.CourseQueryMapping.COLUMN_NAME_COURSE_ID + TEXT_TYPE + COMMA_SEP +
+                    DbContract.CourseQueryMapping.COLUMN_NAME_QUERY_ID+TEXT_TYPE+
+                    " )";
+
+
+
     public static final String SQL_CREATE_ENTRIES_TA_SIDE_MY_COURSES =
             "CREATE TABLE " + DbContract.TASideMyCourses.TABLE_NAME + " (" +
                     DbContract.TASideMyCourses.COLUMN_NAME_COURSE_ID + TEXT_TYPE + COMMA_SEP +
@@ -108,6 +120,8 @@ public class DbHelper extends SQLiteOpenHelper
     public static final String SQL_DELETE_ENTRIES_TA_SIDE_MY_COURSES =
             "DROP TABLE IF EXISTS " + DbContract.TASideMyCourses.TABLE_NAME;
 
+    public static final String SQL_DELETE_COURSE_QUERY =
+            "DROP TABLE IF EXISTS " + DbContract.CourseQueryMapping.TABLE_NAME;
 
 
 

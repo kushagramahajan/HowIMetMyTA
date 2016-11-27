@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonCoursesAdapter;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonQueryAdapter;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
@@ -47,6 +48,7 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
     public String[] tas;
     Context mContext;
     File file;
+    DbManipulate dbman;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -69,7 +71,7 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_new_query);
-
+        dbman=new DbManipulate(getApplicationContext());
         //tags = (MultiAutoCompleteTextView) this.findViewById(R.id.tags);
         ta = (AutoCompleteTextView) this.findViewById(R.id.ta);
 
@@ -154,6 +156,8 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                             student_email_id, courseId);
 
                     //file initialization
+                    dbman.insertQueryCourse(response.body().queryId,courseId);
+
                     String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
                     file = new File(getApplicationContext().getFilesDir(),file_name);
 

@@ -113,6 +113,35 @@ public class DbManipulate
 
     }
 
+
+    public String getCourseId(String queryId){
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        String[] projection = {
+                DbContract.CourseQueryMapping.COLUMN_NAME_COURSE_ID,
+
+        };
+
+        String selection = DbContract.CourseQueryMapping.COLUMN_NAME_QUERY_ID + " = ?";
+        String[] selectionArgs = { queryId };
+
+        Cursor cursor = db.query(
+                DbContract.CourseQueryMapping.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                // The sort order
+        );
+
+        cursor.moveToFirst();
+
+        String tbr=cursor.getString( cursor.getColumnIndex(DbContract.CourseQueryMapping.COLUMN_NAME_COURSE_ID) );
+
+        return tbr;
+
+    }
+
     public ArrayList<Course> getAllCourses(){
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -350,6 +379,22 @@ public class DbManipulate
 
 
     }
+
+    public void insertQueryCourse(String queryId, String courseId)
+    {
+
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DbContract.CourseQueryMapping.COLUMN_NAME_COURSE_ID , courseId );
+        values.put(DbContract.CourseQueryMapping.COLUMN_NAME_QUERY_ID , queryId );
+
+        db.insert(DbContract.CourseQueryMapping.TABLE_NAME , null, values);
+
+
+
+    }
+
 
 
     public void insertTAQueries(TaNewMessage taNewMessage)
