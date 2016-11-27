@@ -140,11 +140,13 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                 if(response.body()!=null)
                 {
                     // new object
-                    Query qadd=new Query(response.body().getQueryId(),response.body().getTitle(),response.body().getDescription(),editTextTA.getText().toString(),null);
+                    Query qadd=new Query(response.body().getQueryId(),response.body().getTitle(),response.body().getDescription(),editTextTA.getText().toString());
 
                     //file initialization
                     String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
                     file = new File(getApplicationContext().getFilesDir(),file_name);
+
+
 
                     //read from old file
                     ArrayList<Query> Querarr = readQueryFile(file);

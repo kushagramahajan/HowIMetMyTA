@@ -132,7 +132,9 @@ public class SplashScreen extends AppCompatActivity
 
         for(int i=0;i<newQueries.length;i++) {
             final String temp=newQueries[i];
-           TaNewMessage queryid=new TaNewMessage(newQueries[i]);
+            TaNewMessage queryid=new TaNewMessage(newQueries[i]);
+            final String queryIdToInsert=queryid.getQueryId();
+
             Call<TaNewMessage> call = service.getPendingNewQueryList(queryid);
             call.enqueue(new Callback<TaNewMessage>() {
                 @Override
@@ -145,65 +147,71 @@ public class SplashScreen extends AppCompatActivity
                         TaNewMessage messforaquery = response.body();
 
                         //handle the array of messages returned
-                        String file_name = messforaquery.getCourseId();
-                        FileOutputStream fileOut=null;
-                        FileInputStream fileIn=null;
+                        String courseid = messforaquery.getCourseId();
+                        String description=messforaquery.getDescription();
+                        String title = messforaquery.getTitle();
+                        String queryid=queryIdToInsert;
 
-                        try
-                        {
-                            File file = new File(getApplicationContext().getFilesDir(),file_name);
-                            System.out.println("FILENAME SS : "+file.getAbsolutePath());
-                            fileOut=new FileOutputStream(file);
-                        }
-                        catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
+                        //////////////////
 
-                        try
-                        {
-                            fileIn = new FileInputStream(new File(getApplicationContext().getFilesDir(),file_name));// Read serial file.
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        boolean flag = false;
-                        ObjectInputStream in = null;
-
-                        try
-                        {in = new ObjectInputStream(fileIn);// input the read file.
-                        }
-                        catch(Exception e)
-                        {
-                            flag=true;
-                        }
-
-                        ArrayList<Query> Querarr = null;
-                        if(!flag)
-                        {
-                            try {
-                                Querarr= (ArrayList<Query>) in.readObject();// allocate it receiver the object file already instanciated.
-                            } catch (ClassNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        else
-                        {
-                            Querarr = new ArrayList<>();
-                        }
-
-                        Query newquery=new Query(temp,messforaquery.getTitle(),messforaquery.getDescription(),messforaquery.getTaId(),new ArrayList<Message>());
-                        Querarr.add(newquery);
-
-                        ObjectOutputStream out=null;
-
-                        try {
-                            out = new ObjectOutputStream(fileOut);
-                            out.writeObject(Querarr);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+//                        FileOutputStream fileOut=null;
+//                        FileInputStream fileIn=null;
+//
+//                        try
+//                        {
+//                            File file = new File(getApplicationContext().getFilesDir(),file_name);
+//                            System.out.println("FILENAME SS : "+file.getAbsolutePath());
+//                            fileOut=new FileOutputStream(file);
+//                        }
+//                        catch (Exception e)
+//                        {
+//                            e.printStackTrace();
+//                        }
+//
+//                        try
+//                        {
+//                            fileIn = new FileInputStream(new File(getApplicationContext().getFilesDir(),file_name));// Read serial file.
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                        boolean flag = false;
+//                        ObjectInputStream in = null;
+//
+//                        try
+//                        {in = new ObjectInputStream(fileIn);// input the read file.
+//                        }
+//                        catch(Exception e)
+//                        {
+//                            flag=true;
+//                        }
+//
+//                        ArrayList<Query> Querarr = null;
+//                        if(!flag)
+//                        {
+//                            try {
+//                                Querarr= (ArrayList<Query>) in.readObject();// allocate it receiver the object file already instanciated.
+//                            } catch (ClassNotFoundException e) {
+//                                e.printStackTrace();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                        else
+//                        {
+//                            Querarr = new ArrayList<>();
+//                        }
+//
+//                        Query newquery=new Query(temp,messforaquery.getTitle(),messforaquery.getDescription(),messforaquery.getTaId(),new ArrayList<Message>());
+//                        Querarr.add(newquery);
+//
+//                        ObjectOutputStream out=null;
+//
+//                        try {
+//                            out = new ObjectOutputStream(fileOut);
+//                            out.writeObject(Querarr);
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
 
                     } else {
                         Log.d(MainActivity.TAG, "Response Body null");

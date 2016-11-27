@@ -10,13 +10,11 @@ import java.util.ArrayList;
 public class Query implements Serializable {
     String title,query,receiver;
     String queryId;
-    ArrayList<Message> messages;
 
-    public Query(String qid, String title, String query, String receiver,ArrayList<Message> messages) {
+    public Query(String qid, String title, String query, String receiver) {
         this.title = title;
         this.query = query;
         this.receiver=receiver;
-        this.messages = messages;
         this.queryId=qid;
     }
 
@@ -52,11 +50,4 @@ public class Query implements Serializable {
         this.query = query;
     }
 
-    public ArrayList<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(ArrayList<Message> messages) {
-        this.messages = messages;
-    }
-}
+ }

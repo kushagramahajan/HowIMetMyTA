@@ -10,6 +10,14 @@ public class TaNewMessage {
     boolean isResolved;
     String queryId;
 
+    public String getQueryId() {
+        return queryId;
+    }
+
+    public void setQueryId(String queryId) {
+        this.queryId = queryId;
+    }
+
     public TaNewMessage(String queryId) {
         this.queryId = queryId;
     }
