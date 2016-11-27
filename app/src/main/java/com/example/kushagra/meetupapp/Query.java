@@ -11,7 +11,15 @@ import java.io.Serializable;
 public class Query implements Serializable
 {
     String title, description, taId;
-    String queryId,studentId;
+    String queryId,studentId, courseId;
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
 
     public String getStudentId() {
         return studentId;
@@ -21,12 +29,13 @@ public class Query implements Serializable
         this.studentId = studentId;
     }
 
-    public Query(String qid, String title, String description, String taId, String studentId) {
+    public Query(String qid, String title, String description, String taId, String studentId, String courseId) {
         this.title = title;
         this.description = description;
         this.taId = taId;
         this.queryId=qid;
         this.studentId=studentId;
+        this.courseId=courseId;
     }
 
     public String getTaId() {

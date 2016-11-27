@@ -1,18 +1,24 @@
 package com.example.kushagra.meetupapp.extra;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.kushagra.meetupapp.AllCoursesActivity;
 import com.example.kushagra.meetupapp.MainActivity;
 import com.example.kushagra.meetupapp.Message;
+import com.example.kushagra.meetupapp.Query;
 import com.example.kushagra.meetupapp.R;
+import com.example.kushagra.meetupapp.StudentFollowUpQueryActivity;
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.db.objects.Course;
 import com.example.kushagra.meetupapp.navDrawer.CommonCoursesListActivity;
@@ -20,7 +26,10 @@ import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StatusClass;
 import com.example.kushagra.meetupapp.network.model.TaNewMessage;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -33,6 +42,7 @@ public class SplashScreen extends AppCompatActivity
 {
     private final int SPLASH_DISPLAY_LENGTH = 1000;
     String[] newQueries,oldQueries;
+    String[] oldCourseIds;
 
     DbManipulate dbman;
 
@@ -128,6 +138,8 @@ public class SplashScreen extends AppCompatActivity
 
         for(int i=0;i<newQueries.length;i++) {
             final String temp=newQueries[i];
+
+
             TaNewMessage queryid=new TaNewMessage(newQueries[i]);
             final String queryIdToInsert=queryid.getQueryId();
 
@@ -147,6 +159,8 @@ public class SplashScreen extends AppCompatActivity
                         String description=messforaquery.getDescription();
                         String title = messforaquery.getTitle();
                         String queryid=queryIdToInsert;
+
+
 
                         //////////////////
 
@@ -239,11 +253,19 @@ public class SplashScreen extends AppCompatActivity
         ServerApi service = retrofit.create(ServerApi.class);
 
 
+//        String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
+//        File file = new File(getApplicationContext().getFilesDir(),file_name);
+//        ArrayList<Query> Querarr = readQueryFile(file);
+
+
+
         //sending the individual query ids for old
 
         for(int i=0;i<oldQueries.length;i++)
         {
 
+
+            final int indexOfQuery=i;
             final String QueryId=oldQueries[i];
             Call<Message[]> call = service.getPendingOldQueryList(oldQueries[i]);
             call.enqueue(new Callback<Message[]>() {
@@ -338,6 +360,9 @@ public class SplashScreen extends AppCompatActivity
 //                            e.printStackTrace();
 //                        }
 
+                        String courseId=;
+                        generateNotificationOldMessage(QueryId,messforaquery,indexOfQuery,courseId);
+
 
                     } else {
                         Log.d(MainActivity.TAG, "Response Body null");
@@ -355,6 +380,41 @@ public class SplashScreen extends AppCompatActivity
 
 
         }
+
+    }
+
+
+    private void generateNotificationOldMessage(String queryId,Message[] messages,int index,String courseId){
+
+        NotificationCompat.Builder mBuilder =
+                (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_add_black_24dp)
+                        .setContentTitle(messages.length+" My notification" )
+                        .setContentText("Hello World!");
+
+
+        // Creates an explicit intent for an Activity in your app
+        Intent resultIntent = new Intent(this, StudentFollowUpQueryActivity.class);
+        resultIntent.putExtra(AllCoursesActivity.RECYCLER_VIEW_POSITION_EXTRA, index);
+        resultIntent.putExtra(AllCoursesActivity.COURSE_ID_EXTRA, courseId);
+
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        // Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(StudentFollowUpQueryActivity.class);
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // mId allows you to update the notification later on.
+        mNotificationManager.notify(index, mBuilder.build());
 
     }
 
@@ -402,17 +462,12 @@ public class SplashScreen extends AppCompatActivity
                         Intent intent = new Intent(getApplicationContext(), CommonCoursesListActivity.class);
                         startActivity(intent);
 
-
-
                     }
                     else
                     {
 
                         Intent intent = new Intent(getApplicationContext(),SignInActivity.class);
-
                         startActivity(intent);
-
-
 
                     }
 
@@ -512,4 +567,52 @@ public class SplashScreen extends AppCompatActivity
 
 
     }
+
+
+
+
+    ArrayList<Query> readQueryFile(File file)
+    {
+        ObjectInputStream ois = null;
+
+        try
+        {
+            ois = new ObjectInputStream(new FileInputStream(file));// input the read file.
+            Log.d("FILETAG","Object Input stream opened...");
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Log.d("FILETAG","Object Input did not stream opened...");
+        }
+
+        ArrayList<Query> Querarr = new ArrayList<Query>();
+
+        try {
+            Querarr = (ArrayList<Query>) ois.readObject() ;
+            Log.d("FILE_FUNC","File read of size "+Querarr.size());
+        } catch (ClassNotFoundException e) {
+            Log.d("FILE_FUNC","File read me Class not found");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.d("FILE_FUNC","File read me IO");
+            e.printStackTrace();
+        } catch (NullPointerException n)
+        {
+            n.printStackTrace();
+            Log.d("FILE_FUNC","File read me null pointer");
+        }
+
+        try {
+            ois.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException n)
+        {
+            n.printStackTrace();
+        }
+        return Querarr;
+    }
+
+
 }

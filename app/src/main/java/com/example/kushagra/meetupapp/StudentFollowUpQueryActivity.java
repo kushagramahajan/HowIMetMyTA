@@ -35,6 +35,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_follow_up_query);
         Editmessege=(EditText)findViewById(R.id.message);
@@ -45,49 +46,17 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
         // get the particular description object
 
-        String file_name = getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA);
 //        String file_name = getIntent().getStringExtra("MAMA");
-
+        String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
+        file = new File(getApplicationContext().getFilesDir(),file_name);
 
         Log.d(MainActivity.TAG , file_name + " ...");
-
-        FileInputStream fileIn = null;// Read serial file.
-        try
-        {
-            fileIn = new FileInputStream(new File(this.getFilesDir(), file_name));
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        ObjectInputStream in = null;// input the read file.
-        try
-        {
-            in = new ObjectInputStream(fileIn);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        ArrayList<Query> Querarr= null;
-        try
-        {
-            Querarr = (ArrayList<Query>) in.readObject();
-        }
-        catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        catch(IOException io)
-        {
-            io.printStackTrace();
-        }
+        ArrayList<Query> Querarr = readQueryFile(file);
 
         Log.d(MainActivity.TAG , Querarr.size()+ " " +
                 "" );
 
-
 // this is original code to add messages to the array list
-
 
         int position = getIntent().getIntExtra(AllCoursesActivity.RECYCLER_VIEW_POSITION_EXTRA,0);
         Query modquer=Querarr.get(position);
@@ -163,7 +132,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         ArrayList<Query> Querarr = readQueryFile(file);
 
 
-        int position = Integer.parseInt(getIntent().getStringExtra("position"));
+        int position = getIntent().getIntExtra(AllCoursesActivity.RECYCLER_VIEW_POSITION_EXTRA,0);
 
         final Query modquer = Querarr.get(position);
 

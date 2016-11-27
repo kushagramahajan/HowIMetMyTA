@@ -145,13 +145,13 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                     String student_email_id = sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user");
 
                     //public Query(String qid, String title, String description, String taId, String studentId)
-
+                    String courseId=getIntent().getStringExtra( AllCoursesActivity.COURSE_ID_EXTRA );
                     Query qadd = new
                             Query( response.body().getQueryId(),
                             studentQueryClass.getTitle(),
                             studentQueryClass.getDescription(),
                             editTextTA.getText().toString(),
-                            student_email_id);
+                            student_email_id, courseId);
 
                     //file initialization
                     String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
