@@ -54,7 +54,7 @@ public class AllCoursesActivity extends AppCompatActivity
 
         for (Message message : msg )
         {
-            Log.d(MainActivity.TAG , message.getSender() + " ====" + message.getReceiver());
+            Log.d(MainActivity.TAG , message.getSender() + " ====" + message.getTaId());
         }
 
 */

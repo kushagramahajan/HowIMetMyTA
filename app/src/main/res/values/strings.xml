@@ -44,7 +44,7 @@
     <string name="desc_google_icon">Google Logo</string>
 
     <!-- Rationale for asking for Contacts -->
-    <string name="contacts_permission_rationale">Contacts access is needed in order receiver retrieve your email address.</string>
+    <string name="contacts_permission_rationale">Contacts access is needed in order taId retrieve your email address.</string>
 
     <!-- Activity Names and Descriptions -->
     <string name="name_sign_in_activity">SignInActivity</string>

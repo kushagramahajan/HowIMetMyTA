@@ -144,7 +144,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         Log.d(AllCoursesActivity.TAG , "emailId" + my_emailId );
         Message toadd = new Message(
                 my_emailId
-                ,modquer.getReceiver(),message);
+                ,modquer.getTaId(),message);
 
 
         DbManipulate dbman=new DbManipulate(getApplicationContext());

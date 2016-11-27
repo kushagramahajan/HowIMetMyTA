@@ -288,7 +288,7 @@ public class SplashScreen extends AppCompatActivity
                         int position=0;
                         int l;
                         for(l=0;l<Querarr.size();l++){
-                            if(Querarr.get(l).getReceiver().equals(from)){
+                            if(Querarr.get(l).getTaId().equals(from)){
                                 position=l;
                                 break;
                             }
