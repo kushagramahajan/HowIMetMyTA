@@ -297,15 +297,15 @@ public class SplashScreen extends AppCompatActivity
                             Log.d("MainActivity","No query found to insert the message");
                         }
                         else {
-                            Query modquer = Querarr.get(position);
-                            ArrayList<Message> messArr = modquer.getMessages();
-
-                            for (int k = 0; k< messforaquery.length; k++) {
-                                messArr.add(messforaquery[k]);
-                            }
-
-                            modquer.setMessages(messArr);
-                            Querarr.set(position, modquer);
+//                            Query modquer = Querarr.get(position);
+//                            ArrayList<Message> messArr = modquer.getMessages();
+//
+//                            for (int k = 0; k< messforaquery.length; k++) {
+//                                messArr.add(messforaquery[k]);
+//                            }
+//
+//                            modquer.setMessages(messArr);
+//                            Querarr.set(position, modquer);
 
                             //handle the array of messages returned
                             ///

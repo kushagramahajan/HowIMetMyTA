@@ -26,6 +26,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
     EditText Editmessege;
     LinearLayout msg_list;
+    File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,9 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_follow_up_query);
         Editmessege=(EditText)findViewById(R.id.message);
         msg_list = (LinearLayout)findViewById(R.id.msg_list);
+
+        DbManipulate dbman=new DbManipulate(getApplicationContext());
+
 
         // get the particular query object
 
@@ -79,29 +83,41 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
 // this is original code to add messages to the array list
 
-//        int position=getIntent().getIntExtra("position",0);
-//
-//        Query modquer=Querarr.get(position);
+
+        int position=getIntent().getIntExtra("position",0);
+        Query modquer=Querarr.get(position);
 //        ArrayList<Message> messArr=modquer.getMessages();
 
 
         //used this code to add following shit messages for testing. pleasee remove
 
 
+
+
+
         ArrayList<Message> messArr;
+        messArr=dbman.getAllMessagesOfQueryId(modquer.getQueryId());
 
-        messArr = new ArrayList<>();
-        messArr.add(new Message("ta","me","i wanna drink ur blood"));
-        messArr.add(new Message("me","ta","no i wanna drink urs, plz"));
-        messArr.add(new Message("ta","me","no, i wanna drink ur blood, or else grade reduction"));
-        messArr.add(new Message("me","ta","ok. i'll just gonna cut me-self"));
 
+
+//        messArr = new ArrayList<>();
+//        messArr.add(new Message("ta","me","i wanna drink ur blood"));
+//        messArr.add(new Message("me","ta","no i wanna drink urs, plz"));
+//        messArr.add(new Message("ta","me","no, i wanna drink ur blood, or else grade reduction"));
+//        messArr.add(new Message("me","ta","ok. i'll just gonna cut me-self"));
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
+                AllCoursesActivity.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE
+        );
+        String student_email_id=sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user");
 
         //code to add message UI
         for(com.example.kushagra.meetupapp.Message m : messArr)
         {
             View view;
-            if(m.getSender().equals("me"))
+
+
+            if(m.getSender().equals(student_email_id))
             {
                 view = getLayoutInflater().inflate(R.layout.msg_balloon_me,null);
             }
@@ -124,13 +140,13 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
         String file_name = getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA);
         Log.d(MainActivity.TAG , "inside click Msg  courseID"+ file_name );
-        FileInputStream fileIn = new FileInputStream(new File(this.getFilesDir(), file_name));// Read serial file.
-        FileOutputStream fileOut = new FileOutputStream(new File(this.getFilesDir(), file_name));
 
-        ObjectInputStream in = new ObjectInputStream(fileIn);// input the read file.
-        ObjectOutputStream out=new ObjectOutputStream(fileOut);
 
-        ArrayList<Query> Querarr= (ArrayList<Query>) in.readObject();
+        file = new File(getApplicationContext().getFilesDir(),file_name);
+        ArrayList<Query> Querarr = readQueryFile(file);
+
+
+
         int position = Integer.parseInt(getIntent().getStringExtra("position"));
 
         Query modquer = Querarr.get(position);
@@ -160,15 +176,52 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
 //        out.writeObject(Querarr);
 
-        if( in != null)
-            in.close();
-        if( out != null )
-            out.close();
-
-        fileIn.close();
-        fileOut.close() ;
-
     }
+
+    ArrayList<Query> readQueryFile(File file)
+    {
+        ObjectInputStream ois = null;
+
+        try
+        {
+            ois = new ObjectInputStream(new FileInputStream(file));// input the read file.
+            Log.d("FILETAG","Object Input stream opened...");
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Log.d("FILETAG","Object Input did not stream opened...");
+        }
+
+        ArrayList<Query> Querarr = new ArrayList<Query>();
+
+        try {
+            Querarr = (ArrayList<Query>) ois.readObject() ;
+            Log.d("FILE_FUNC","File read of size "+Querarr.size());
+        } catch (ClassNotFoundException e) {
+            Log.d("FILE_FUNC","File read me Class not found");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.d("FILE_FUNC","File read me IO");
+            e.printStackTrace();
+        } catch (NullPointerException n)
+        {
+            n.printStackTrace();
+            Log.d("FILE_FUNC","File read me null pointer");
+        }
+
+        try {
+            ois.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException n)
+        {
+            n.printStackTrace();
+        }
+        return Querarr;
+    }
+
+
 
 
 

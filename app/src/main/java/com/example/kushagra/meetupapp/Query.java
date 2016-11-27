@@ -18,11 +18,12 @@ public class Query implements Serializable {
         this.studentId = studentId;
     }
 
-    public Query(String qid, String title, String query, String taId) {
+    public Query(String qid, String title, String query, String taId, String studentId) {
         this.title = title;
         this.query = query;
         this.taId = taId;
         this.queryId=qid;
+        this.studentId=studentId;
     }
 
     public String getTaId() {

@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.kushagra.meetupapp.db.DbContract;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StudentQueryClass;
 
@@ -140,7 +141,11 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                 if(response.body()!=null)
                 {
                     // new object
-                    Query qadd=new Query(response.body().getQueryId(),response.body().getTitle(),response.body().getDescription(),editTextTA.getText().toString());
+                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
+                            AllCoursesActivity.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE
+                    );
+                    String student_email_id=sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user");
+                    Query qadd=new Query(response.body().getQueryId(),response.body().getTitle(),response.body().getDescription(),editTextTA.getText().toString(), student_email_id);
 
                     //file initialization
                     String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
