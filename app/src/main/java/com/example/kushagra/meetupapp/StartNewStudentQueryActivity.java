@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonCoursesAdapter;
+import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonQueryAdapter;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StudentQueryClass;
 
@@ -29,6 +31,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.kushagra.meetupapp.navDrawer.CommonCoursesListActivity.commonQueryList;
+import static com.example.kushagra.meetupapp.navDrawer.CommonCoursesListActivity.mAdapter;
 
 public class StartNewStudentQueryActivity extends AppCompatActivity 
 {
@@ -142,7 +147,7 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                     //public Query(String qid, String title, String description, String taId, String studentId)
 
                     Query qadd = new
-                            Query( studentQueryClass.getQueryId(),
+                            Query( response.body().getQueryId(),
                             studentQueryClass.getTitle(),
                             studentQueryClass.getDescription(),
                             editTextTA.getText().toString(),
@@ -167,6 +172,23 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                     //write new data
                     writeQueryFile(file,Querarr);
 
+                    try
+                    {
+                        ((CommonQueryAdapter) mAdapter).notifyDataSetChanged();
+                        commonQueryList.clear();
+                        commonQueryList.addAll(Querarr);
+
+
+                    }
+                    catch (Exception e)
+                    {
+                        ((CommonCoursesAdapter)mAdapter).notifyDataSetChanged();
+
+                    }
+
+
+
+
                 }
                 else
                 {
@@ -182,6 +204,8 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                 Log.d(MainActivity.TAG , "failed description");
             }
         });
+
+
         finish();
     }
 

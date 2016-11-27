@@ -43,10 +43,10 @@ public class CommonCoursesListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
     private RecyclerView recyclerView;
-    private CommonAdapter mAdapter;
+    public static CommonAdapter mAdapter;
 
     private ArrayList<Course> commonCoursesList = new ArrayList<>();
-    private ArrayList<Query> commonQueryList = new ArrayList<>();
+    public static ArrayList<Query> commonQueryList = new ArrayList<>();
 
 
     private static boolean isTaSelected = false;
@@ -155,33 +155,36 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
 
 
-    private void handleQuerySideRecyclerView(Course currentCourse)
+    private void handleQuerySideRecyclerView(final Course currentCourse)
     {
-        newQueryFabButton.show();
-        final Course course = currentCourse;
+        if(!isTaSelected)
+        {
+            newQueryFabButton.show();
 
-        newQueryFabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
+            newQueryFabButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                Intent i = new Intent( getApplicationContext() , StartNewStudentQueryActivity.class);
+                    Intent i = new Intent(getApplicationContext(), StartNewStudentQueryActivity.class);
 
-                Log.d(MainActivity.TAG , "Name" + getIntent().getStringExtra(AllCoursesActivity.COURSE_NAME_EXTRA)
-                        + "Id" + getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA ));
+                    Log.d(MainActivity.TAG, "Name" + getIntent().getStringExtra(AllCoursesActivity.COURSE_NAME_EXTRA)
+                            + "Id" + getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA));
 
-                i.putExtra(AllCoursesActivity.COURSE_NAME_EXTRA ,
-                         course.getCourseName() );
-                i.putExtra(AllCoursesActivity.COURSE_ID_EXTRA ,
-                        course.getCourseId() );
+                    i.putExtra(AllCoursesActivity.COURSE_NAME_EXTRA,
+                            currentCourse.getCourseName());
+                    i.putExtra(AllCoursesActivity.COURSE_ID_EXTRA,
+                            currentCourse.getCourseId());
 
-                startActivity(i);
-
-
+                    startActivity(i);
 
 
-            }
-        });
+                }
+            });
+        }
+        else
+        {
+
+        }
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_common_list);
 
@@ -211,7 +214,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
                 i.putExtra(AllCoursesActivity.RECYCLER_VIEW_POSITION_EXTRA , position );
                 i.putExtra( AllCoursesActivity.IS_TA_SELECTED_EXTRA , isTaSelected);
-                i.putExtra( AllCoursesActivity.COURSE_ID_EXTRA , course.getCourseId() );
+                i.putExtra( AllCoursesActivity.COURSE_ID_EXTRA , currentCourse.getCourseId() );
 
                 startActivity(i);
 
@@ -236,12 +239,6 @@ public class CommonCoursesListActivity extends AppCompatActivity
 //        public Query(String qid, String title, String description, String taId, String studentId) {
 
 
-        commonQueryList.add(
-                new Query( "1" , "2" , "3" , "5" , "5")
-        );
-        commonQueryList.add(
-                new Query( "2" , "PLO" , "3" , "5" , "5")
-        );
 
 
 
@@ -410,6 +407,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
         super.onStart();
 
         Log.d(AllCoursesActivity.TAG , "Back on onStart");
+
 
     }
 }
