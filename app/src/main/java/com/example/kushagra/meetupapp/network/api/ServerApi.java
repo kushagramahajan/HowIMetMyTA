@@ -35,6 +35,11 @@ public interface ServerApi
     Call<StudentQueryClass > sendQuery(@Body StudentQueryClass studentQueryClass);
 
 
+    @POST("/app/student/query")
+    Call<Message> sendMessage(@Body Message messageObject);
+
+
+
     @POST("app/ping")
     Call<StatusClass> getStatus(@Body StatusClass studentId);
 

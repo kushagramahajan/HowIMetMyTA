@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kushagra.meetupapp.db.DbManipulate;
+import com.example.kushagra.meetupapp.network.api.ServerApi;
+import com.example.kushagra.meetupapp.network.model.StudentQueryClass;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +23,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
@@ -135,39 +143,64 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
     public void clickSendMessage(View v) throws IOException, ClassNotFoundException
     {
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(AllCoursesActivity.IP_ADD)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ServerApi service = retrofit.create(ServerApi.class);
+
         String message = Editmessege.getText().toString();
-
-
         String file_name = getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA);
         Log.d(MainActivity.TAG , "inside click Msg  courseID"+ file_name );
-
-
         file = new File(getApplicationContext().getFilesDir(),file_name);
-        ArrayList<Query> Querarr = readQueryFile(file);
 
+        SharedPreferences sp = getApplicationContext()
+                .getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
+
+        final String my_emailId = sp.getString(AllCoursesActivity.EMAIL_ID_EXTRA, "default@email.com");
+        Log.d(AllCoursesActivity.TAG, "emailId" + my_emailId);
+
+        ArrayList<Query> Querarr = readQueryFile(file);
 
 
         int position = Integer.parseInt(getIntent().getStringExtra("position"));
 
-        Query modquer = Querarr.get(position);
+        final Query modquer = Querarr.get(position);
 
-
-        SharedPreferences sp = getApplicationContext()
-                .getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE);
-
-        String my_emailId = sp.getString(AllCoursesActivity.EMAIL_ID_EXTRA , "default@email.com");
-
-        Log.d(AllCoursesActivity.TAG , "emailId" + my_emailId );
-        Message toadd = new Message(
+        final Message toadd = new Message(
                 my_emailId
-                ,modquer.getTaId(),message);
+                , modquer.getTaId(), message);
 
 
-        DbManipulate dbman=new DbManipulate(getApplicationContext());
-        dbman.insertMessageOfQuery(toadd,modquer.getQueryId());
+
+        Call<Message> call = service.sendMessage(toadd);
+        call.enqueue(new Callback<Message>() {
+            @Override
+            public void onResponse(Call<Message> call, Response<Message> response)
+            {
+                Log.d(MainActivity.TAG ," Query done Response");
+                if(response.body()!=null) {
+                    Log.d(MainActivity.TAG, "non null reposnce for sending message");
 
 
-        //check wheher posotion sender 0 or 1
+
+                    DbManipulate dbman = new DbManipulate(getApplicationContext());
+                    dbman.insertMessageOfQuery(toadd, modquer.getQueryId());
+                }
+                else{
+                    Log.d(MainActivity.TAG,"null respons on sending messages to server");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Message> call, Throwable t) {
+                Log.d(MainActivity.TAG, "failure to send message");
+            }
+
+            //check wheher posotion sender 0 or 1
 
 //        modquer.getMessages().add(toadd);
 //        Querarr.set(position,modquer);
@@ -176,7 +209,13 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
 //        out.writeObject(Querarr);
 
+        });
+
+
     }
+
+
+
 
     ArrayList<Query> readQueryFile(File file)
     {

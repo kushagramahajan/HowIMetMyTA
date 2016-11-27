@@ -40,6 +40,8 @@ public class SplashScreen extends AppCompatActivity
     private final int SPLASH_DISPLAY_LENGTH = 1000;
     String[] newQueries,oldQueries;
 
+    DbManipulate dbman;
+
     public static boolean isOnline()
     {
 
@@ -247,9 +249,9 @@ public class SplashScreen extends AppCompatActivity
 
         for(int i=0;i<oldQueries.length;i++)
         {
+
+            final String QueryId=oldQueries[i];
             Call<Message[]> call = service.getPendingOldQueryList(oldQueries[i]);
-
-
             call.enqueue(new Callback<Message[]>() {
                 @Override
                 public void onResponse(Call<Message[]> call, Response<Message[]> response) {
@@ -258,84 +260,89 @@ public class SplashScreen extends AppCompatActivity
                     if (response.body() != null) {
 
                         Message[] messforaquery = response.body();
-                        FileInputStream fileIn = null;// Read serial file.
-                        FileOutputStream fileOut=null;
-                        try {
-                            SharedPreferences sharedPreferences = getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
-                            String file_name=sharedPreferences.getString(AllCoursesActivity.COURSE_NAME_EXTRA,"default course name");
 
-                            fileIn = new FileInputStream(new File(getApplicationContext().getFilesDir(), file_name));
-                            fileOut= new FileOutputStream(new File(getApplicationContext().getFilesDir(), file_name));
+                        for(int j=0;j<messforaquery.length;j++)
+                            dbman.insertMessageOfQuery(messforaquery[j],QueryId);
 
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                        ObjectInputStream in = null;// input the read file.
-                        ObjectOutputStream out=null;
-                        try {
-                            in = new ObjectInputStream(fileIn);
-                            out= new ObjectOutputStream(fileOut);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        ArrayList<Query> Querarr= null;
 
-                        try {
-                            Querarr = (ArrayList<Query>) in.readObject();
-
-                        //find sender
-                        String from=messforaquery[0].getSender();
-                        int position=0;
-                        int l;
-                        for(l=0;l<Querarr.size();l++){
-                            if(Querarr.get(l).getTaId().equals(from)){
-                                position=l;
-                                break;
-                            }
-                        }
-                        if(l==Querarr.size()){
-                            Log.d("MainActivity","No query found to insert the message");
-                        }
-                        else {
-//                            Query modquer = Querarr.get(position);
-//                            ArrayList<Message> messArr = modquer.getMessages();
+//                        FileInputStream fileIn = null;// Read serial file.
+//                        FileOutputStream fileOut=null;
+//                        try {
+//                            SharedPreferences sharedPreferences = getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
+//                            String file_name=sharedPreferences.getString(AllCoursesActivity.COURSE_NAME_EXTRA,"default course name");
 //
-//                            for (int k = 0; k< messforaquery.length; k++) {
-//                                messArr.add(messforaquery[k]);
+//                            fileIn = new FileInputStream(new File(getApplicationContext().getFilesDir(), file_name));
+//                            fileOut= new FileOutputStream(new File(getApplicationContext().getFilesDir(), file_name));
+//
+//                        } catch (FileNotFoundException e) {
+//                            e.printStackTrace();
+//                        }
+//                        ObjectInputStream in = null;// input the read file.
+//                        ObjectOutputStream out=null;
+//                        try {
+//                            in = new ObjectInputStream(fileIn);
+//                            out= new ObjectOutputStream(fileOut);
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                        ArrayList<Query> Querarr= null;
+//
+//                        try {
+//                            Querarr = (ArrayList<Query>) in.readObject();
+//
+//                        //find sender
+//                        String from=messforaquery[0].getSender();
+//                        int position=0;
+//                        int l;
+//                        for(l=0;l<Querarr.size();l++){
+//                            if(Querarr.get(l).getTaId().equals(from)){
+//                                position=l;
+//                                break;
+//                            }
+//                        }
+//                        if(l==Querarr.size()){
+//                            Log.d("MainActivity","No query found to insert the message");
+//                        }
+//                        else {
+////                            Query modquer = Querarr.get(position);
+////                            ArrayList<Message> messArr = modquer.getMessages();
+////
+////                            for (int k = 0; k< messforaquery.length; k++) {
+////                                messArr.add(messforaquery[k]);
+////                            }
+////
+////                            modquer.setMessages(messArr);
+////                            Querarr.set(position, modquer);
+//
+//                            //handle the array of messages returned
+//                            ///
+//                            ///
+//                            ///
+//
+//
+//
+//
+//                            out.writeObject(Querarr);
+//                            try
+//                            {
+//                                if(out!=null)
+//                                    out.close();
+//                                if(in!=null)
+//                                    in.close();
+//                                fileIn.close();
+//                                fileOut.close();
+//                            }
+//                            catch (Exception e)
+//                            {
+//                                e.printStackTrace();
 //                            }
 //
-//                            modquer.setMessages(messArr);
-//                            Querarr.set(position, modquer);
-
-                            //handle the array of messages returned
-                            ///
-                            ///
-                            ///
-
-
-
-
-                            out.writeObject(Querarr);
-                            try
-                            {
-                                if(out!=null)
-                                    out.close();
-                                if(in!=null)
-                                    in.close();
-                                fileIn.close();
-                                fileOut.close();
-                            }
-                            catch (Exception e)
-                            {
-                                e.printStackTrace();
-                            }
-
-                        }
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+//                        }
+//                        } catch (ClassNotFoundException e) {
+//                            e.printStackTrace();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
 
 
                     } else {
@@ -458,6 +465,8 @@ public class SplashScreen extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        dbman=new DbManipulate(getApplicationContext());
 
         getSupportActionBar().hide();
 
