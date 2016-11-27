@@ -21,6 +21,7 @@ import com.example.kushagra.meetupapp.R;
 import com.example.kushagra.meetupapp.StudentFollowUpQueryActivity;
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.db.objects.Course;
+import com.example.kushagra.meetupapp.db.objects.RecentMessages;
 import com.example.kushagra.meetupapp.navDrawer.CommonCoursesListActivity;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StatusClass;
@@ -267,15 +268,17 @@ public class SplashScreen extends AppCompatActivity
 
             final int indexOfQuery=i;
             final String QueryId=oldQueries[i];
-            Call<Message[]> call = service.getPendingOldQueryList(oldQueries[i]);
-            call.enqueue(new Callback<Message[]>() {
+            RecentMessages rmessage=new RecentMessages(oldQueries[i],null);
+            Call<RecentMessages> call = service.getPendingOldQueryList(rmessage);
+            call.enqueue(new Callback<RecentMessages>() {
                 @Override
-                public void onResponse(Call<Message[]> call, Response<Message[]> response) {
+                public void onResponse(Call<RecentMessages> call, Response<RecentMessages> response) {
                     Log.d(MainActivity.TAG, "inside on response for getting old pending queries ");
 
                     if (response.body() != null) {
 
-                        Message[] messforaquery = response.body();
+                        RecentMessages messquery = response.body();
+                        Message[] messforaquery= messquery.getMessages();
 
                         for(int j=0;j<messforaquery.length;j++)
                             dbman.insertMessageOfQuery(messforaquery[j],QueryId);
@@ -372,7 +375,7 @@ public class SplashScreen extends AppCompatActivity
                 }
 
                 @Override
-                public void onFailure(Call<Message[]> call, Throwable t) {
+                public void onFailure(Call<RecentMessages> call, Throwable t) {
                     Log.d(MainActivity.TAG, "Failure to get old messages for query" + call.toString());
 
                 }
