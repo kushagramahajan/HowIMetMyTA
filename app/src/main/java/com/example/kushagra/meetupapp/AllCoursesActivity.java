@@ -18,7 +18,7 @@ public class AllCoursesActivity extends AppCompatActivity
 {
     public static final String  SHARED_PREF_FILE_NAME = "com.example.kushagra.mySharedPref";
 
-    public static final String IP_ADD = "http://192.168.55.147:8080";
+    public static final String IP_ADD = "http://192.168.55.220:8080";
     public static final String TAG = "SP_Main";
 
     public static final String IS_LOGGED_IN_EXTRA = "com.exmaple.kushagra.isLoggedIn";
@@ -26,6 +26,9 @@ public class AllCoursesActivity extends AppCompatActivity
     public static final String EMAIL_ID_EXTRA = "com.exmaple.kushagra.emailId";
     public static final String COURSE_ID_EXTRA = "com.exmaple.kushagra.courseId";
     public static final String COURSE_NAME_EXTRA = "com.exmaple.kushagra.courseName";
+    public static final String RECYCLER_VIEW_POSITION_EXTRA = "com.exmaple.kushagra.position";
+    public static final String IS_TA_SELECTED_EXTRA = "com.exmaple.kushagra.isTasELECTED";
+
 
     private Context mContext;
     RecyclerView list;

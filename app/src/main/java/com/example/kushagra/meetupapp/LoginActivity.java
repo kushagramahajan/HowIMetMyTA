@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.db.objects.Course;
+import com.example.kushagra.meetupapp.navDrawer.CommonCoursesListActivity;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StudentRegisterClass;
 
@@ -178,14 +179,18 @@ public class LoginActivity extends AppCompatActivity
 
         SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE).edit();
         editor.putBoolean(AllCoursesActivity.IS_LOGGED_IN_EXTRA , true);
+
         Log.d(MainActivity.TAG,  AllCoursesActivity.IS_LOGGED_IN_EXTRA + "true");
 
         editor.apply();
 
 
-        Intent i = new Intent(getApplicationContext(), AllCoursesActivity.class);
+        //Intent i = new Intent(getApplicationContext(), AllCoursesActivity.class);
 
-                startActivity(i);
+        //
+        Intent i = new Intent(getApplicationContext(), CommonCoursesListActivity.class);
+
+        startActivity(i);
 
     }
 }

@@ -28,9 +28,9 @@
         android:ems="10"
         android:layout_below="@+id/title"
         android:layout_alignParentStart="true"
-        android:id="@+id/query"
+        android:id="@+id/description"
         android:layout_alignParentEnd="true"
-        android:hint="query" />
+        android:hint="description" />
 
     <MultiAutoCompleteTextView
         android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/checkBroadcast"
-        android:layout_below="@+id/query"
+        android:layout_below="@+id/description"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:layout_alignParentStart="true" />

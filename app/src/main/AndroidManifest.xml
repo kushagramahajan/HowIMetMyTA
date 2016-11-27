@@ -10,13 +10,23 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/GreenIt">
+        android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity" >
         </activity>
         <activity android:name=".AllCoursesActivity" >
         </activity>
+
         <activity android:name=".extra.SplashScreen">
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
         </activity>
         <activity android:name=".extra.SignInActivity" />
         <activity android:name=".FormActivity" />
@@ -28,23 +38,24 @@
             android:name=".StudentQueryActivity"
             android:label="@string/title_activity_student_query"
             android:parentActivityName=".AllCoursesActivity"
-            android:theme="@style/GreenIt.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.kushagra.meetupapp.AllCoursesActivity"
-            />
+                android:value="com.example.kushagra.meetupapp.AllCoursesActivity" />
         </activity>
         <activity android:name=".StartNewTaQueryActivity" />
-        <activity android:name=".TaFollowUpQueryActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".TaFollowUpQueryActivity" />
+
         <activity
             android:name=".navDrawer.CommonCoursesListActivity"
             android:label="@string/title_activity_courses_list_common"
-            android:theme="@style/GreenIt.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
+
+
+
+
+
+
         </activity>
 
     </application>

@@ -13,15 +13,12 @@ import android.widget.TextView;
 
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
-import com.example.kushagra.meetupapp.network.model.StudentQueryClass;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -46,7 +43,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         DbManipulate dbman=new DbManipulate(getApplicationContext());
 
 
-        // get the particular query object
+        // get the particular description object
 
         String file_name = getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA);
 //        String file_name = getIntent().getStringExtra("MAMA");
@@ -92,7 +89,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 // this is original code to add messages to the array list
 
 
-        int position=getIntent().getIntExtra("position",0);
+        int position = getIntent().getIntExtra(AllCoursesActivity.RECYCLER_VIEW_POSITION_EXTRA,0);
         Query modquer=Querarr.get(position);
 //        ArrayList<Message> messArr=modquer.getMessages();
 

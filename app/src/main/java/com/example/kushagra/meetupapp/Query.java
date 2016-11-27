@@ -6,8 +6,11 @@ import java.io.Serializable;
  * Created by Prankul on 27-10-2016.
  */
 
-public class Query implements Serializable {
-    String title,query, taId;
+
+
+public class Query implements Serializable
+{
+    String title, description, taId;
     String queryId,studentId;
 
     public String getStudentId() {
@@ -18,9 +21,9 @@ public class Query implements Serializable {
         this.studentId = studentId;
     }
 
-    public Query(String qid, String title, String query, String taId, String studentId) {
+    public Query(String qid, String title, String description, String taId, String studentId) {
         this.title = title;
-        this.query = query;
+        this.description = description;
         this.taId = taId;
         this.queryId=qid;
         this.studentId=studentId;
@@ -50,12 +53,12 @@ public class Query implements Serializable {
         this.title = title;
     }
 
-    public String getQuery() {
-        return query;
+    public String getDescription() {
+        return description;
     }
 
-    public void setQuery(String query) {
-        this.query = query;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
  }

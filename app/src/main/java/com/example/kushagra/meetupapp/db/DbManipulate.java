@@ -8,8 +8,10 @@ import android.util.Log;
 
 import com.example.kushagra.meetupapp.MainActivity;
 import com.example.kushagra.meetupapp.Message;
+import com.example.kushagra.meetupapp.Query;
 import com.example.kushagra.meetupapp.db.objects.Course;
 import com.example.kushagra.meetupapp.db.objects.ScheduleSlot;
+import com.example.kushagra.meetupapp.network.model.TaNewMessage;
 
 import java.util.ArrayList;
 
@@ -346,6 +348,158 @@ public class DbManipulate
 
 
     }
+
+
+    public void insertTAQueries(TaNewMessage taNewMessage)
+    {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+
+        ContentValues values = new ContentValues();
+        values.put(DbContract.TableTASideQueries.COLUMN_NAME_COURSE_ID , taNewMessage.getCourseId() );
+        values.put(DbContract.TableTASideQueries.COLUMN_NAME_DESCRIPTION , taNewMessage.getDescription() );
+        values.put(DbContract.TableTASideQueries.COLUMN_NAME_TITLE, taNewMessage.getTitle() );
+        values.put(DbContract.TableTASideQueries.COLUMN_NAME_TA_ID , taNewMessage.getTaId() );
+        values.put(DbContract.TableTASideQueries.COLUMN_NAME_STUDENT_ID , taNewMessage.getStudentId() );
+
+
+        values.put(DbContract.TableTASideQueries.COLUMN_NAME_QUERY_ID , taNewMessage.getQueryId() );
+
+        db.insert(DbContract.TableTASideQueries.TABLE_NAME , null, values);
+
+
+    }
+
+
+    public ArrayList<Query> getAllTAQueries()
+    {
+
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+        String[] projection = {
+                DbContract.TableTASideQueries.COLUMN_NAME_COURSE_ID,
+                DbContract.TableTASideQueries.COLUMN_NAME_TITLE,
+                DbContract.TableTASideQueries.COLUMN_NAME_DESCRIPTION,
+                DbContract.TableTASideQueries.COLUMN_NAME_QUERY_ID,
+                DbContract.TableTASideQueries.COLUMN_NAME_TA_ID,
+
+        };
+
+
+        Cursor cursor = db.query(
+                DbContract.TableTASideQueries.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                // The sort order
+        );
+
+        cursor.moveToFirst();
+
+        ArrayList<Query> queryArrayList = new ArrayList<>();
+
+        while(!cursor.isAfterLast())
+        {
+
+
+
+            queryArrayList.add( new Query(
+                    cursor.getString( cursor.getColumnIndex(DbContract.TableTASideQueries.COLUMN_NAME_QUERY_ID) ) ,
+                    cursor.getString( cursor.getColumnIndex(DbContract.TableTASideQueries.COLUMN_NAME_TITLE) ) ,
+                    cursor.getString( cursor.getColumnIndex(DbContract.TableTASideQueries.COLUMN_NAME_DESCRIPTION) ) ,
+                    cursor.getString( cursor.getColumnIndex(DbContract.TableTASideQueries.COLUMN_NAME_TA_ID) ),
+                    cursor.getString( cursor.getColumnIndex(DbContract.TableTASideQueries.COLUMN_NAME_STUDENT_ID) )
+
+
+
+                    ));
+
+            cursor.moveToNext();
+
+        }
+
+
+        cursor.close();
+
+        return queryArrayList;
+
+
+
+    }
+
+
+
+
+    public ArrayList<Course> getTASideMyCourses()
+    {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+        String[] projection = {
+                DbContract.TASideMyCourses.COLUMN_NAME_COURSE_ID,
+                DbContract.TASideMyCourses.COLUMN_NAME_COURSE_NAME,
+        };
+
+
+        Cursor cursor = db.query(
+                DbContract.TASideMyCourses.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                // The sort order
+        );
+
+        cursor.moveToFirst();
+
+        ArrayList<Course> clist = new ArrayList<>();
+
+        while(!cursor.isAfterLast())
+        {
+            clist.add( new Course(
+                    cursor.getString( cursor.getColumnIndex(DbContract.TASideMyCourses.COLUMN_NAME_COURSE_ID) ),
+                    cursor.getString( cursor.getColumnIndex(DbContract.TASideMyCourses.COLUMN_NAME_COURSE_NAME) ),null
+            ));
+
+            cursor.moveToNext();
+
+        }
+
+
+        cursor.close();
+
+        return clist;
+
+    }
+
+
+
+    public void insertTASideMyCourses(ArrayList<Course> clist)
+    {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.execSQL(DbHelper.SQL_DELETE_ENTRIES_MY);
+        db.execSQL(DbHelper.SQL_CREATE_ENTRIES_MY);
+
+        for(int i=0;i<clist.size();i++)
+        {
+            ContentValues values = new ContentValues();
+
+            values.put(DbContract.TASideMyCourses.COLUMN_NAME_COURSE_ID, clist.get(i).getCourseId());
+            values.put(DbContract.TASideMyCourses.COLUMN_NAME_COURSE_NAME, clist.get(i).getCourseName());
+
+            db.insert(DbContract.TASideMyCourses.TABLE_NAME, null, values);
+        }
+
+
+
+
+    }
+
+
+
+
 
 
 }

@@ -1,5 +1,9 @@
 package com.example.kushagra.meetupapp.navDrawer.recyclerView;
 
+/**
+ * Created by Himanshu Sagar on 27-11-2016.
+ */
+
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,38 +11,40 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.kushagra.meetupapp.Query;
 import com.example.kushagra.meetupapp.R;
-import com.example.kushagra.meetupapp.db.objects.Course;
 
 import java.util.ArrayList;
+
 
 /**
  * Created by Himanshu Sagar on 16-11-2016.
  */
 
-public class CommonCoursesAdapter extends RecyclerView.Adapter< CommonCoursesAdapter.ViewHolder>
-    implements CommonAdapter
+public class CommonQueryAdapter extends RecyclerView.Adapter< CommonQueryAdapter.ViewHolder>
+        implements CommonAdapter
 {
 
-    private ArrayList<Course> commonCoursesList;
+
+    private ArrayList<Query> commonQueryList;
     private Context mContext;
 
-    public CommonCoursesAdapter(ArrayList<Course> commonQueriesList , Context mContext)
+    public CommonQueryAdapter(ArrayList<Query> commonQueryList , Context mContext)
     {
-        this.commonCoursesList = commonQueriesList;
+        this.commonQueryList = commonQueryList;
         this.mContext = mContext;
     }
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
-        TextView commonCourseId , commonCourseName;
+        TextView commonQueryTitle , commonQueryName;
 
         public ViewHolder(View view)
         {
             super(view);
-            commonCourseId = (TextView) view.findViewById(R.id.common_id);
-            commonCourseName= (TextView) view.findViewById(R.id.common_name);
+            commonQueryTitle = (TextView) view.findViewById(R.id.common_id);
+            commonQueryName= (TextView) view.findViewById(R.id.common_name);
         }
     }
 
@@ -55,14 +61,14 @@ public class CommonCoursesAdapter extends RecyclerView.Adapter< CommonCoursesAda
     @Override
     public void onBindViewHolder( ViewHolder holder, int position)
     {
-        Course currentCourse  = commonCoursesList.get(position);
-        holder.commonCourseId.setText( currentCourse.getCourseId() );
-        holder.commonCourseName.setText( currentCourse.getCourseName() );
+        Query currentQuery  = commonQueryList.get(position);
+        holder.commonQueryTitle.setText( currentQuery.getQueryId() );
+        holder.commonQueryName.setText( currentQuery.getDescription() );
 
     }
 
     @Override
     public int getItemCount() {
-        return commonCoursesList.size();
+        return commonQueryList.size();
     }
 }

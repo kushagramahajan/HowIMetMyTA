@@ -1,25 +1,18 @@
 package com.example.kushagra.meetupapp;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
-import com.example.kushagra.meetupapp.db.DbContract;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StudentQueryClass;
 
@@ -30,7 +23,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -119,7 +111,7 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
         Log.d(MainActivity.TAG , "editext" + "ccc" );
 
 
-        StudentQueryClass studentQueryClass = new StudentQueryClass(
+        final StudentQueryClass studentQueryClass = new StudentQueryClass(
             editText.getText().toString(),
                 editTextDesp.getText().toString(),
                 studentId,
@@ -144,8 +136,17 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                     SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
                             AllCoursesActivity.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE
                     );
-                    String student_email_id=sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user");
-                    Query qadd=new Query(response.body().getQueryId(),response.body().getTitle(),response.body().getDescription(),editTextTA.getText().toString(), student_email_id);
+
+                    String student_email_id = sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user");
+
+                    //public Query(String qid, String title, String description, String taId, String studentId)
+
+                    Query qadd = new
+                            Query( studentQueryClass.getQueryId(),
+                            studentQueryClass.getTitle(),
+                            studentQueryClass.getDescription(),
+                            editTextTA.getText().toString(),
+                            student_email_id);
 
                     //file initialization
                     String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
@@ -156,6 +157,10 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                     //read from old file
                     ArrayList<Query> Querarr = readQueryFile(file);
 
+                    for (Query q : Querarr)
+                    {
+                        Log.d("FILE_FUNC" , q.getDescription());
+                    }
                     //add new data
                     Querarr.add(qadd);
 
@@ -174,7 +179,7 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
             @Override
             public void onFailure(Call<StudentQueryClass> call, Throwable t) {
 
-                Log.d(MainActivity.TAG , "failed query");
+                Log.d(MainActivity.TAG , "failed description");
             }
         });
         finish();

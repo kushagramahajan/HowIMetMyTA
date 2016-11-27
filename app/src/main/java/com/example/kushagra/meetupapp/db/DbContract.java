@@ -14,6 +14,8 @@ public final class DbContract
     public  enum tableDays { MONDAY ,TUESDAY , WEDNESDAY , THURSDAY , FRIDAY , SATURDAY }
 
     private DbContract() {}
+
+
     public static class ScheduleEntry implements BaseColumns
     {
         public static final String TABLE_NAME = "scheduleEntry";
@@ -56,17 +58,28 @@ public final class DbContract
 
     }
 
-    public static class TableStudentQueries implements BaseColumns
+    public static class TableTASideQueries implements BaseColumns
     {
         public static final String TABLE_NAME = "TableQueries";
         public static final String COLUMN_NAME_COURSE_ID = "courseIdx";
+
         public static final String COLUMN_NAME_DESCRIPTION = "courseDesp";
         public static final String COLUMN_NAME_TITLE = "querytitle";
         public static final String COLUMN_NAME_TA_ID = "taId";
+        public static final String COLUMN_NAME_STUDENT_ID = "studentId";
+
         public static final String COLUMN_NAME_QUERY_ID = "queryID";
         
     }
 
+    public static class TASideMyCourses implements BaseColumns
+    {
+        public static final String TABLE_NAME = "TAMyCourses";
+        public static final String COLUMN_NAME_COURSE_NAME = "TAMyName";
+        public static final String COLUMN_NAME_COURSE_ID = "TAMyId";
+
+
+    }
 
 
 }

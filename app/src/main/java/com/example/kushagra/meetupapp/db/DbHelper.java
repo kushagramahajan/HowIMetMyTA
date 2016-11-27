@@ -58,6 +58,9 @@ public class DbHelper extends SQLiteOpenHelper
         db.execSQL(SQL_CREATE_ENTRIES_ALL);
         db.execSQL(SQL_CREATE_ENTRIES_MY);
         db.execSQL(SQL_CREATE_MESSAGE_TABLE);
+
+        db.execSQL(SQL_CREATE_TA_QUERIES);
+        db.execSQL(SQL_CREATE_ENTRIES_TA_SIDE_MY_COURSES);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -67,6 +70,11 @@ public class DbHelper extends SQLiteOpenHelper
         db.execSQL(SQL_DELETE_ENTRIES_ALL);
         db.execSQL(SQL_DELETE_ENTRIES_MY);
         db.execSQL(SQL_DELETE_MESSAGE_TABLE);
+
+
+        db.execSQL(SQL_DELETE_TA_QUERIES);
+        db.execSQL(SQL_DELETE_ENTRIES_TA_SIDE_MY_COURSES);
+
         onCreate(db);
     }
 
@@ -89,12 +97,45 @@ public class DbHelper extends SQLiteOpenHelper
                     " )";
 
 
+    public static final String SQL_CREATE_ENTRIES_TA_SIDE_MY_COURSES =
+            "CREATE TABLE " + DbContract.TASideMyCourses.TABLE_NAME + " (" +
+                    DbContract.TASideMyCourses.COLUMN_NAME_COURSE_ID + TEXT_TYPE + COMMA_SEP +
+                    DbContract.TASideMyCourses.COLUMN_NAME_COURSE_NAME+TEXT_TYPE+
+                    " )";
+
+
+
+    public static final String SQL_DELETE_ENTRIES_TA_SIDE_MY_COURSES =
+            "DROP TABLE IF EXISTS " + DbContract.TASideMyCourses.TABLE_NAME;
+
+
+
+
 
     public static final String SQL_DELETE_ENTRIES_ALL =
             "DROP TABLE IF EXISTS " + DbContract.AllCourses.TABLE_NAME;
 
     public static final String SQL_DELETE_ENTRIES_MY =
             "DROP TABLE IF EXISTS " + DbContract.MyCourses.TABLE_NAME;
+
+
+
+
+    public static final String SQL_CREATE_TA_QUERIES =
+            "CREATE TABLE " + DbContract.TableTASideQueries.TABLE_NAME + " (" +
+                    DbContract.TableTASideQueries.COLUMN_NAME_COURSE_ID + TEXT_TYPE + COMMA_SEP +
+                    DbContract.TableTASideQueries.COLUMN_NAME_DESCRIPTION +TEXT_TYPE + COMMA_SEP +
+                    DbContract.TableTASideQueries.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
+                    DbContract.TableTASideQueries.COLUMN_NAME_TA_ID  +TEXT_TYPE + COMMA_SEP +
+                    DbContract.TableTASideQueries.COLUMN_NAME_STUDENT_ID  +TEXT_TYPE + COMMA_SEP +
+
+                    DbContract.TableTASideQueries.COLUMN_NAME_QUERY_ID  + TEXT_TYPE +
+                    " )";
+
+
+    public static final String SQL_DELETE_TA_QUERIES =
+            "DROP TABLE IF EXISTS " + DbContract.TableTASideQueries.TABLE_NAME;
+
 
 
 }

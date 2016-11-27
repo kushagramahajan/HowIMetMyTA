@@ -12,21 +12,15 @@ import android.widget.Toast;
 import com.example.kushagra.meetupapp.AllCoursesActivity;
 import com.example.kushagra.meetupapp.MainActivity;
 import com.example.kushagra.meetupapp.Message;
-import com.example.kushagra.meetupapp.Query;
 import com.example.kushagra.meetupapp.R;
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.db.objects.Course;
+import com.example.kushagra.meetupapp.navDrawer.CommonCoursesListActivity;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StatusClass;
 import com.example.kushagra.meetupapp.network.model.TaNewMessage;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -405,7 +399,7 @@ public class SplashScreen extends AppCompatActivity
                     if(sharedPreferences.getBoolean(AllCoursesActivity.IS_LOGGED_IN_EXTRA , false))
                     {
 
-                        Intent intent = new Intent(getApplicationContext(), AllCoursesActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), CommonCoursesListActivity.class);
                         startActivity(intent);
 
 
@@ -479,9 +473,12 @@ public class SplashScreen extends AppCompatActivity
         {
             Log.d(AllCoursesActivity.TAG , "Splash Going ahead");
 
+            checkforPendingMessages();
+
             fetchFromServerUpdateDB();
 
-            checkforPendingMessages();
+
+
 
         }
         else if(isNotLoggedIn() && (!isOnline()) )
@@ -504,7 +501,7 @@ public class SplashScreen extends AppCompatActivity
         }
         else if(!isNotLoggedIn())
         {
-            Intent intent = new Intent(this , AllCoursesActivity.class);
+            Intent intent = new Intent(this , CommonCoursesListActivity.class);
             startActivity(intent);
         }
 

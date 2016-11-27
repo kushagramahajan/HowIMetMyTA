@@ -46,11 +46,12 @@ public class QueryAdapter extends RecyclerView.Adapter
         {
             this.item = item;
             title.setText(item.getTitle());
-            subtitle.setText(item.getQuery());
+            subtitle.setText(item.getDescription());
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View v)
+        {
             //Toast.makeText(itemView.getContext(),"Card Clicked - " + getAdapterPosition(),Toast.LENGTH_SHORT).show();
             Intent i = new Intent(v.getContext(),StudentFollowUpQueryActivity.class);
 
@@ -73,7 +74,8 @@ public class QueryAdapter extends RecyclerView.Adapter
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         if(list==null)
             return 0;
         return list.size();
