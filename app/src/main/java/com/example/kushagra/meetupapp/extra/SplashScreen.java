@@ -392,8 +392,8 @@ public class SplashScreen extends AppCompatActivity
         NotificationCompat.Builder mBuilder =
                 (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_add_black_24dp)
-                        .setContentTitle(messages.length+" My notification" )
-                        .setContentText("Hello World!");
+                        .setContentTitle(messages.length+" Message from "+messages[0].getSender()+"!" )
+                        .setContentText(messages[messages.length-1].getMessage());
 
 
         // Creates an explicit intent for an Activity in your app
