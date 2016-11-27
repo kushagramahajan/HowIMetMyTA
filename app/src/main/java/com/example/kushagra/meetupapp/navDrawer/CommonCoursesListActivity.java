@@ -64,6 +64,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
         dbManipulate = new DbManipulate(getApplicationContext());
 
+
         setContentView(R.layout.activity_queries_list_common);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -130,25 +131,13 @@ public class CommonCoursesListActivity extends AppCompatActivity
             }
 
             @Override
-            public void onLongClick(View view, int position) {
+            public void onLongClick(View view, int position)
+            {
 
             }
         }));
 
-
-        //Add Student Side Courses
-
-        commonCoursesList.clear();
-        commonCoursesList.addAll(
-            dbManipulate.getMyCourses()
-
-        );
-
-
-
-        ((CommonCoursesAdapter)mAdapter).notifyDataSetChanged();
-        recyclerView.invalidate();
-
+        setAndPopulateStudentCourses();
 
     }
 
@@ -167,11 +156,12 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
                     Intent i = new Intent(getApplicationContext(), StartNewStudentQueryActivity.class);
 
-                    Log.d(MainActivity.TAG, "Name" + getIntent().getStringExtra(AllCoursesActivity.COURSE_NAME_EXTRA)
-                            + "Id" + getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA));
+                    Log.d(MainActivity.TAG, "Name" + currentCourse.getCourseName()
+                            + "Id" + currentCourse.getCourseId() );
 
                     i.putExtra(AllCoursesActivity.COURSE_NAME_EXTRA,
                             currentCourse.getCourseName());
+
                     i.putExtra(AllCoursesActivity.COURSE_ID_EXTRA,
                             currentCourse.getCourseId());
 
@@ -244,18 +234,38 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
 
 
-        String file_name = currentCourse.getCourseId();
+        if(isTaSelected)
+        {
+            commonQueryList.clear();
 
-        File file = new File(getApplicationContext().getFilesDir(),file_name);
+            Log.d(AllCoursesActivity.TAG , "Reading All Queries"  + dbManipulate.getAllTAQueries(currentCourse.getCourseId()).size() );
 
-        ArrayList<Query> Querarr = readQueryFile(file);
+            commonQueryList.addAll( dbManipulate.getAllTAQueries(currentCourse.getCourseId()) );
 
-        commonQueryList.addAll(Querarr);
+            ((CommonQueryAdapter) mAdapter).notifyDataSetChanged();
+
+            recyclerView.invalidate();
+
+        }
+        else
+        {
+
+            String file_name = currentCourse.getCourseId();
+
+            Log.d(AllCoursesActivity.TAG , "Student Course Id" + file_name );
+
+            File file = new File(getApplicationContext().getFilesDir(), file_name);
+
+            ArrayList<Query> Querarr = readQueryFile(file);
+
+            commonQueryList.clear();
+            commonQueryList.addAll(Querarr);
 
 
+            ((CommonQueryAdapter) mAdapter).notifyDataSetChanged();
+            recyclerView.invalidate();
 
-        ((CommonQueryAdapter)mAdapter).notifyDataSetChanged();
-        recyclerView.invalidate();
+        }
 
 
     }
@@ -310,16 +320,19 @@ public class CommonCoursesListActivity extends AppCompatActivity
     {
         isTaSelected = false;
 
+
+
         commonCoursesList.clear();
 
-        commonCoursesList.add(new Course("Student crsc Dummy" , "def002" , null));
+     //   commonCoursesList.add(new Course("Student crsc Dummy" , "def002" , null));
 
+        Log.d(AllCoursesActivity.TAG , "Courses  Size  = " +dbManipulate.getMyCourses().size() );
         commonCoursesList.addAll(
                 dbManipulate.getMyCourses()
         );
 
         ((CommonCoursesAdapter)mAdapter).notifyDataSetChanged();
-
+        recyclerView.invalidate();
 
 
     }
@@ -330,17 +343,23 @@ public class CommonCoursesListActivity extends AppCompatActivity
         commonCoursesList.clear();
         isTaSelected = true;
 
-            /*
+        /*
+I AM TA OF MY COURSES */
 
-            Add TA side Courses
-            set boolean
 
-             */
-        commonCoursesList.add(new Course("DUMMY TA Name" , "def001" , null));
+        ArrayList<Course> edmo = new ArrayList<>();
+        edmo.add( dbManipulate.getMyCourses().get(0) );
+
+        Log.d(AllCoursesActivity.TAG , "edmo size" + edmo.size() );
+
+        /*............*/
+
         commonCoursesList.addAll(
-                dbManipulate.getTASideMyCourses()
+        edmo
         );
+
         ((CommonCoursesAdapter)mAdapter).notifyDataSetChanged();
+        recyclerView.invalidate();
 
     }
 
@@ -402,12 +421,5 @@ public class CommonCoursesListActivity extends AppCompatActivity
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-        Log.d(AllCoursesActivity.TAG , "Back on onStart");
-
-
-    }
 }

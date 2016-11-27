@@ -62,7 +62,7 @@ public class CommonQueryAdapter extends RecyclerView.Adapter< CommonQueryAdapter
     public void onBindViewHolder( ViewHolder holder, int position)
     {
         Query currentQuery  = commonQueryList.get(position);
-        holder.commonQueryTitle.setText( currentQuery.getQueryId() );
+        holder.commonQueryTitle.setText( currentQuery.getTitle() );
         holder.commonQueryName.setText( currentQuery.getDescription() );
 
     }

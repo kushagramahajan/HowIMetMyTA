@@ -6,9 +6,9 @@ package com.example.kushagra.meetupapp.network.model;
 
 public class TaNewMessage {
 
-    String taId,studentId,courseId,title,description;
-    boolean isResolved;
-    String queryId;
+    public String taId,studentId,courseId,title,description;
+    public boolean isResolved;
+    public String queryId;
 
     public String getQueryId() {
         return queryId;
@@ -19,6 +19,16 @@ public class TaNewMessage {
     }
 
     public TaNewMessage(String queryId) {
+        this.queryId = queryId;
+    }
+
+    public TaNewMessage(String taId, String studentId, String courseId, String title, String description, boolean isResolved, String queryId) {
+        this.taId = taId;
+        this.studentId = studentId;
+        this.courseId = courseId;
+        this.title = title;
+        this.description = description;
+        this.isResolved = isResolved;
         this.queryId = queryId;
     }
 

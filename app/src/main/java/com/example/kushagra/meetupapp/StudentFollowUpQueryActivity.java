@@ -16,7 +16,6 @@ import com.example.kushagra.meetupapp.network.api.ServerApi;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -143,18 +142,21 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
 
         Call<Message> call = service.sendMessage(toadd);
-        call.enqueue(new Callback<Message>() {
+        call.enqueue(new Callback<Message>()
+        {
             @Override
             public void onResponse(Call<Message> call, Response<Message> response)
             {
                 Log.d(MainActivity.TAG ," Query done Response");
-                if(response.body()!=null) {
+                if(response.body()!=null)
+                {
                     Log.d(MainActivity.TAG, "non null reposnce for sending message");
 
 
 
                     DbManipulate dbman = new DbManipulate(getApplicationContext());
                     dbman.insertMessageOfQuery(toadd, modquer.getQueryId());
+
                 }
                 else{
                     Log.d(MainActivity.TAG,"null respons on sending messages to server");

@@ -171,6 +171,7 @@ public class DbManipulate
 
 
         db.insert(DbContract.ScheduleEntry.TABLE_NAME, null, values);
+        db.close();
     }
 
     public void deleteSchedule( ScheduleSlot slot)
@@ -324,7 +325,7 @@ public class DbManipulate
 
 
 
-
+        db.close();
 
 
         return resultMsg;
@@ -345,6 +346,7 @@ public class DbManipulate
 
         db.insert(DbContract.TableMessages.TABLE_NAME , null, values);
 
+        db.close();
 
 
     }
@@ -361,17 +363,16 @@ public class DbManipulate
         values.put(DbContract.TableTASideQueries.COLUMN_NAME_TITLE, taNewMessage.getTitle() );
         values.put(DbContract.TableTASideQueries.COLUMN_NAME_TA_ID , taNewMessage.getTaId() );
         values.put(DbContract.TableTASideQueries.COLUMN_NAME_STUDENT_ID , taNewMessage.getStudentId() );
-
-
         values.put(DbContract.TableTASideQueries.COLUMN_NAME_QUERY_ID , taNewMessage.getQueryId() );
+
 
         db.insert(DbContract.TableTASideQueries.TABLE_NAME , null, values);
 
-
+        db.close();
     }
 
 
-    public ArrayList<Query> getAllTAQueries()
+    public ArrayList<Query> getAllTAQueries(String courseIdValue)
     {
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -381,16 +382,29 @@ public class DbManipulate
                 DbContract.TableTASideQueries.COLUMN_NAME_TITLE,
                 DbContract.TableTASideQueries.COLUMN_NAME_DESCRIPTION,
                 DbContract.TableTASideQueries.COLUMN_NAME_QUERY_ID,
+                DbContract.TableTASideQueries.COLUMN_NAME_STUDENT_ID,
                 DbContract.TableTASideQueries.COLUMN_NAME_TA_ID,
 
+
         };
+
+
+        String[] selectionArgs = {
+                courseIdValue
+        };
+
+        String selection = DbContract.TableTASideQueries.COLUMN_NAME_COURSE_ID + " = ?";
+
+
+
+
 
 
         Cursor cursor = db.query(
                 DbContract.TableTASideQueries.TABLE_NAME,                     // The table to query
                 projection,                               // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
                 null                                // The sort order
@@ -410,9 +424,8 @@ public class DbManipulate
                     cursor.getString( cursor.getColumnIndex(DbContract.TableTASideQueries.COLUMN_NAME_TITLE) ) ,
                     cursor.getString( cursor.getColumnIndex(DbContract.TableTASideQueries.COLUMN_NAME_DESCRIPTION) ) ,
                     cursor.getString( cursor.getColumnIndex(DbContract.TableTASideQueries.COLUMN_NAME_TA_ID) ),
-                    cursor.getString( cursor.getColumnIndex(DbContract.TableTASideQueries.COLUMN_NAME_STUDENT_ID) )
-
-
+                    cursor.getString( cursor.getColumnIndex(DbContract.TableTASideQueries.COLUMN_NAME_STUDENT_ID) ),
+                    cursor.getString( cursor.getColumnIndex(DbContract.TableTASideQueries.COLUMN_NAME_COURSE_ID) )
 
                     ));
 
@@ -422,6 +435,9 @@ public class DbManipulate
 
 
         cursor.close();
+
+
+        db.close();
 
         return queryArrayList;
 
@@ -470,6 +486,8 @@ public class DbManipulate
 
         cursor.close();
 
+
+        db.close();
         return clist;
 
     }
@@ -486,13 +504,19 @@ public class DbManipulate
         {
             ContentValues values = new ContentValues();
 
-            values.put(DbContract.TASideMyCourses.COLUMN_NAME_COURSE_ID, clist.get(i).getCourseId());
-            values.put(DbContract.TASideMyCourses.COLUMN_NAME_COURSE_NAME, clist.get(i).getCourseName());
+
+            String courseId = clist.get(i).getCourseId();
+            String courseName = clist.get(i).getCourseName();
+
+            values.put(DbContract.TASideMyCourses.COLUMN_NAME_COURSE_ID, courseId);
+            values.put(DbContract.TASideMyCourses.COLUMN_NAME_COURSE_NAME, courseName);
 
             db.insert(DbContract.TASideMyCourses.TABLE_NAME, null, values);
         }
 
 
+
+        db.close();
 
 
     }

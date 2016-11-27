@@ -11,7 +11,7 @@ public class Course
     private String courseName,courseId;
     private ArrayList<String> TaArray;
 
-    public Course(String courseName, String courseId, ArrayList<String> taArray) {
+    public Course( String courseId ,String courseName , ArrayList<String> taArray) {
         this.courseName = courseName;
         this.courseId = courseId;
         TaArray = taArray;

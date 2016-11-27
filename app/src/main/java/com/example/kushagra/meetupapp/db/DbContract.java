@@ -61,15 +61,15 @@ public final class DbContract
     public static class TableTASideQueries implements BaseColumns
     {
         public static final String TABLE_NAME = "TableQueries";
-        public static final String COLUMN_NAME_COURSE_ID = "courseIdx";
+        public static final String COLUMN_NAME_COURSE_ID = "tacourseIdx";
 
-        public static final String COLUMN_NAME_DESCRIPTION = "courseDesp";
-        public static final String COLUMN_NAME_TITLE = "querytitle";
-        public static final String COLUMN_NAME_TA_ID = "taId";
-        public static final String COLUMN_NAME_STUDENT_ID = "studentId";
+        public static final String COLUMN_NAME_DESCRIPTION = "tacourseDesp";
+        public static final String COLUMN_NAME_TITLE = "taquerytitle";
+        public static final String COLUMN_NAME_TA_ID = "tataId";
+        public static final String COLUMN_NAME_STUDENT_ID = "tastudentId";
 
-        public static final String COLUMN_NAME_QUERY_ID = "queryID";
-        
+        public static final String COLUMN_NAME_QUERY_ID = "taqueryID";
+
     }
 
     public static class TASideMyCourses implements BaseColumns

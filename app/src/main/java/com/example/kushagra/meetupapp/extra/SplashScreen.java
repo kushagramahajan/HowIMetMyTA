@@ -44,7 +44,6 @@ public class SplashScreen extends AppCompatActivity
     String[] newQueries,oldQueries;
     String[] oldCourseIds;
 
-    DbManipulate dbman;
 
     public static boolean isOnline()
     {
@@ -126,6 +125,13 @@ public class SplashScreen extends AppCompatActivity
 
     private void getPendingNewQueries()
     {
+        final DbManipulate dbMan = new DbManipulate(getApplicationContext());
+
+
+        SharedPreferences sp = getApplicationContext().getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME
+                , Context.MODE_PRIVATE);
+        final String taId = sp.getString(AllCoursesActivity.EMAIL_ID_EXTRA , "defualt");
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AllCoursesActivity.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -159,6 +165,12 @@ public class SplashScreen extends AppCompatActivity
                         String description=messforaquery.getDescription();
                         String title = messforaquery.getTitle();
                         String queryid=queryIdToInsert;
+
+                        TaNewMessage taNewMessage = new TaNewMessage( taId ,
+                                messforaquery.getStudentId() ,
+                                courseid ,title ,description , false ,queryIdToInsert);
+
+                        dbMan.insertTAQueries(taNewMessage);
 
 
 
@@ -245,6 +257,8 @@ public class SplashScreen extends AppCompatActivity
 
     private void getPendingOldQueries()
     {
+        final DbManipulate dbMan = new DbManipulate(getApplicationContext());
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AllCoursesActivity.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -278,7 +292,7 @@ public class SplashScreen extends AppCompatActivity
                         Message[] messforaquery = response.body();
 
                         for(int j=0;j<messforaquery.length;j++)
-                            dbman.insertMessageOfQuery(messforaquery[j],QueryId);
+                            dbMan.insertMessageOfQuery(messforaquery[j],QueryId);
 
 
 //                        FileInputStream fileIn = null;// Read serial file.
@@ -359,8 +373,7 @@ public class SplashScreen extends AppCompatActivity
 //                        } catch (IOException e) {
 //                            e.printStackTrace();
 //                        }
-
-                        String courseId=;
+                        String courseId = "" ;
                         generateNotificationOldMessage(QueryId,messforaquery,indexOfQuery,courseId);
 
 
@@ -514,8 +527,6 @@ public class SplashScreen extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-
-        dbman=new DbManipulate(getApplicationContext());
 
         getSupportActionBar().hide();
 

@@ -189,8 +189,9 @@ public class LoginActivity extends AppCompatActivity
 
         //
         Intent i = new Intent(getApplicationContext(), CommonCoursesListActivity.class);
-
         startActivity(i);
+
+        finish();
 
     }
 }

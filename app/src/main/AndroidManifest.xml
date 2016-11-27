@@ -31,6 +31,7 @@
         <activity android:name=".extra.SignInActivity" />
         <activity android:name=".FormActivity" />
         <activity android:name=".StartNewStudentQueryActivity" />
+
         <activity android:name=".ScheduleGenerateActivity" />
         <activity android:name=".TaQueryActivity" />
         <activity android:name=".StudentFollowUpQueryActivity"></activity>
