@@ -375,7 +375,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         alertDialog.show();
 
         View view2 = getLayoutInflater().inflate(R.layout.msg_balloon_neutral,null);
-        TextView t = (TextView)view.findViewById(R.id.msg_text);
+        TextView t = (TextView)view2.findViewById(R.id.msg_text);
         String s = null;
         if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
         {

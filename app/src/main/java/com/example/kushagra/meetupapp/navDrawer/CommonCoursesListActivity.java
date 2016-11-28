@@ -138,17 +138,20 @@ public class CommonCoursesListActivity extends AppCompatActivity
             public void onClick(View view, int position)
             {
 
+                if(!somethingSelected) {
 
 
-                Course currentCourse = commonCoursesList.get(position);
-                Toast.makeText(getApplicationContext(), currentCourse.getCourseId() + " Course is selected!",
-                        Toast.LENGTH_SHORT).show();
+                    Course currentCourse = commonCoursesList.get(position);
+                    Toast.makeText(getApplicationContext(), currentCourse.getCourseId() + " Course is selected!",
+                            Toast.LENGTH_SHORT).show();
 
                     handleQuerySideRecyclerView(currentCourse);
 
-                //Start Student Query ACtivity
-                //TA Query Act
+                    //Start Student Query ACtivity
 
+                    //TA Query Act
+                somethingSelected = false;
+                }
 
             }
 

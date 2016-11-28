@@ -1,16 +1,21 @@
 package com.example.kushagra.meetupapp.background;
 
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.kushagra.meetupapp.AllCoursesActivity;
 import com.example.kushagra.meetupapp.Message;
+import com.example.kushagra.meetupapp.R;
 import com.example.kushagra.meetupapp.StudentFollowUpQueryActivity;
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.db.objects.RecentMessages;
@@ -26,6 +31,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.media.RingtoneManager.getDefaultUri;
 
 /**
  * Created by Himanshu Sagar on 28-11-2016.
@@ -392,7 +399,7 @@ public class PingService extends Service
     private void generateNotificationOldMessage(String queryId,Message[] messages,int index,String courseId)
     {
 
-
+/*
         Intent resultIntent = new Intent(PingService.this, StudentFollowUpQueryActivity.class);
 
 
@@ -420,8 +427,6 @@ public class PingService extends Service
 
 
 
-
-        /*
 
 
         NotificationCompat.Builder mBuilder =
@@ -470,6 +475,46 @@ public class PingService extends Service
 
 */
 
+
+
+
+
+        String notificationMessage = "typo";
+        Integer NOTIFICATION_ID = 1;
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        int requestID = (int) System.currentTimeMillis();
+
+         Uri alarmSound = getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+         Intent notificationIntent = new Intent(getApplicationContext(), StudentFollowUpQueryActivity.class);
+
+        notificationIntent.putExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA, queryId);
+
+        notificationIntent.putExtra(AllCoursesActivity.COURSE_ID_EXTRA, courseId);
+
+
+        notificationIntent.putExtra( AllCoursesActivity.IS_DESCREPANCY_EXTRA , true);
+
+
+
+        //**add this line**
+         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+         //**edit this line to put requestID as requestCode**
+         PendingIntent contentIntent = PendingIntent.getActivity(this, requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+         .setSmallIcon(R.drawable.logo)
+         .setContentTitle("My Notification")
+         .setStyle(new NotificationCompat.BigTextStyle()
+         .bigText(notificationMessage))
+         .setContentText(notificationMessage).setAutoCancel(true);
+         mBuilder.setSound(alarmSound);
+         mBuilder.setContentIntent(contentIntent);
+         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 
     }
 
