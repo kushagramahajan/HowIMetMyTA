@@ -101,6 +101,10 @@ public class LoginActivity extends AppCompatActivity
         t.setText(currentCourse);
         table.addView(t);
         serverCourses.remove(serverCourses.indexOf(currentCourse));
+        if(serverCourses.isEmpty() || serverCourses.size()==0)
+        {
+            view.setEnabled(false);
+        }
         spinnerAdapter.notifyDataSetChanged();
         for(Course c : a)
         {

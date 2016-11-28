@@ -82,11 +82,9 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
         String course = "cn";
         String[] suggestion=new String[0] ;
 
-        tas = new String[2];
-        tas[0]="pranks@iiitd.ac.in";
-        tas[1]="kushagra.mahajan27@gmail.com";
+        tas = getTA();
 
-        ArrayAdapter<String> ta_adapter = new ArrayAdapter<>(mContext,android.R.layout.simple_dropdown_item_1line,tas);
+        ArrayAdapter<String> ta_adapter = new ArrayAdapter<>(mContext,R.layout.dropdown,tas);
         ta.setAdapter(ta_adapter);
 
 
@@ -281,6 +279,31 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    String[] getTA()
+    {
+        String[] str = {
+                "psingh@iiitd.ac.in",
+                "srishti13108@iiitd.ac.in",
+                "abhishek13004@iiitd.ac.in",
+                "naman13064@iiitd.ac.in",
+                "deepikay@iiitd.ac.in",
+                "arushi15008@iiitd.ac.in",
+                "garima15014@iiitd.ac.in",
+                "neha15040@iiitd.ac.in",
+                "kapish15026@iiitd.ac.in",
+                "arashdeep15007@iiitd.ac.in",
+                "loveleen15029@iiitd.ac.in",
+                "vijayita15063@iiitd.ac.in",
+                "deepak15013@iiitd.ac.in",
+                "hiya15020@iiitd.ac.in",
+                "kanchanjot15023@iiitd.ac.in",
+                "pranks@iiitd.ac.in",               //for evaluation
+                "kushagra.mahajan27@gmail.com"      //for evaluation
+        };
+
+        return str;
     }
 
 }

@@ -67,7 +67,8 @@
         android:theme="@style/ThemeOverlay.MyDarkButton"
         android:layout_above="@+id/imageView4"
         android:layout_alignEnd="@+id/imageView4"
-        style="@style/Widget.AppCompat.Button.Borderless" />
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:visibility="gone" />
 
 
     <Button
@@ -76,9 +77,10 @@
         android:layout_height="wrap_content"
         android:text="@string/disconnect"
         android:theme="@style/ThemeOverlay.MyDarkButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_above="@+id/imageView4"
         android:layout_alignStart="@+id/imageView4"
-        style="@style/Widget.AppCompat.Button.Borderless" />
+        android:visibility="gone" />
 
 
 </RelativeLayout>
