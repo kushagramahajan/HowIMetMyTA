@@ -44,6 +44,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
     private LinearLayout msg_list;
     private File file;
     ImageButton send,meet;
+    DbManipulate dbman;
 
     private String my_emailId;
 
@@ -59,22 +60,16 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         send = (ImageButton) findViewById(R.id.send);
         meet = (ImageButton) findViewById(R.id.meet);
         SharedPreferences sp = getSharedPreferences("MySharedPreference",MODE_PRIVATE);
-        Boolean status = sp.getBoolean("MEET_STATUS",false);
+        Boolean status = sp.getBoolean(getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA),false);
 
         if(status)
         {
             chatBox.setVisibility(View.GONE);
             send.setVisibility(View.GONE);
             meet.setVisibility(View.GONE);
-
-            day = sp.getInt("DAY",1);
-            month = sp.getInt("MONTH",1);
-            year = sp.getInt("YEAR",1);
-            hour = sp.getInt("HOUR",1);
-            minute  = sp.getInt("MINUTE",1);
         }
 
-        DbManipulate dbman=new DbManipulate(getApplicationContext());
+        dbman=new DbManipulate(getApplicationContext());
 
         ArrayList<Query> Querarr;
         String courseId_file_name = getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
@@ -129,25 +124,6 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         //code to add message UI
         for(com.example.kushagra.meetupapp.Message msgObject : messArr)
             insertOneEntryIntoBalloonList(msgObject);
-
-        if (status)
-        {
-            View view = getLayoutInflater().inflate(R.layout.msg_balloon_neutral,null);
-            TextView t = (TextView)view.findViewById(R.id.msg_text);
-            String s = null;
-            if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
-            {
-                s = "You have fixed a meeting with "+ invertStudentTa(my_emailId)+ " on "+ day+"/"+
-                        month + "/" + year + " at " + hour + ":" + minute;
-            }
-            else
-            {
-                s = invertStudentTa(my_emailId)+" has fixed a meeting with you on "+ day + "/" +
-                        month + "/" + year + " at " + hour + ":" + minute;
-            }
-            t.setText(s);
-            msg_list.addView(view);
-        }
     }
 
     private void insertOneEntryIntoBalloonList(Message msgObject)
@@ -155,7 +131,11 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         View view;
 
 
-        if(msgObject.getSender().equalsIgnoreCase(my_emailId))
+        if(msgObject.getSender().equalsIgnoreCase("neutral"))
+        {
+            view = getLayoutInflater().inflate(R.layout.msg_balloon_neutral,null);
+        }
+        else if(msgObject.getSender().equalsIgnoreCase(my_emailId))
         {
             view = getLayoutInflater().inflate(R.layout.msg_balloon_me,null);
         }
@@ -313,8 +293,9 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
     public void onMeetClicked(View view)
     {
+        String qid = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
         SharedPreferences.Editor editor = getSharedPreferences("MySharedPreference", MODE_PRIVATE).edit();
-        editor.putBoolean("MEET_STATUS", true);
+        editor.putBoolean(qid, true);
         editor.commit();
 
         chatBox.setVisibility(View.GONE);
@@ -394,13 +375,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         }
         t.setText(s);
         msg_list.addView(view2);
-
-        editor.putInt("DAY",day);
-        editor.putInt("MONTH",month);
-        editor.putInt("YEAR",year);
-        editor.putInt("HOUR",hour);
-        editor.putInt("MINUTE",minute);
-        editor.commit();
+        dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
     }
 
 
