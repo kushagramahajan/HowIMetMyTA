@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
-import org.jetbrains.annotations.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -23,6 +22,8 @@ import com.example.kushagra.meetupapp.navDrawer.CommonCoursesListActivity;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StatusClass;
 import com.example.kushagra.meetupapp.network.model.TaNewMessage;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CountDownLatch;
 

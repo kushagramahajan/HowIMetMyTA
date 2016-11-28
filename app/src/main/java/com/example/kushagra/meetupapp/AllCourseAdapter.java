@@ -39,8 +39,8 @@ public class AllCourseAdapter extends RecyclerView.Adapter
         {
             super(itemView);
 
-            title = (TextView) itemView.findViewById(R.id.course);
-            subtitle = (TextView) itemView.findViewById(R.id.prof);
+            title = (TextView) itemView.findViewById(R.id.common_id);
+            subtitle = (TextView) itemView.findViewById(R.id.common_id);
             itemView.setOnClickListener(this);
         }
 
