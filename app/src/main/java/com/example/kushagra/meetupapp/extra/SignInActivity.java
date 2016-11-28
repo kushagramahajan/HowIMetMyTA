@@ -1,7 +1,6 @@
 package com.example.kushagra.meetupapp.extra;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.kushagra.meetupapp.AllCoursesActivity;
+import com.example.kushagra.meetupapp.LoginActivity;
 import com.example.kushagra.meetupapp.MainActivity;
 import com.example.kushagra.meetupapp.R;
 import com.google.android.gms.auth.api.Auth;
@@ -143,7 +143,7 @@ public class SignInActivity extends AppCompatActivity implements
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
 
-            SharedPreferences sp = getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE);
+            SharedPreferences sp = getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME , MODE_PRIVATE);
 
             Uri imageUri = acct.getPhotoUrl();
 
@@ -167,8 +167,8 @@ public class SignInActivity extends AppCompatActivity implements
 
             updateUI(true);
 
-            //Intent intent = new Intent(this , LoginActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(this , LoginActivity.class);
+            startActivity(intent);
 
         }
         else {

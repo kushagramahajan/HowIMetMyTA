@@ -80,9 +80,10 @@ public class SplashScreen extends AppCompatActivity
 
                     for(int i=0;i<allcoures.size();i++)
                     {
-                        String cid=allcoures.get(i).split(";")[0];
+                        String cid = allcoures.get(i).split(";")[0];
                         String cname = allcoures.get(i).split(";")[1];
                         Course ctemp = new Course(cid,cname,null);
+
                         clist.add(ctemp);
                     }
 

@@ -2,7 +2,6 @@ package com.example.kushagra.meetupapp;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.db.objects.Course;
-import com.example.kushagra.meetupapp.navDrawer.CommonCoursesListActivity;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StudentRegisterClass;
 
@@ -140,9 +138,13 @@ public class LoginActivity extends AppCompatActivity
         Log.d(MainActivity.TAG , sh.getString(AllCoursesActivity.USER_NAME_EXTRA,"name") + " ");
         stobj.setStudentId( sh.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"email"));
         stobj.setName( sh.getString(AllCoursesActivity.USER_NAME_EXTRA,"name"));
-        stobj.setCourses(myCourses);
+        stobj.setMyStudentCourses( ( String[] )myCourses.toArray() );
+
 
         dbManipulate.insertMyCourses(myCourses);
+
+
+
 
         for(Course c : myCourses)
         {
@@ -155,6 +157,9 @@ public class LoginActivity extends AppCompatActivity
                 e.printStackTrace();
             }
         }
+
+
+
 //check the ips
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(AllCoursesActivity.IP_ADD)
@@ -172,7 +177,21 @@ public class LoginActivity extends AppCompatActivity
                     {
                         if(response!=null)
                         {
-                            Log.d(TAG,"got response after logging student");
+                            StudentRegisterClass studentRegisterClass = response.body();
+                            String[] reqArray = studentRegisterClass.getMyTaCourses();
+
+                            ArrayList<Course> myTaCourses = new ArrayList<Course>();
+
+                            Log.d(MainActivity.TAG , "Inner part" + response.body() );
+
+                            for(int i=0 ; i < reqArray.length ;i++) {
+                                String cId = reqArray[i].split(";")[0];
+                                String cName = reqArray[i].split(";")[1];
+                                Course cTemp = new Course(cId, cName, null);
+                                myTaCourses.add(cTemp);
+                            }
+                            dbManipulate.insertTASideMyCourses(myTaCourses);
+
                         }
                         else
                         {
@@ -208,8 +227,8 @@ public class LoginActivity extends AppCompatActivity
         //Intent i = new Intent(getApplicationContext(), AllCoursesActivity.class);
 
         //
-        Intent i = new Intent(getApplicationContext(), CommonCoursesListActivity.class);
-        startActivity(i);
+       // Intent i = new Intent(getApplicationContext(), CommonCoursesListActivity.class);
+        // startActivity(i);
 
         finish();
 
