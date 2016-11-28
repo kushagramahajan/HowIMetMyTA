@@ -19,6 +19,7 @@ import com.example.kushagra.meetupapp.Message;
 import com.example.kushagra.meetupapp.Query;
 import com.example.kushagra.meetupapp.R;
 import com.example.kushagra.meetupapp.StudentFollowUpQueryActivity;
+import com.example.kushagra.meetupapp.background.PingService;
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.db.objects.Course;
 import com.example.kushagra.meetupapp.db.objects.RecentMessages;
@@ -187,66 +188,6 @@ public class SplashScreen extends AppCompatActivity
 
                         Log.d(MainActivity.TAG , dbMan.getAllTAQueries(courseid).size()  + "--" + dbMan.getAllTAQueries(courseid).get(0).getTitle() );
 
-                        //////////////////
-
-//                        FileOutputStream fileOut=null;
-//                        FileInputStream fileIn=null;
-//
-//                        try
-//                        {
-//                            File file = new File(getApplicationContext().getFilesDir(),file_name);
-//                            System.out.println("FILENAME SS : "+file.getAbsolutePath());
-//                            fileOut=new FileOutputStream(file);
-//                        }
-//                        catch (Exception e)
-//                        {
-//                            e.printStackTrace();
-//                        }
-//
-//                        try
-//                        {
-//                            fileIn = new FileInputStream(new File(getApplicationContext().getFilesDir(),file_name));// Read serial file.
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                        boolean flag = false;
-//                        ObjectInputStream in = null;
-//
-//                        try
-//                        {in = new ObjectInputStream(fileIn);// input the read file.
-//                        }
-//                        catch(Exception e)
-//                        {
-//                            flag=true;
-//                        }
-//
-//                        ArrayList<Query> Querarr = null;
-//                        if(!flag)
-//                        {
-//                            try {
-//                                Querarr= (ArrayList<Query>) in.readObject();// allocate it receiver the object file already instanciated.
-//                            } catch (ClassNotFoundException e) {
-//                                e.printStackTrace();
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                        else
-//                        {
-//                            Querarr = new ArrayList<>();
-//                        }
-//
-//                        Query newquery=new Query(temp,messforaquery.getTitle(),messforaquery.getDescription(),messforaquery.getTaId(),new ArrayList<Message>());
-//                        Querarr.add(newquery);
-//
-//                        ObjectOutputStream out=null;
-//
-//                        try {
-//                            out = new ObjectOutputStream(fileOut);
-//                            out.writeObject(Querarr);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
 
                     } else {
                         Log.d(MainActivity.TAG, "Response Body null");
@@ -321,85 +262,6 @@ public class SplashScreen extends AppCompatActivity
                             dbMan.insertMessageOfQuery(insertableMsg , QueryId);
 
                         }
-
-//                        FileInputStream fileIn = null;// Read serial file.
-//                        FileOutputStream fileOut=null;
-//                        try {
-//                            SharedPreferences sharedPreferences = getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
-//                            String file_name=sharedPreferences.getString(AllCoursesActivity.COURSE_NAME_EXTRA,"default course name");
-//
-//                            fileIn = new FileInputStream(new File(getApplicationContext().getFilesDir(), file_name));
-//                            fileOut= new FileOutputStream(new File(getApplicationContext().getFilesDir(), file_name));
-//
-//                        } catch (FileNotFoundException e) {
-//                            e.printStackTrace();
-//                        }
-//                        ObjectInputStream in = null;// input the read file.
-//                        ObjectOutputStream out=null;
-//                        try {
-//                            in = new ObjectInputStream(fileIn);
-//                            out= new ObjectOutputStream(fileOut);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        ArrayList<Query> Querarr= null;
-//
-//                        try {
-//                            Querarr = (ArrayList<Query>) in.readObject();
-//
-//                        //find sender
-//                        String from=messforaquery[0].getSender();
-//                        int position=0;
-//                        int l;
-//                        for(l=0;l<Querarr.size();l++){
-//                            if(Querarr.get(l).getTaId().equals(from)){
-//                                position=l;
-//                                break;
-//                            }
-//                        }
-//                        if(l==Querarr.size()){
-//                            Log.d("MainActivity","No query found to insert the message");
-//                        }
-//                        else {
-////                            Query modquer = Querarr.get(position);
-////                            ArrayList<Message> messArr = modquer.getMessages();
-////
-////                            for (int k = 0; k< messforaquery.length; k++) {
-////                                messArr.add(messforaquery[k]);
-////                            }
-////
-////                            modquer.setMessages(messArr);
-////                            Querarr.set(position, modquer);
-//
-//                            //handle the array of messages returned
-//                            ///
-//                            ///
-//                            ///
-//
-//
-//
-//
-//                            out.writeObject(Querarr);
-//                            try
-//                            {
-//                                if(out!=null)
-//                                    out.close();
-//                                if(in!=null)
-//                                    in.close();
-//                                fileIn.close();
-//                                fileOut.close();
-//                            }
-//                            catch (Exception e)
-//                            {
-//                                e.printStackTrace();
-//                            }
-//
-//                        }
-//                        } catch (ClassNotFoundException e) {
-//                            e.printStackTrace();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
 
                         String courseId = oldCourseIds[indexOfQuery];
 
@@ -555,14 +417,25 @@ public class SplashScreen extends AppCompatActivity
         return !(sharedPreferences.getBoolean(AllCoursesActivity.IS_LOGGED_IN_EXTRA, false));
     }
 
+    private void initiateService()
+    {
+        Intent i = new Intent( this , PingService.class);
+        startService(i);
+
+        checkforPendingMessages();
+
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-
         getSupportActionBar().hide();
+
+
+
 
         if(isNotLoggedIn() && isOnline())
         {
@@ -573,9 +446,9 @@ public class SplashScreen extends AppCompatActivity
         {
             Log.d(AllCoursesActivity.TAG , "Splash Going ahead");
 
-            checkforPendingMessages();
-
+            initiateService();
             fetchFromServerUpdateDB();
+
 
 
 
@@ -601,8 +474,11 @@ public class SplashScreen extends AppCompatActivity
         }
         else if(!isNotLoggedIn())
         {
+
             Intent intent = new Intent(this , CommonCoursesListActivity.class);
             startActivity(intent);
+
+
         }
 
 
