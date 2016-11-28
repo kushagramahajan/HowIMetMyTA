@@ -479,8 +479,11 @@ public class PingService extends Service
 
 
 
-        String notificationMessage = "typo";
-        Integer NOTIFICATION_ID = 1;
+        String notificationMessage = "";
+
+        for (int i = 0 ; i < messages. length ; i++)
+            notificationMessage += messages[i].getMessage() + "\n";
+
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -492,10 +495,7 @@ public class PingService extends Service
          Intent notificationIntent = new Intent(getApplicationContext(), StudentFollowUpQueryActivity.class);
 
         notificationIntent.putExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA, queryId);
-
         notificationIntent.putExtra(AllCoursesActivity.COURSE_ID_EXTRA, courseId);
-
-
         notificationIntent.putExtra( AllCoursesActivity.IS_DESCREPANCY_EXTRA , true);
 
 
@@ -508,13 +508,16 @@ public class PingService extends Service
 
          NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
          .setSmallIcon(R.drawable.logo)
-         .setContentTitle("My Notification")
-         .setStyle(new NotificationCompat.BigTextStyle()
-         .bigText(notificationMessage))
+         .setContentTitle(  messages[0].getSender() + ":"  + messages.length + " Messages" )
+         .setStyle
+                 (new NotificationCompat.BigTextStyle()
+         .bigText(notificationMessage)
+         )
          .setContentText(notificationMessage).setAutoCancel(true);
          mBuilder.setSound(alarmSound);
          mBuilder.setContentIntent(contentIntent);
-         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+         mNotificationManager.notify(AllCoursesActivity.OLD_MESSAGE_NOTIFICATION_ID
+                 , mBuilder.build());
 
     }
 
