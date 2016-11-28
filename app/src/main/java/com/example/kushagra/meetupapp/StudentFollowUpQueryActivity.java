@@ -77,6 +77,12 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         registerReceiver(dataUpdateReceiver, intentFilter);
     }
 
+    private void refreshChatUI(String queryId , boolean isTaSelected)
+    {
+
+
+
+    }
     private class DataUpdateReceiver extends BroadcastReceiver
     {
         @Override
@@ -84,6 +90,8 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
             if (intent.getAction().equals(REFRESH_UI_INTENT))
             {
                 Log.d(MainActivity.TAG , "From Receiver" + intent.getStringExtra(REFRESH_UI_INTENT));
+                //refreshChatUI();
+
                 // Do stuff - maybe update my view based on the changed DB contents
             }
         }

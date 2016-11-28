@@ -52,10 +52,9 @@ public class DbManipulate
     public void insertMyCourses(ArrayList<Course> clist)
     {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        db.execSQL(DbHelper.SQL_DELETE_ENTRIES_MY);
-        db.execSQL(DbHelper.SQL_CREATE_ENTRIES_MY);
 
-        for(int i=0;i<clist.size();i++) {
+        for(int i=0;i<clist.size();i++)
+        {
             ContentValues values = new ContentValues();
 
             values.put(DbContract.MyCourses.COLUMN_NAME_COURSE_ID, clist.get(i).getCourseId());
