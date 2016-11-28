@@ -124,7 +124,6 @@ public class LoginActivity extends AppCompatActivity
             {
                 currentCourse = ch.getText().toString();
                 serverCourses.remove(serverCourses.indexOf(currentCourse));
-                spinnerAdapter.notifyDataSetChanged();
                 for(Course c : a)
                 {
                     if(c.getCourseName().equals(currentCourse)) {
