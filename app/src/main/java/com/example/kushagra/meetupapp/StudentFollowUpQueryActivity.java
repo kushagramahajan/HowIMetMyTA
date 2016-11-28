@@ -131,18 +131,52 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         my_emailId = sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user");
 
         //code to add message UI
-        for(com.example.kushagra.meetupapp.Message msgObject : messArr)
+        for(com.example.kushagra.meetupapp.Message msgObject : messArr) {
+            if(msgObject.getMessage().contains("TIME~"))
+            {
+                String[] arr = msgObject.getMessage().split("~");
+                day = Integer.parseInt(arr[1]);
+                month = Integer.parseInt(arr[2]);
+                year = Integer.parseInt(arr[3]);
+                hour = Integer.parseInt(arr[4]);
+                minute = Integer.parseInt(arr[5]);
+                SharedPreferences.Editor editor = getSharedPreferences("MySharedPreference", MODE_PRIVATE).edit();
+                String qid = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
+                editor.putBoolean(qid, true);
+                editor.commit();
+
+                chatBox.setVisibility(View.GONE);
+                send.setVisibility(View.GONE);
+                meet.setVisibility(View.GONE);
+
+                String s = null;
+                if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
+                {
+                    s = "You have fixed a meeting with "+ invertStudentTa(my_emailId)+ " on "+ day+"/"+
+                            month + "/" + year + " at " + hour + ":" + minute;
+                }
+                else
+                {
+                    s = invertStudentTa(my_emailId)+" has fixed a meeting with you on "+ day + "/" +
+                            month + "/" + year + " at " + hour + ":" + minute;
+                }
+                dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
+
+                insertOneEntryIntoBalloonList(new Message("neutral","neutral",s,qid));
+                break;
+            }
             insertOneEntryIntoBalloonList(msgObject);
+
+        }
     }
 
     private void insertOneEntryIntoBalloonList(Message msgObject)
     {
         View view;
-
-
         if(msgObject.getSender().equalsIgnoreCase("neutral"))
         {
             view = getLayoutInflater().inflate(R.layout.msg_balloon_neutral,null);
+
         }
         else if(msgObject.getSender().equalsIgnoreCase(my_emailId))
         {
@@ -160,8 +194,11 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
     public void clickSendMessage(View v) throws IOException, ClassNotFoundException
     {
+        sendAction("doNot");
+    }
 
-
+    public void sendAction(String mark)
+    {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AllCoursesActivity.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -178,6 +215,11 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         String message = chatBox.getText().toString();
         chatBox.setText("");
 
+        if(mark.equals("doIt"))
+        {
+            message = "TIME~"+day+"~"+month+"~"+year+"~"+hour+"~"+minute;
+
+        }
 
         Log.d(AllCoursesActivity.TAG, "sender emailId" + my_emailId + "receive email" + globalCurrentQuery.getTaId());
 
@@ -228,21 +270,10 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                 Log.d(MainActivity.TAG, "failure to send message");
             }
 
-            //check wheher posotion sender 0 or 1
 
-//        globalCurrentQuery.getMessages().add(toadd);
-//        Querarr.set(position,globalCurrentQuery);
-
-        //write the Querarr
-
-//        out.writeObject(Querarr);
 
         });
-
-
     }
-
-
 
 
     ArrayList<Query> readQueryFile(File file)
@@ -374,13 +405,17 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                     msg_list.addView(view2);
                     dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
 
+                    sendAction("doIt");
+
                     alertDialog.cancel();
                 }
             }
         });
-        button_discard.setOnClickListener(new View.OnClickListener() {
+        button_discard.setOnClickListener(
+                new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 flag=false;
                 alertDialog.cancel();
             }
