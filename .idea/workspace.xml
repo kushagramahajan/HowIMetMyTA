@@ -49,12 +49,12 @@
       <file leaf-file-name="StudentFollowUpQueryActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="406" column="22" selection-start-line="406" selection-start-column="22" selection-end-line="406" selection-end-column="22" />
+            <state relative-caret-position="374">
+              <caret line="162" column="18" selection-start-line="162" selection-start-column="18" selection-end-line="162" selection-end-column="18" />
               <folding>
                 <element signature="method#invertStudentTa#0;class#StudentFollowUpQueryActivity#0" expanded="false" />
-                <marker date="1480364843119" expanded="false" signature="9323:10544" ph="{...}" />
-                <marker date="1480364843119" expanded="false" signature="9748:9755" ph="&lt;~&gt;" />
+                <marker date="1480365280370" expanded="false" signature="9325:10546" ph="{...}" />
+                <marker date="1480365280370" expanded="false" signature="9750:9757" ph="&lt;~&gt;" />
               </folding>
             </state>
           </provider>
@@ -2541,7 +2541,14 @@
       <option name="project" value="LOCAL" />
       <updated>1480364334261</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="pass 2">
+      <created>1480364851569</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1480364851569</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2613,7 +2620,8 @@
     <MESSAGE value="message UI - debuged" />
     <MESSAGE value="iiitd logo" />
     <MESSAGE value="pass 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="pass 1" />
+    <MESSAGE value="pass 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="pass 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3122,12 +3130,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="406" column="22" selection-start-line="406" selection-start-column="22" selection-end-line="406" selection-end-column="22" />
+        <state relative-caret-position="374">
+          <caret line="162" column="18" selection-start-line="162" selection-start-column="18" selection-end-line="162" selection-end-column="18" />
           <folding>
             <element signature="method#invertStudentTa#0;class#StudentFollowUpQueryActivity#0" expanded="false" />
-            <marker date="1480364843119" expanded="false" signature="9323:10544" ph="{...}" />
-            <marker date="1480364843119" expanded="false" signature="9748:9755" ph="&lt;~&gt;" />
+            <marker date="1480365280370" expanded="false" signature="9325:10546" ph="{...}" />
+            <marker date="1480365280370" expanded="false" signature="9750:9757" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
