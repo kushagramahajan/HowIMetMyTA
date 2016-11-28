@@ -1,7 +1,10 @@
 package com.example.kushagra.meetupapp;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,9 +49,44 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
     ImageButton send,meet;
     DbManipulate dbman;
 
+    public static final String REFRESH_UI_INTENT = "com.example.kushagra.REFRESH_UI_INTENT";
+
     private String my_emailId;
 
     private Query globalCurrentQuery = null ;
+    private DataUpdateReceiver dataUpdateReceiver;
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        if (dataUpdateReceiver != null)
+            unregisterReceiver(dataUpdateReceiver);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        if (dataUpdateReceiver == null)
+            dataUpdateReceiver = new DataUpdateReceiver();
+
+        IntentFilter intentFilter = new IntentFilter(REFRESH_UI_INTENT);
+        registerReceiver(dataUpdateReceiver, intentFilter);
+    }
+
+    private class DataUpdateReceiver extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(REFRESH_UI_INTENT))
+            {
+                Log.d(MainActivity.TAG , "From Receiver" + intent.getStringExtra(REFRESH_UI_INTENT));
+                // Do stuff - maybe update my view based on the changed DB contents
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

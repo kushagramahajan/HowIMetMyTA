@@ -58,6 +58,7 @@ public class PingService extends Service
 
     final String TAG = "SPTag";
 
+    public static final String REFRESH_UI_INTENT = "com.example.kushagra.REFRESH_UI_INTENT";
 
     @Nullable
     @Override
@@ -219,7 +220,7 @@ public class PingService extends Service
             Log.d( TAG  , "All Booleans are up, Again now");
 
 
-            
+
 
 
             checkforPendingMessages();
@@ -382,6 +383,10 @@ public class PingService extends Service
                     }
                     flag_old = true;
                     latch.countDown();
+
+                    Intent sendIntent = new Intent( REFRESH_UI_INTENT );
+                    sendIntent.putExtra(REFRESH_UI_INTENT , QueryId );
+                    sendBroadcast(sendIntent);
 
 
                 }

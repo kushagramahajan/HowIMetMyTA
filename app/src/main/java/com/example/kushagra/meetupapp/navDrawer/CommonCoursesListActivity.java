@@ -121,7 +121,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
             Picasso.with( getApplicationContext() )
                     .load(imageUri)
                    // .resize(50,50)
-                    .centerCrop()
+            //        .centerCrop()
                     .into(imageView);
 
 
@@ -418,7 +418,7 @@ I AM TA OF MY COURSES */
 
 
         ArrayList<Course> edmo = new ArrayList<>();
-        edmo.add( dbManipulate.getMyCourses().get(0) );
+        edmo.addAll( dbManipulate.getTASideMyCourses() );
 
         Log.d(AllCoursesActivity.TAG , "edmo size" + edmo.size() );
 
