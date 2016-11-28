@@ -130,21 +130,24 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         for(com.example.kushagra.meetupapp.Message msgObject : messArr)
             insertOneEntryIntoBalloonList(msgObject);
 
-        View view = getLayoutInflater().inflate(R.layout.msg_balloon_neutral,null);
-        TextView t = (TextView)view.findViewById(R.id.msg_text);
-        String s = null;
-        if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
+        if (status)
         {
-            s = "You have fixed a meeting with "+ invertStudentTa(my_emailId)+ " on "+ day+"/"+
-                    month + "/" + year + " at " + hour + ":" + minute;
+            View view = getLayoutInflater().inflate(R.layout.msg_balloon_neutral,null);
+            TextView t = (TextView)view.findViewById(R.id.msg_text);
+            String s = null;
+            if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
+            {
+                s = "You have fixed a meeting with "+ invertStudentTa(my_emailId)+ " on "+ day+"/"+
+                        month + "/" + year + " at " + hour + ":" + minute;
+            }
+            else
+            {
+                s = invertStudentTa(my_emailId)+" has fixed a meeting with you on "+ day + "/" +
+                        month + "/" + year + " at " + hour + ":" + minute;
+            }
+            t.setText(s);
+            msg_list.addView(view);
         }
-        else
-        {
-            s = invertStudentTa(my_emailId)+" has fixed a meeting with you on "+ day + "/" +
-                    month + "/" + year + " at " + hour + ":" + minute;
-        }
-        t.setText(s);
-        msg_list.addView(view);
     }
 
     private void insertOneEntryIntoBalloonList(Message msgObject)

@@ -13,9 +13,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d99f42c4-1470-4ec8-a03c-055ebec653e0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StartNewStudentQueryActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StartNewStudentQueryActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_student_follow_up_query.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_student_follow_up_query.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/msg_balloon_neutral.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/msg_balloon_neutral.xml" />
     </list>
     <ignored path="mc_proj_student.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,7 +50,7 @@
       <file leaf-file-name="activity_student_follow_up_query.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_student_follow_up_query.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
+            <state relative-caret-position="377">
               <caret line="82" column="0" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
               <folding />
             </state>
@@ -64,8 +63,8 @@
       <file leaf-file-name="StudentFollowUpQueryActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3407">
-              <caret line="131" column="8" selection-start-line="131" selection-start-column="8" selection-end-line="131" selection-end-column="8" />
+            <state relative-caret-position="-3322">
+              <caret line="134" column="71" selection-start-line="134" selection-start-column="71" selection-end-line="134" selection-end-column="71" />
               <folding>
                 <element signature="method#readQueryFile#0;class#StudentFollowUpQueryActivity#0" expanded="false" />
               </folding>
@@ -1836,7 +1835,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in_new.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in_old.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/msg_balloon_neutral.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_ta_follow_up_query.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/TaFollowUpQueryActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/meeting.xml" />
@@ -1853,6 +1851,7 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_start_new_query.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_student_follow_up_query.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/msg_balloon_neutral.xml" />
       </list>
     </option>
   </component>
@@ -1904,6 +1903,28 @@
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mc_proj_student_new" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -1935,6 +1956,16 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="meetupapp" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mc_proj_student_new" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -2433,7 +2464,14 @@
       <option name="project" value="LOCAL" />
       <updated>1480344904269</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="message UI">
+      <created>1480353146725</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1480353146725</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2501,7 +2539,8 @@
     <MESSAGE value="file thing rectified." />
     <MESSAGE value="better UI, showed processing on splash screen, Updated theme, added meet button in TA side," />
     <MESSAGE value="UI tewaks" />
-    <option name="LAST_COMMIT_MESSAGE" value="UI tewaks" />
+    <MESSAGE value="message UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="message UI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2566,14 +2605,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in_old.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_101/src.zip!/java/util/Calendar.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-14754">
@@ -2761,17 +2792,6 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/msg_balloon_neutral.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="43" column="39" selection-start-line="43" selection-start-column="39" selection-end-line="43" selection-end-column="45" />
           <folding />
         </state>
       </provider>
@@ -2989,9 +3009,28 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/msg_balloon_neutral.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="37" column="42" selection-start-line="37" selection-start-column="42" selection-end-line="37" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_student_follow_up_query.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
+        <state relative-caret-position="377">
           <caret line="82" column="0" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
           <folding />
         </state>
@@ -3002,8 +3041,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3407">
-          <caret line="131" column="8" selection-start-line="131" selection-start-column="8" selection-end-line="131" selection-end-column="8" />
+        <state relative-caret-position="-3322">
+          <caret line="134" column="71" selection-start-line="134" selection-start-column="71" selection-end-line="134" selection-end-column="71" />
           <folding>
             <element signature="method#readQueryFile#0;class#StudentFollowUpQueryActivity#0" expanded="false" />
           </folding>
