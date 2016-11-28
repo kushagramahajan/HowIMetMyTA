@@ -219,6 +219,8 @@ public class PingService extends Service
             Log.d( TAG  , "All Booleans are up, Again now");
 
 
+            
+
 
             checkforPendingMessages();
 
