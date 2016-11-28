@@ -30,7 +30,6 @@ import com.example.kushagra.meetupapp.navDrawer.recyclerView.ClickListener;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonAdapter;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonCoursesAdapter;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonQueryAdapter;
-import com.example.kushagra.meetupapp.navDrawer.recyclerView.DividerItemDecoration;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.RecyclerTouchListener;
 
 import java.io.File;
@@ -54,6 +53,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
     DbManipulate dbManipulate;
     FloatingActionButton newQueryFabButton;
+    private static boolean somethingSelected = false;
 
 
 
@@ -67,6 +67,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
         Log.d(MainActivity.TAG , "Inside Target");
 
         dbManipulate = new DbManipulate(getApplicationContext());
+
 
 
         setContentView(R.layout.activity_queries_list_common);
@@ -97,10 +98,26 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
     }
 
+    private void reDrawRecyclerView()
+    {
+        try
+        {
+            recyclerView.setAdapter(null);
+            recyclerView.setLayoutManager(null);
+            recyclerView.setOnClickListener(null);
+        }
+        catch (NullPointerException ne)
+        {
+            ne.printStackTrace();
+        }
+
+    }
 
     private void handleCourseSideRecyclerView()
     {
         newQueryFabButton.hide();
+
+        reDrawRecyclerView();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_common_list);
 
@@ -108,7 +125,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+      //  recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter((CommonCoursesAdapter)mAdapter);
@@ -121,16 +138,20 @@ public class CommonCoursesListActivity extends AppCompatActivity
             public void onClick(View view, int position)
             {
 
+                if(!somethingSelected) {
 
-                Course currentCourse = commonCoursesList.get(position);
-                Toast.makeText(getApplicationContext(), currentCourse.getCourseId() + " Course is selected!",
-                        Toast.LENGTH_SHORT).show();
+
+                    Course currentCourse = commonCoursesList.get(position);
+                    Toast.makeText(getApplicationContext(), currentCourse.getCourseId() + " Course is selected!",
+                            Toast.LENGTH_SHORT).show();
 
                     handleQuerySideRecyclerView(currentCourse);
 
-                //Start Student Query ACtivity
-                //TA Query Act
+                    //Start Student Query ACtivity
 
+                    //TA Query Act
+                somethingSelected = false;
+                }
 
             }
 
@@ -150,6 +171,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
     private void handleQuerySideRecyclerView(final Course currentCourse)
     {
+
         if(!isTaSelected)
         {
             newQueryFabButton.show();
@@ -177,8 +199,11 @@ public class CommonCoursesListActivity extends AppCompatActivity
         }
         else
         {
+            newQueryFabButton.hide();
 
         }
+
+        reDrawRecyclerView();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_common_list);
 
@@ -186,7 +211,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+      //  recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter((CommonQueryAdapter)mAdapter);
@@ -198,22 +223,27 @@ public class CommonCoursesListActivity extends AppCompatActivity
             @Override
             public void onClick(View view, int position)
             {
+                if(!somethingSelected) {
 
 
-                Query query = commonQueryList.get(position);
-                Toast.makeText(getApplicationContext(), query.getQueryId() + " q is selected!", Toast.LENGTH_SHORT).show();
+                    Query query = commonQueryList.get(position);
+                    Toast.makeText(CommonCoursesListActivity.this, query.getQueryId() + " q is selected!", Toast.LENGTH_SHORT).show();
 
 
-                Intent i = new Intent( getApplicationContext() ,StudentFollowUpQueryActivity.class);
+                    Intent i = new Intent(CommonCoursesListActivity.this, StudentFollowUpQueryActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 
-                i.putExtra( AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA , query.getQueryId() );
-                i.putExtra( AllCoursesActivity.IS_TA_SELECTED_EXTRA , isTaSelected);
-                i.putExtra( AllCoursesActivity.COURSE_ID_EXTRA , currentCourse.getCourseId() );
+                    i.putExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA, query.getQueryId());
+                    i.putExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA, isTaSelected);
+                    i.putExtra(AllCoursesActivity.COURSE_ID_EXTRA, currentCourse.getCourseId());
 
-                startActivity(i);
+                    startActivity(i);
 
 
+                    somethingSelected = true;
+                }
 
                 //Start Student Query ACtivity
                 //TA Query Act
@@ -334,6 +364,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
      //   commonCoursesList.add(new Course("Student crsc Dummy" , "def002" , null));
 
         Log.d(AllCoursesActivity.TAG , "Courses  Size  = " +dbManipulate.getMyCourses().size() );
+
         commonCoursesList.addAll(
                 dbManipulate.getMyCourses()
         );
@@ -346,6 +377,8 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
     private void setAndPopulateTACourses()
     {
+
+
 
         commonCoursesList.clear();
         isTaSelected = true;
@@ -428,5 +461,10 @@ I AM TA OF MY COURSES */
     }
 
 
-
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        somethingSelected = false;
+    }
 }

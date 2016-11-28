@@ -74,7 +74,16 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         ArrayList<Query> Querarr;
         String courseId_file_name = getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
 
-        if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
+        if(getIntent().getBooleanExtra(AllCoursesActivity.IS_DESCREPANCY_EXTRA , false))
+        {
+            Querarr = dbman.getAllTAQueries(courseId_file_name);
+            if(Querarr.size() == 0)
+            {
+                file = new File(getApplicationContext().getFilesDir(), courseId_file_name);
+                Querarr = readQueryFile(file);
+            }
+        }
+        else if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
         {
             Querarr = dbman.getAllTAQueries(courseId_file_name);
 

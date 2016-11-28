@@ -21,7 +21,7 @@ public class AllCoursesActivity extends AppCompatActivity
 
 
 
-    public static final String IP_ADD = "http://192.168.55.220:8080";
+    public static final String IP_ADD = "http://192.168.66.75:8080";
     public static final String TAG = "SP_Main";
 
     public static final String IS_LOGGED_IN_EXTRA = "com.exmaple.kushagra.isLoggedIn";
@@ -33,6 +33,8 @@ public class AllCoursesActivity extends AppCompatActivity
     public static final String RECYCLER_VIEW_QUERY_ID_EXTRA = "com.exmaple.kushagra.queryId";
 
     public static final String IS_TA_SELECTED_EXTRA = "com.exmaple.kushagra.isTasELECTED";
+    public static final String IS_DESCREPANCY_EXTRA  = "com.exmaple.kushagra.isdiscrepamcy";
+
 
 
     private Context mContext;

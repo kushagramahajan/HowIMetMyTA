@@ -6,14 +6,14 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.kushagra.meetupapp.AllCoursesActivity;
-import com.example.kushagra.meetupapp.MainActivity;
 import com.example.kushagra.meetupapp.Message;
 import com.example.kushagra.meetupapp.R;
 import com.example.kushagra.meetupapp.StudentFollowUpQueryActivity;
@@ -24,11 +24,15 @@ import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StatusClass;
 import com.example.kushagra.meetupapp.network.model.TaNewMessage;
 
+import java.util.concurrent.CountDownLatch;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.media.RingtoneManager.getDefaultUri;
 
 /**
  * Created by Himanshu Sagar on 28-11-2016.
@@ -51,6 +55,7 @@ public class PingService extends Service
 
     DbManipulate dbManipulate;
 
+    final String TAG = "SPTag";
 
 
     @Nullable
@@ -65,19 +70,30 @@ public class PingService extends Service
     {
 
 
-         dbManipulate = new DbManipulate(getApplicationContext());
+
+        dbManipulate = new DbManipulate(getApplicationContext());
 
 
         Intent in = new Intent(PingService.this, CommonCoursesListActivity.class);
-            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(in);
+        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(in);
 
 
 
-            checkforPendingMessages();
+        Thread t = new Thread()
+        {
+            @Override
+            public void run()
+            {
+                checkforPendingMessages();
+
+            }
+        };
+        t.setName("PingServiceThread");
+        t.start();
 
 
-        Log.d(MainActivity.TAG, "Service Chal rhi h");
+        Log.d(TAG, "Service Chal rhi h");
 
 /*        while(true)
         {
@@ -105,7 +121,7 @@ public class PingService extends Service
 */
 
 
-          return START_STICKY;
+        return START_STICKY;
 
     }
 
@@ -113,6 +129,8 @@ public class PingService extends Service
 
     private void checkforPendingMessages()
     {
+        final CountDownLatch latch = new CountDownLatch(3);
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AllCoursesActivity.IP_ADD)
@@ -126,7 +144,7 @@ public class PingService extends Service
 
         Call<StatusClass> call = service.getStatus( new StatusClass(editor.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"default@de.com")));
 
-        Log.d(MainActivity.TAG , "inside check pending request");
+        Log.d(TAG , "inside check pending request");
 
 
         call.enqueue(new Callback<StatusClass>() {
@@ -134,9 +152,11 @@ public class PingService extends Service
             public void onResponse(Call<StatusClass> call, Response<StatusClass> response)
             {
 
-                if(response.body()!=null) {
+                if(response.body()!=null)
+                {
                     boolean isAnyOld = response.body().isAnyOld();
                     boolean isAnyNew = response.body().isAnyNew();
+
                     oldQueries = response.body().getOldQueryId();
                     newQueries = response.body().getNewQueryId();
 
@@ -144,47 +164,23 @@ public class PingService extends Service
                     String[] oldCourseIds = response.body().getOldCourseIds();
 
 
-                    if (isAnyNew == true) {                //ta
-                        getPendingNewQueries(newCourseIds);
+
+                    if (isAnyNew == true)
+                    {                //ta
+                        getPendingNewQueries(newCourseIds , latch);
                     }
-
-                    if (isAnyOld == true && isAnyNew == false) {              //student
-                        getPendingOldQueries(oldCourseIds);
-
-                    }
-
-
-                    if(isAnyOld==false)
-                        flag_old = true;
-
-                    if( isAnyNew == false)
-                        flag_new = true;
-
-
-                    if (flag_new && flag_old)
+                    else if(!isAnyNew)
                     {
+                        latch.countDown();
+                    }
 
-                        try
-                        {
-                            Thread.sleep(5000);
-                            checkforPendingMessages();
-
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                        /*
-                        Thread thread = new Thread()
-                        {
-                            @Override
-                            public void run()
-                            {
-
-                            }
-                        };
-
-                        thread.start();
-                        */
+                    if (isAnyOld == true)
+                    {
+                        getPendingOldQueries(oldCourseIds, latch);
+                    }
+                    else if(!isAnyOld)
+                    {
+                        latch.countDown();
 
                     }
 
@@ -193,29 +189,49 @@ public class PingService extends Service
                 }
                 else
                 {
-                    Log.d(MainActivity.TAG , "Response Body null for status check during ping");
+                    Log.d(TAG , "Response Body null for status check during ping");
+
 
                 }
+                latch.countDown();
+
 
             }
 
             @Override
             public void onFailure(Call<StatusClass> call, Throwable t)
             {
-                Log.d(MainActivity.TAG , "Failure during status check ping"  + call.toString() );
-
+                Log.d(TAG , "Failure during status check ping"  + call.toString() );
+                latch.countDown();
+                latch.countDown();
+                latch.countDown();
             }
         });
 
 
 
+        try
+        {
+            latch.await();  //main thread is waiting on CountDownLatch to finish
+            Thread.sleep(2000);
+
+            Log.d( TAG  , "All Booleans are up, Again now");
+
+            checkforPendingMessages();
+
+        }
+        catch(InterruptedException ie)
+        {
+            ie.printStackTrace();
+        }
+
     }
 
-    private void getPendingNewQueries(String[] newCourseIds)
+    private void getPendingNewQueries(String[] newCourseIds ,final CountDownLatch latch)
     {
 
 
-        Log.d(MainActivity.TAG, "Getting new pending queries ");
+        Log.d( TAG, "Getting new pending queries ");
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AllCoursesActivity.IP_ADD)
@@ -264,19 +280,20 @@ public class PingService extends Service
                                 title ,description , false , queryIdToInsert);
 
                         dbManipulate.insertTAQueries(taNewMessage);
-                        Log.d(MainActivity.TAG , "New Query" + messforaquery.getCourseId() + " " + messforaquery.getTitle()
+                        Log.d(TAG , "New Query" + messforaquery.getCourseId() + " " + messforaquery.getTitle()
                                 + messforaquery.getTaId() );
 
-                        Log.d(MainActivity.TAG , dbManipulate.getAllTAQueries(courseid).size()
+                        Log.d(TAG , dbManipulate.getAllTAQueries(courseid).size()
                                 + "--" + dbManipulate.getAllTAQueries(courseid).get(0).getTitle() );
 
 
                     } else {
-                        Log.d(MainActivity.TAG, "Response Body null");
+                        Log.d(TAG, "Response Body null");
 
                     }
 
 
+                    latch.countDown();
                     flag_new = true;
 
 
@@ -285,8 +302,9 @@ public class PingService extends Service
                 @Override
                 public void onFailure(Call<TaNewMessage> call, Throwable t) {
 
-                    Log.d(MainActivity.TAG, "Failure to get new messages for newquery" + call.toString());
+                    Log.d(TAG, "Failure to get new messages for newquery" + call.toString());
 
+                    latch.countDown();
                 }
             });
         }
@@ -295,9 +313,9 @@ public class PingService extends Service
 
     }
 
-    private void getPendingOldQueries(final String[] oldCourseIds)
+    private void getPendingOldQueries(final String[] oldCourseIds ,final CountDownLatch latch)
     {
-        Log.d(MainActivity.TAG,  "getting old pending queries ");
+        Log.d(TAG,  "getting old pending queries ");
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -343,7 +361,7 @@ public class PingService extends Service
                                     messforaquery[j].getReceiver() , messforaquery[j].getMessage() ,
                                     messforaquery[j].getQueryId());
 
-                            Log.d(MainActivity.TAG , insertableMsg.getSender() + "says" + insertableMsg.getMessage() );
+                            Log.d(TAG , insertableMsg.getSender() + "says" + insertableMsg.getMessage() );
                             dbManipulate.insertMessageOfQuery(insertableMsg , QueryId);
 
                         }
@@ -354,18 +372,21 @@ public class PingService extends Service
 
 
                     } else {
-                        Log.d(MainActivity.TAG, "Response Body null");
+                        Log.d(TAG, "Response Body null");
 
                     }
                     flag_old = true;
+                    latch.countDown();
 
 
                 }
 
                 @Override
-                public void onFailure(Call<RecentMessages> call, Throwable t) {
-                    Log.d(MainActivity.TAG, "Failure to get old messages for query" + call.toString());
+                public void onFailure(Call<RecentMessages> call, Throwable t)
+                {
+                    Log.d(TAG, "Failure to get old messages for query" + call.toString());
 
+                    latch.countDown();
                 }
             });
 
@@ -378,26 +399,67 @@ public class PingService extends Service
     private void generateNotificationOldMessage(String queryId,Message[] messages,int index,String courseId)
     {
 
-        NotificationCompat.Builder mBuilder =
-                (NotificationCompat.Builder) new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_add_black_24dp)
-                        .setContentTitle(messages.length+" Message from "+messages[0].getSender()+"!" )
-                        .setContentText(messages[messages.length-1].getMessage());
-
-
-        // Creates an explicit intent for an Activity in your app
-
+/*
         Intent resultIntent = new Intent(PingService.this, StudentFollowUpQueryActivity.class);
+
+
+
+//**add this line**
+        int requestID = (int) System.currentTimeMillis();
+
+
+
+//**add this line**
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+//**edit this line to put requestID as requestCode**
+        PendingIntent contentIntent = PendingIntent.getActivity(this, requestID,
+                resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
 
         resultIntent.putExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA, queryId);
 
         resultIntent.putExtra(AllCoursesActivity.COURSE_ID_EXTRA, courseId);
 
 
+        resultIntent.putExtra( AllCoursesActivity.IS_DESCREPANCY_EXTRA , true);
+
+
+
+
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(android.R.drawable.ic_popup_reminder)
+                        .setContentTitle( messages.length + "Unread Messages")
+                        .setContentText(courseId);
+
+        NotificationCompat.InboxStyle inboxStyle =
+                new NotificationCompat.InboxStyle();
+
+
+// Sets a title for the Inbox in expanded layout
+        inboxStyle.setBigContentTitle("New Messages :");
+// Moves events into the expanded layout
+        for (int i=0; i < messages.length; i++) {
+
+            inboxStyle.addLine(messages[i].getMessage());
+        }
+// Moves the expanded layout object into the notification object.
+        mBuilder.setStyle(inboxStyle);
+// Creates an explicit intent for an Activity in your app
+
+
+// The stack builder object will contain an artificial back stack for the
+// started Activity.
+// This ensures that navigating backward from the Activity leads out of
+// your application to the Home screen.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        // Adds the back stack for the Intent (but not the Intent itself)
+// Adds the back stack for the Intent (but not the Intent itself)
         stackBuilder.addParentStack(StudentFollowUpQueryActivity.class);
-        // Adds the Intent that starts the Activity to the top of the stack
+
+// Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(
@@ -407,9 +469,52 @@ public class PingService extends Service
         mBuilder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+// mId allows you to update the notification later on.
+        mNotificationManager.notify(1, mBuilder.build());
 
-        // mId allows you to update the notification later on.
-        mNotificationManager.notify(index, mBuilder.build());
+
+*/
+
+
+
+
+
+        String notificationMessage = "typo";
+        Integer NOTIFICATION_ID = 1;
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        int requestID = (int) System.currentTimeMillis();
+
+         Uri alarmSound = getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+         Intent notificationIntent = new Intent(getApplicationContext(), StudentFollowUpQueryActivity.class);
+
+        notificationIntent.putExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA, queryId);
+
+        notificationIntent.putExtra(AllCoursesActivity.COURSE_ID_EXTRA, courseId);
+
+
+        notificationIntent.putExtra( AllCoursesActivity.IS_DESCREPANCY_EXTRA , true);
+
+
+
+        //**add this line**
+         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+         //**edit this line to put requestID as requestCode**
+         PendingIntent contentIntent = PendingIntent.getActivity(this, requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+         .setSmallIcon(R.drawable.logo)
+         .setContentTitle("My Notification")
+         .setStyle(new NotificationCompat.BigTextStyle()
+         .bigText(notificationMessage))
+         .setContentText(notificationMessage).setAutoCancel(true);
+         mBuilder.setSound(alarmSound);
+         mBuilder.setContentIntent(contentIntent);
+         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 
     }
 
