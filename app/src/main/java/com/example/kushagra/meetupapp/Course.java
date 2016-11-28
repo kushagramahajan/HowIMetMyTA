@@ -6,6 +6,12 @@ import java.util.ArrayList;
  * Created by Himanshu Sagar on 16-10-2016.
  */
 
+
+/*
+* cobject for a course
+*
+* */
+
 public class Course
 {
     private String courseName,courseId;

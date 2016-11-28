@@ -34,7 +34,10 @@ public class SplashScreen extends AppCompatActivity
 {
     private final int SPLASH_DISPLAY_LENGTH = 1000;
 
-
+/*
+* checking if user is online
+*
+* */
     public static boolean isOnline()
     {
 
@@ -50,6 +53,13 @@ public class SplashScreen extends AppCompatActivity
 
         return false;
     }
+
+
+    /*
+    *
+    *updates the courses from server only once when application starts
+    * */
+
 
     private void fetchFromServerUpdateDB()
     {
@@ -137,6 +147,11 @@ public class SplashScreen extends AppCompatActivity
 
     }
 
+    /*
+    * checking if person is logged in or not
+    *
+    * */
+
     private boolean isNotLoggedIn()
     {
 
@@ -146,6 +161,10 @@ public class SplashScreen extends AppCompatActivity
     }
 
 
+    /*
+    * function to remove a service
+    *
+    * */
     private void removeService()
     {
 
@@ -160,6 +179,13 @@ public class SplashScreen extends AppCompatActivity
 
         }
     }
+
+    /*
+    * function to start service
+    * for getting the new messages to a user.
+    *
+    * */
+
 
     private void initiateService()
     {
@@ -233,6 +259,10 @@ public class SplashScreen extends AppCompatActivity
 
     }
 
+    /*
+    *
+    *
+    * */
 
 
 

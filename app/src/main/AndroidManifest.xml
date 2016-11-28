@@ -21,6 +21,11 @@
             android:label="Login"
         >
 
+        </activity>
+
+        <activity android:name=".extra.SplashScreen">
+            android:label="@string/app_name"
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,40 +33,12 @@
             </intent-filter>
 
 
-
-
-        </activity>
-        <activity android:name=".AllCoursesActivity"
-            android:label="All Courses"
-        />
-
-        <activity android:name=".extra.SplashScreen">
-            android:label="@string/app_name"
-
-
-
         </activity>
         <activity android:name=".extra.SignInActivity"
             android:label="Sign In" />
-        <activity android:name=".FormActivity" />
-        s<activity android:name=".StartNewStudentQueryActivity" />
 
-        <activity android:name=".ScheduleGenerateActivity" />
-        <activity android:name=".TaQueryActivity"
-            android:label="TA Query" />
         <activity android:name=".StudentFollowUpQueryActivity"
             android:label="Query"/>
-        <activity
-            android:name=".StudentQueryActivity"
-            android:label="My Queries"
-            android:parentActivityName=".AllCoursesActivity"
-            android:theme="@style/GreenIt.NoActionBar">
-
-        </activity>
-        <activity android:name=".StartNewTaQueryActivity"
-            android:label="New Query" />
-        <activity android:name=".TaFollowUpQueryActivity"
-            android:label="Query" />
 
         <service android:name=".background.PingService"
             android:exported="false"

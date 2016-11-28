@@ -7,7 +7,7 @@ public class Constants
 
 
 
-    public static final String IP_ADD = "http://192.168.66.75:8080";
+    public static final String IP_ADD = "http://192.168.55.220:8080";
     public static final String TAG = "SP_Main";
 
     public static final String IS_LOGGED_IN_EXTRA = "com.exmaple.kushagra.isLoggedIn";
