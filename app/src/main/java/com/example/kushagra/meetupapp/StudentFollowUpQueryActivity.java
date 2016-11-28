@@ -122,18 +122,38 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         my_emailId = sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user");
 
         //code to add message UI
-        for(com.example.kushagra.meetupapp.Message msgObject : messArr)
+        for(com.example.kushagra.meetupapp.Message msgObject : messArr) {
+            if(msgObject.getMessage().contains("TIME~"))
+            {
+                String[] arr = msgObject.getMessage().split("~");
+                day = Integer.parseInt(arr[1]);
+                month = Integer.parseInt(arr[2]);
+                year = Integer.parseInt(arr[3]);
+                hour = Integer.parseInt(arr[4]);
+                minute = Integer.parseInt(arr[5]);
+                SharedPreferences.Editor editor = getSharedPreferences("MySharedPreference", MODE_PRIVATE).edit();
+                String qid = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
+                editor.putBoolean(qid, true);
+                editor.commit();
+
+                chatBox.setVisibility(View.GONE);
+                send.setVisibility(View.GONE);
+                meet.setVisibility(View.GONE);
+                insertOneEntryIntoBalloonList(msgObject);
+                break;
+            }
             insertOneEntryIntoBalloonList(msgObject);
+
+        }
     }
 
     private void insertOneEntryIntoBalloonList(Message msgObject)
     {
         View view;
-
-
         if(msgObject.getSender().equalsIgnoreCase("neutral"))
         {
             view = getLayoutInflater().inflate(R.layout.msg_balloon_neutral,null);
+
         }
         else if(msgObject.getSender().equalsIgnoreCase(my_emailId))
         {
@@ -169,6 +189,11 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         String message = chatBox.getText().toString();
         chatBox.setText("");
 
+        if(v == null)
+        {
+            message = "TIME~"+day+"~"+month+"~"+year+"~"+hour+"~"+minute;
+
+        }
 
         Log.d(AllCoursesActivity.TAG, "sender emailId" + my_emailId + "receive email" + globalCurrentQuery.getTaId());
 
@@ -219,14 +244,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                 Log.d(MainActivity.TAG, "failure to send message");
             }
 
-            //check wheher posotion sender 0 or 1
 
-//        globalCurrentQuery.getMessages().add(toadd);
-//        Querarr.set(position,globalCurrentQuery);
-
-        //write the Querarr
-
-//        out.writeObject(Querarr);
 
         });
 
@@ -365,13 +383,23 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                     msg_list.addView(view2);
                     dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
 
+                    try {
+                        clickSendMessage(null);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
                     alertDialog.cancel();
                 }
             }
         });
-        button_discard.setOnClickListener(new View.OnClickListener() {
+        button_discard.setOnClickListener(
+                new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 flag=false;
                 alertDialog.cancel();
             }
