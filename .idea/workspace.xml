@@ -12,14 +12,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d99f42c4-1470-4ec8-a03c-055ebec653e0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/tile_query.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/res/layout/tile.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/tile_course.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/AllCourseAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/AllCourseAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/QueryAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/QueryAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/msg_balloon_me.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/msg_balloon_me.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/msg_balloon_them.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/msg_balloon_them.xml" />
     </list>
     <ignored path="mc_proj_student.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,12 +49,12 @@
       <file leaf-file-name="StudentFollowUpQueryActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-986">
-              <caret line="155" column="52" selection-start-line="155" selection-start-column="52" selection-end-line="155" selection-end-column="52" />
+            <state relative-caret-position="282">
+              <caret line="406" column="22" selection-start-line="406" selection-start-column="22" selection-end-line="406" selection-end-column="22" />
               <folding>
                 <element signature="method#invertStudentTa#0;class#StudentFollowUpQueryActivity#0" expanded="false" />
-                <marker date="1480364317115" expanded="false" signature="9323:10544" ph="{...}" />
-                <marker date="1480364317115" expanded="false" signature="9748:9755" ph="&lt;~&gt;" />
+                <marker date="1480364843119" expanded="false" signature="9323:10544" ph="{...}" />
+                <marker date="1480364843119" expanded="false" signature="9748:9755" ph="&lt;~&gt;" />
               </folding>
             </state>
           </provider>
@@ -2540,7 +2534,14 @@
       <option name="project" value="LOCAL" />
       <updated>1480363311010</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="pass 1">
+      <created>1480364334261</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1480364334261</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2611,7 +2612,8 @@
     <MESSAGE value="message UI" />
     <MESSAGE value="message UI - debuged" />
     <MESSAGE value="iiitd logo" />
-    <option name="LAST_COMMIT_MESSAGE" value="iiitd logo" />
+    <MESSAGE value="pass 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="pass 1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3120,12 +3122,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-986">
-          <caret line="155" column="52" selection-start-line="155" selection-start-column="52" selection-end-line="155" selection-end-column="52" />
+        <state relative-caret-position="282">
+          <caret line="406" column="22" selection-start-line="406" selection-start-column="22" selection-end-line="406" selection-end-column="22" />
           <folding>
             <element signature="method#invertStudentTa#0;class#StudentFollowUpQueryActivity#0" expanded="false" />
-            <marker date="1480364317115" expanded="false" signature="9323:10544" ph="{...}" />
-            <marker date="1480364317115" expanded="false" signature="9748:9755" ph="&lt;~&gt;" />
+            <marker date="1480364843119" expanded="false" signature="9323:10544" ph="{...}" />
+            <marker date="1480364843119" expanded="false" signature="9748:9755" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>

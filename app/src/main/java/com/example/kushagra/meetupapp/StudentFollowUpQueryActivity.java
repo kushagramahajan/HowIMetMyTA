@@ -406,7 +406,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                     }
                     t.setText(s);
                     msg_list.addView(view2);
-                    dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
+                    //dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
 
                     sendAction("doIt");
 
