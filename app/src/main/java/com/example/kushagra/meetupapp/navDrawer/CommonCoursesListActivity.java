@@ -53,6 +53,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
     DbManipulate dbManipulate;
     FloatingActionButton newQueryFabButton;
+    private static boolean somethingSelected = false;
 
 
 
@@ -66,6 +67,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
         Log.d(MainActivity.TAG , "Inside Target");
 
         dbManipulate = new DbManipulate(getApplicationContext());
+
 
 
         setContentView(R.layout.activity_queries_list_common);
@@ -96,10 +98,26 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
     }
 
+    private void reDrawRecyclerView()
+    {
+        try
+        {
+            recyclerView.setAdapter(null);
+            recyclerView.setLayoutManager(null);
+            recyclerView.setOnClickListener(null);
+        }
+        catch (NullPointerException ne)
+        {
+            ne.printStackTrace();
+        }
+
+    }
 
     private void handleCourseSideRecyclerView()
     {
         newQueryFabButton.hide();
+
+        reDrawRecyclerView();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_common_list);
 
@@ -119,6 +137,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
             @Override
             public void onClick(View view, int position)
             {
+
 
 
                 Course currentCourse = commonCoursesList.get(position);
@@ -149,6 +168,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
     private void handleQuerySideRecyclerView(final Course currentCourse)
     {
+
         if(!isTaSelected)
         {
             newQueryFabButton.show();
@@ -176,8 +196,11 @@ public class CommonCoursesListActivity extends AppCompatActivity
         }
         else
         {
+            newQueryFabButton.hide();
 
         }
+
+        reDrawRecyclerView();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_common_list);
 
@@ -197,26 +220,27 @@ public class CommonCoursesListActivity extends AppCompatActivity
             @Override
             public void onClick(View view, int position)
             {
+                if(!somethingSelected) {
 
 
-                Query query = commonQueryList.get(position);
-                Toast.makeText( CommonCoursesListActivity.this , query.getQueryId() + " q is selected!", Toast.LENGTH_SHORT).show();
+                    Query query = commonQueryList.get(position);
+                    Toast.makeText(CommonCoursesListActivity.this, query.getQueryId() + " q is selected!", Toast.LENGTH_SHORT).show();
 
 
-                Intent i = new Intent( CommonCoursesListActivity.this ,StudentFollowUpQueryActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    Intent i = new Intent(CommonCoursesListActivity.this, StudentFollowUpQueryActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 
+                    i.putExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA, query.getQueryId());
+                    i.putExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA, isTaSelected);
+                    i.putExtra(AllCoursesActivity.COURSE_ID_EXTRA, currentCourse.getCourseId());
+
+                    startActivity(i);
 
 
-                i.putExtra( AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA , query.getQueryId() );
-                i.putExtra( AllCoursesActivity.IS_TA_SELECTED_EXTRA , isTaSelected);
-                i.putExtra( AllCoursesActivity.COURSE_ID_EXTRA , currentCourse.getCourseId() );
-
-                startActivity(i);
-
-
+                    somethingSelected = true;
+                }
 
                 //Start Student Query ACtivity
                 //TA Query Act
@@ -434,5 +458,10 @@ I AM TA OF MY COURSES */
     }
 
 
-
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        somethingSelected = false;
+    }
 }
