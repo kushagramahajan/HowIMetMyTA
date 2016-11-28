@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kushagra.meetupapp.AllCoursesActivity;
@@ -25,6 +26,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.squareup.picasso.Picasso;
 
 /**
  * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
@@ -159,8 +161,16 @@ public class SignInActivity extends AppCompatActivity implements
             editor.putString(AllCoursesActivity.EMAIL_ID_EXTRA, personEmail);
             editor.putString(AllCoursesActivity.USER_NAME_EXTRA, personName);
 
-            Log.d(MainActivity.TAG, personName  + "personName"+ "url" + imageUri.getPath() );
+            Log.d(MainActivity.TAG, personName  + "personName"+ "url" + imageUri.getPath()
+            + "  " + imageUri.toString());
             editor.apply();
+
+            ImageView imageView = (ImageView) findViewById(R.id.imageView4);
+            Picasso.with( getApplicationContext() )
+                    .load(imageUri)
+                    .resize(50,50)
+                    .centerCrop()
+                    .into(imageView);
 
 
 

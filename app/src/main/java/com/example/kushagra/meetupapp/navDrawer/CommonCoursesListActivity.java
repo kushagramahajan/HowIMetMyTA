@@ -100,7 +100,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
                 Context.MODE_PRIVATE);
 
         String imageUri =  "https://api.learn2crack.com/android/images/donut.png" ;
-        //imageUri = sp.getString(AllCoursesActivity.PROFILE_IMAGE_FILE_URL, "");
+        imageUri = sp.getString(AllCoursesActivity.PROFILE_IMAGE_FILE_URL, "");
 
 
         View hView =  navigationView.getHeaderView(0);
