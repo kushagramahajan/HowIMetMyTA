@@ -334,15 +334,6 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
     public void onMeetClicked(View view)
     {
-        String qid = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
-        SharedPreferences.Editor editor = getSharedPreferences("MySharedPreference", MODE_PRIVATE).edit();
-        editor.putBoolean(qid, true);
-        editor.commit();
-
-        chatBox.setVisibility(View.GONE);
-        send.setVisibility(View.GONE);
-        meet.setVisibility(View.GONE);
-
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(StudentFollowUpQueryActivity.this);
         dialogBuilder.setTitle("Set Meeting...");
         LayoutInflater inflater = getLayoutInflater();
@@ -364,6 +355,15 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String qid = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
+                SharedPreferences.Editor editor = getSharedPreferences("MySharedPreference", MODE_PRIVATE).edit();
+                editor.putBoolean(qid, true);
+                editor.commit();
+
+                chatBox.setVisibility(View.GONE);
+                send.setVisibility(View.GONE);
+                meet.setVisibility(View.GONE);
 
                 if(venue.getText().toString().isEmpty())
                 {
@@ -388,7 +388,6 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                     flag=false;
                     Toast.makeText(getApplicationContext(),day+" "+ month+" "+ year+" "+ hour+" "+ minute+" ", Toast.LENGTH_LONG).show();
 
-                    String qid = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
                     View view2 = getLayoutInflater().inflate(R.layout.msg_balloon_neutral,null);
                     TextView t = (TextView)view2.findViewById(R.id.msg_text);
                     String s = null;
