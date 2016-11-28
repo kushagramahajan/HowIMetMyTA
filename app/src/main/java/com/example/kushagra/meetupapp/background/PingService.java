@@ -58,7 +58,11 @@ public class PingService extends Service
 
     final String TAG = "SPTag";
 
-    public static final String REFRESH_UI_INTENT = "com.example.kushagra.REFRESH_UI_INTENT";
+    public static final String REFRESH_CHAT_UI_INTENT = "com.example.kushagra.REFRESH_CHAT_UI_INTENT";
+    public static final String QUERY_ID_BROADCAST_RECV = "com.example.kushagra.broadcastrecv";
+
+
+
 
     @Nullable
     @Override
@@ -377,15 +381,16 @@ public class PingService extends Service
                         generateNotificationOldMessage(QueryId,messforaquery,indexOfQuery,courseId);
 
 
-                    } else {
+                    }
+                    else {
                         Log.d(TAG, "Response Body null");
 
                     }
                     flag_old = true;
                     latch.countDown();
 
-                    Intent sendIntent = new Intent( REFRESH_UI_INTENT );
-                    sendIntent.putExtra(REFRESH_UI_INTENT , QueryId );
+                    Intent sendIntent = new Intent(REFRESH_CHAT_UI_INTENT);
+                    sendIntent.putExtra( QUERY_ID_BROADCAST_RECV , QueryId );
                     sendBroadcast(sendIntent);
 
 

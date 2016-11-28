@@ -42,6 +42,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
     int day, month, year, hour, minute;
     String meetingvenue;
 
+
     Boolean flag;
     private EditText chatBox;
     private LinearLayout msg_list;
@@ -50,7 +51,10 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
     ImageButton send,meet;
     DbManipulate dbman;
 
-    public static final String REFRESH_UI_INTENT = "com.example.kushagra.REFRESH_UI_INTENT";
+    public static final String REFRESH_CHAT_UI_INTENT = "com.example.kushagra.REFRESH_CHAT_UI_INTENT";
+
+    public static final String QUERY_ID_BROADCAST_RECV = "com.example.kushagra.broadcastrecv";
+
 
     private String my_emailId;
 
@@ -73,13 +77,77 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         if (dataUpdateReceiver == null)
             dataUpdateReceiver = new DataUpdateReceiver();
 
-        IntentFilter intentFilter = new IntentFilter(REFRESH_UI_INTENT);
+        IntentFilter intentFilter = new IntentFilter(REFRESH_CHAT_UI_INTENT);
         registerReceiver(dataUpdateReceiver, intentFilter);
     }
 
-    private void refreshChatUI(String queryId , boolean isTaSelected)
+    private void insertEveryMessageIntoLinearLayout()
     {
 
+        ArrayList<Message> messArr;
+        messArr = dbman.getAllMessagesOfQueryId(globalCurrentQuery.getQueryId());
+
+        Log.d(MainActivity.TAG , "Size of All  Messages " + messArr.size() );
+
+
+        for(com.example.kushagra.meetupapp.Message msgObject : messArr)
+        {
+            if(msgObject.getMessage().contains("TIME~"))
+            {
+                String[] arr = msgObject.getMessage().split("~");
+                day = Integer.parseInt(arr[1]);
+                month = Integer.parseInt(arr[2]);
+                year = Integer.parseInt(arr[3]);
+                hour = Integer.parseInt(arr[4]);
+                minute = Integer.parseInt(arr[5]);
+                SharedPreferences.Editor editor = getSharedPreferences("MySharedPreference", MODE_PRIVATE).edit();
+                String qid = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
+                editor.putBoolean(qid, true);
+                editor.apply();
+
+                chatBox.setVisibility(View.GONE);
+                send.setVisibility(View.GONE);
+                meet.setVisibility(View.GONE);
+
+                String s = null;
+                if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
+                {
+                    s = "You have fixed a meeting with "+ invertStudentTa(my_emailId)+ " on "+ day+"/"+
+                            month + "/" + year + " at " + hour + ":" + minute;
+                }
+                else
+                {
+                    s = invertStudentTa(my_emailId)+" has fixed a meeting with you on "+ day + "/" +
+                            month + "/" + year + " at " + hour + ":" + minute;
+                }
+
+                //dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
+
+                insertOneEntryIntoBalloonList(new Message("neutral","neutral",s,qid));
+
+                break;
+            }
+            insertOneEntryIntoBalloonList(msgObject);
+
+        }
+    }
+    private void refreshChatUI(String queryId)
+    {
+
+        if(globalCurrentQuery.getQueryId().equalsIgnoreCase(queryId))
+        {
+            if(((LinearLayout) msg_list).getChildCount() > 0)
+            {
+                ((LinearLayout) msg_list).removeAllViews();
+
+                insertEveryMessageIntoLinearLayout();
+
+            }
+
+
+
+
+        }
 
 
     }
@@ -87,10 +155,10 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
     {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(REFRESH_UI_INTENT))
+            if (intent.getAction().equals(REFRESH_CHAT_UI_INTENT))
             {
-                Log.d(MainActivity.TAG , "From Receiver" + intent.getStringExtra(REFRESH_UI_INTENT));
-                //refreshChatUI();
+                Log.d(MainActivity.TAG , "From Receiver" + intent.getStringExtra(QUERY_ID_BROADCAST_RECV));
+                refreshChatUI(intent.getStringExtra( QUERY_ID_BROADCAST_RECV ));
 
                 // Do stuff - maybe update my view based on the changed DB contents
             }
@@ -173,56 +241,13 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(globalCurrentQuery.getTitle());
 
 
-        ArrayList<Message> messArr;
-        messArr=dbman.getAllMessagesOfQueryId(globalCurrentQuery.getQueryId());
-
-        Log.d(MainActivity.TAG , "Size of All  Messages " + messArr.size() );
-
-
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
                 AllCoursesActivity.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE
         );
         my_emailId = sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user");
 
-        //code to add message UI
-        for(com.example.kushagra.meetupapp.Message msgObject : messArr)
-        {
-            if(msgObject.getMessage().contains("TIME~"))
-            {
-                String[] arr = msgObject.getMessage().split("~");
-                day = Integer.parseInt(arr[1]);
-                month = Integer.parseInt(arr[2]);
-                year = Integer.parseInt(arr[3]);
-                hour = Integer.parseInt(arr[4]);
-                minute = Integer.parseInt(arr[5]);
-                SharedPreferences.Editor editor = getSharedPreferences("MySharedPreference", MODE_PRIVATE).edit();
-                String qid = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
-                editor.putBoolean(qid, true);
-                editor.commit();
 
-                chatBox.setVisibility(View.GONE);
-                send.setVisibility(View.GONE);
-                meet.setVisibility(View.GONE);
-
-                String s = null;
-                if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
-                {
-                    s = "You have fixed a meeting with "+ invertStudentTa(my_emailId)+ " on "+ day+"/"+
-                            month + "/" + year + " at " + hour + ":" + minute;
-                }
-                else
-                {
-                    s = invertStudentTa(my_emailId)+" has fixed a meeting with you on "+ day + "/" +
-                            month + "/" + year + " at " + hour + ":" + minute;
-                }
-                //dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
-                insertOneEntryIntoBalloonList(new Message("neutral","neutral",s,qid));
-
-                break;
-            }
-            insertOneEntryIntoBalloonList(msgObject);
-
-        }
+        insertEveryMessageIntoLinearLayout();
     }
 
     private void insertOneEntryIntoBalloonList(Message msgObject)
@@ -244,6 +269,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         TextView t = (TextView)view.findViewById(R.id.msg_text);
         t.setText(msgObject.getMessage());
         msg_list.addView(view);
+
 
     }
 
