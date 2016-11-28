@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity
             cb[i].setChecked(false);
             cb[i].setTextSize(20);
             table.addView(cb[i]);
+            i++;
         }
 
     }
