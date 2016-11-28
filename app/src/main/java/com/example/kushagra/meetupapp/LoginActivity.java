@@ -125,7 +125,8 @@ public class LoginActivity extends AppCompatActivity
                 serverCourses.remove(serverCourses.indexOf(currentCourse));
                 for(Course c : a)
                 {
-                    if(c.getCourseName().equals(currentCourse)) {
+                    if(c.getCourseName().equals(currentCourse))
+                    {
                         myCourses.add(c);
                         break;
                     }
@@ -138,7 +139,16 @@ public class LoginActivity extends AppCompatActivity
         Log.d(MainActivity.TAG , sh.getString(AllCoursesActivity.USER_NAME_EXTRA,"name") + " ");
         stobj.setStudentId( sh.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"email"));
         stobj.setName( sh.getString(AllCoursesActivity.USER_NAME_EXTRA,"name"));
-        stobj.setMyStudentCourses( ( String[] )myCourses.toArray() );
+
+
+        String[] reqCourseIDArray = new String[myCourses.size()];
+        for(int i = 0 ; i< reqCourseIDArray.length ; i++)
+        {
+            reqCourseIDArray[i] = myCourses.get(i).getCourseId();
+
+        }
+
+        stobj.setMyStudentCourses( reqCourseIDArray  );
 
 
         dbManipulate.insertMyCourses(myCourses);

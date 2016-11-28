@@ -106,8 +106,8 @@ public class CommonCoursesListActivity extends AppCompatActivity
         View hView =  navigationView.getHeaderView(0);
         ImageView imageView = (ImageView)hView.findViewById(R.id.imageView_UserProfilePic);
 
-        TextView textViewUserName = (TextView)hView.findViewById(R.id.textView_userName);
-        TextView textViewEmailId = (TextView)hView.findViewById(R.id.textView_EmailId);
+        TextView textViewUserName = (TextView)hView.findViewById(R.id.textView_UserName);
+        TextView textViewEmailId = (TextView)hView.findViewById(R.id.textView_UserEmailId);
 
 
         textViewUserName.setText( sp.getString(AllCoursesActivity.USER_NAME_EXTRA , "DefaultUserName") );
@@ -120,7 +120,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
             Log.d(MainActivity.TAG ,"Runnginasdas");
             Picasso.with( getApplicationContext() )
                     .load(imageUri)
-                    .resize(50,50)
+                   // .resize(50,50)
                     .centerCrop()
                     .into(imageView);
 
