@@ -175,6 +175,7 @@ public class SignInActivity extends AppCompatActivity implements
 
 
 
+
             updateUI(true);
 
             Intent intent = new Intent(this , LoginActivity.class);
