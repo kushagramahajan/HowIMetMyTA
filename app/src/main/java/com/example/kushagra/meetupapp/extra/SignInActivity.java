@@ -9,11 +9,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kushagra.meetupapp.AllCoursesActivity;
-import com.example.kushagra.meetupapp.LoginActivity;
 import com.example.kushagra.meetupapp.MainActivity;
 import com.example.kushagra.meetupapp.R;
 import com.google.android.gms.auth.api.Auth;
@@ -26,7 +24,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.squareup.picasso.Picasso;
 
 /**
  * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
@@ -157,29 +154,21 @@ public class SignInActivity extends AppCompatActivity implements
             SharedPreferences.Editor editor = getApplicationContext()
                     .getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE).edit();
 
-            editor.putString(AllCoursesActivity.PROFILE_IMAGE_FILE_URL , imageUri.getPath() );
+            editor.putString(AllCoursesActivity.PROFILE_IMAGE_FILE_URL , imageUri.toString() );
             editor.putString(AllCoursesActivity.EMAIL_ID_EXTRA, personEmail);
             editor.putString(AllCoursesActivity.USER_NAME_EXTRA, personName);
 
-            Log.d(MainActivity.TAG, personName  + "personName"+ "url" + imageUri.getPath()
-            + "  " + imageUri.toString());
+            Log.d(MainActivity.TAG, personName  + "personName"+
+            "url  " + imageUri.toString());
+
             editor.apply();
-
-            ImageView imageView = (ImageView) findViewById(R.id.imageView4);
-            Picasso.with( getApplicationContext() )
-                    .load(imageUri)
-                    .resize(50,50)
-                    .centerCrop()
-                    .into(imageView);
-
-
 
 
 
             updateUI(true);
 
-            Intent intent = new Intent(this , LoginActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(this , LoginActivity.class);
+            //startActivity(intent);
 
         }
         else {
