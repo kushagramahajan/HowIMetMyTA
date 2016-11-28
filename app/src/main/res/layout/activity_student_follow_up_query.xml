@@ -53,12 +53,12 @@
         android:id="@+id/message"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/send"
+        android:layout_toStartOf="@+id/meet"
         android:maxLines="5"
         android:hint="type message" />
 
     <ImageButton
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_menu_send"
         android:id="@+id/send"
@@ -68,4 +68,17 @@
         android:background="@android:color/transparent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true" />
+
+    <ImageButton
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_transfer_within_a_station_black_24dp"
+        android:id="@+id/meet"
+        android:onClick="onMeetClicked"
+        android:background="@android:color/transparent"
+        android:layout_below="@+id/list"
+        android:layout_toStartOf="@+id/send"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="5dp"
+        android:layout_width="40dp" />
+
 </RelativeLayout>

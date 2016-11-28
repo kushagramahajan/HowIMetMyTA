@@ -179,8 +179,6 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                         ((CommonQueryAdapter) mAdapter).notifyDataSetChanged();
                         commonQueryList.clear();
                         commonQueryList.addAll(Querarr);
-
-
                     }
                     catch (Exception e)
                     {

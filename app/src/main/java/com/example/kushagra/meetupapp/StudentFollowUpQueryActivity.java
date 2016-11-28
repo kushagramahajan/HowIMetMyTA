@@ -3,13 +3,21 @@ package com.example.kushagra.meetupapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
@@ -28,9 +36,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
+    int day, month, year, hour, minute;
+    String meetingvenue;
+
+    Boolean flag;
     private EditText chatBox;
     private LinearLayout msg_list;
     private File file;
+    ImageButton send,meet;
 
     private String my_emailId;
 
@@ -43,6 +56,23 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_follow_up_query);
         chatBox =(EditText)findViewById(R.id.message);
         msg_list = (LinearLayout)findViewById(R.id.msg_list);
+        send = (ImageButton) findViewById(R.id.send);
+        meet = (ImageButton) findViewById(R.id.meet);
+        SharedPreferences sp = getSharedPreferences("MySharedPreference",MODE_PRIVATE);
+        Boolean status = sp.getBoolean("MEET_STATUS",false);
+
+        if(status)
+        {
+            chatBox.setVisibility(View.GONE);
+            send.setVisibility(View.GONE);
+            meet.setVisibility(View.GONE);
+
+            day = sp.getInt("DAY",1);
+            month = sp.getInt("MONTH",1);
+            year = sp.getInt("YEAR",1);
+            hour = sp.getInt("HOUR",1);
+            minute  = sp.getInt("MINUTE",1);
+        }
 
         DbManipulate dbman=new DbManipulate(getApplicationContext());
 
@@ -58,7 +88,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         {
             file = new File(getApplicationContext().getFilesDir(), courseId_file_name);
             Querarr = readQueryFile(file);
-
+            meet.setVisibility(View.GONE);
         }
 
         String reqQueryId = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
@@ -99,6 +129,22 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         //code to add message UI
         for(com.example.kushagra.meetupapp.Message msgObject : messArr)
             insertOneEntryIntoBalloonList(msgObject);
+
+        View view = getLayoutInflater().inflate(R.layout.msg_balloon_neutral,null);
+        TextView t = (TextView)view.findViewById(R.id.msg_text);
+        String s = null;
+        if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
+        {
+            s = "You have fixed a meeting with "+ invertStudentTa(my_emailId)+ " on "+ day+"/"+
+                    month + "/" + year + " at " + hour + ":" + minute;
+        }
+        else
+        {
+            s = invertStudentTa(my_emailId)+" has fixed a meeting with you on "+ day + "/" +
+                    month + "/" + year + " at " + hour + ":" + minute;
+        }
+        t.setText(s);
+        msg_list.addView(view);
     }
 
     private void insertOneEntryIntoBalloonList(Message msgObject)
@@ -255,16 +301,104 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         if(globalCurrentQuery.getTaId().equalsIgnoreCase(my_emailId))
         {
             return globalCurrentQuery.getStudentId();
-
         }
         else
         {
             return globalCurrentQuery.getTaId();
-
         }
     }
 
+    public void onMeetClicked(View view)
+    {
+        SharedPreferences.Editor editor = getSharedPreferences("MySharedPreference", MODE_PRIVATE).edit();
+        editor.putBoolean("MEET_STATUS", true);
+        editor.commit();
 
+        chatBox.setVisibility(View.GONE);
+        send.setVisibility(View.GONE);
+        meet.setVisibility(View.GONE);
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(StudentFollowUpQueryActivity.this);
+        dialogBuilder.setTitle("Set Meeting...");
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.meeting, null);
+        dialogBuilder.setView(dialogView);
+        final AlertDialog alertDialog = dialogBuilder.create();
+
+        final EditText venue = (EditText) dialogView.findViewById(R.id.venue);
+
+        final DatePicker date = (DatePicker) dialogView.findViewById(R.id.date);
+        final TimePicker time = (TimePicker) dialogView.findViewById(R.id.time);
+        venue.clearFocus();
+
+        date.setMinDate(System.currentTimeMillis()-1000);
+
+        Button button_save = (Button) dialogView.findViewById(R.id.button_save);
+        Button button_discard = (Button) dialogView.findViewById(R.id.button_discard);
+
+        button_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(venue.getText().toString().isEmpty())
+                {
+                    venue.setHint("Venue (Required)");
+                }
+                else
+                {
+                    meetingvenue = venue.getText().toString();
+                    day = date.getDayOfMonth();
+                    month = date.getMonth();
+                    year = date.getYear();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        hour = time.getHour();
+                    } else {
+                        hour = time.getCurrentHour();
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        minute = time.getMinute();
+                    } else {
+                        minute = time.getCurrentMinute();
+                    }
+                    flag=false;
+                    Toast.makeText(getApplicationContext(),day+" "+ month+" "+ year+" "+ hour+" "+ minute+" ", Toast.LENGTH_LONG).show();
+                    alertDialog.cancel();
+                }
+            }
+        });
+        button_discard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag=false;
+                alertDialog.cancel();
+            }
+        });
+        flag=true;
+        alertDialog.show();
+
+        View view2 = getLayoutInflater().inflate(R.layout.msg_balloon_neutral,null);
+        TextView t = (TextView)view.findViewById(R.id.msg_text);
+        String s = null;
+        if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
+        {
+            s = "You have fixed a meeting with "+ invertStudentTa(my_emailId)+ " on "+ day+"/"+
+                    month + "/" + year + " at " + hour + ":" + minute;
+        }
+        else
+        {
+            s = invertStudentTa(my_emailId)+" has fixed a meeting with you on "+ day + "/" +
+                    month + "/" + year + " at " + hour + ":" + minute;
+        }
+        t.setText(s);
+        msg_list.addView(view2);
+
+        editor.putInt("DAY",day);
+        editor.putInt("MONTH",month);
+        editor.putInt("YEAR",year);
+        editor.putInt("HOUR",hour);
+        editor.putInt("MINUTE",minute);
+        editor.commit();
+    }
 
 
 }
