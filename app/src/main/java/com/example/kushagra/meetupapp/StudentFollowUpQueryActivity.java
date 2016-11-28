@@ -346,6 +346,25 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                     }
                     flag=false;
                     Toast.makeText(getApplicationContext(),day+" "+ month+" "+ year+" "+ hour+" "+ minute+" ", Toast.LENGTH_LONG).show();
+
+                    String qid = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
+                    View view2 = getLayoutInflater().inflate(R.layout.msg_balloon_neutral,null);
+                    TextView t = (TextView)view2.findViewById(R.id.msg_text);
+                    String s = null;
+                    if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
+                    {
+                        s = "You have fixed a meeting with "+ invertStudentTa(my_emailId)+ " on "+ day+"/"+
+                                month + "/" + year + " at " + hour + ":" + minute;
+                    }
+                    else
+                    {
+                        s = invertStudentTa(my_emailId)+" has fixed a meeting with you on "+ day + "/" +
+                                month + "/" + year + " at " + hour + ":" + minute;
+                    }
+                    t.setText(s);
+                    msg_list.addView(view2);
+                    dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
+
                     alertDialog.cancel();
                 }
             }
@@ -359,23 +378,6 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         });
         flag=true;
         alertDialog.show();
-
-        View view2 = getLayoutInflater().inflate(R.layout.msg_balloon_neutral,null);
-        TextView t = (TextView)view.findViewById(R.id.msg_text);
-        String s = null;
-        if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
-        {
-            s = "You have fixed a meeting with "+ invertStudentTa(my_emailId)+ " on "+ day+"/"+
-                    month + "/" + year + " at " + hour + ":" + minute;
-        }
-        else
-        {
-            s = invertStudentTa(my_emailId)+" has fixed a meeting with you on "+ day + "/" +
-                    month + "/" + year + " at " + hour + ":" + minute;
-        }
-        t.setText(s);
-        msg_list.addView(view2);
-        dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
     }
 
 
