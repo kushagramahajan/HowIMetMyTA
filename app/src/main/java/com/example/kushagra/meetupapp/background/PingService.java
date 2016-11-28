@@ -9,7 +9,7 @@ import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -512,6 +512,21 @@ public class PingService extends Service
          .setStyle(new NotificationCompat.BigTextStyle()
          .bigText(notificationMessage))
          .setContentText(notificationMessage).setAutoCancel(true);
+
+        NotificationCompat.InboxStyle inboxStyle =
+                new NotificationCompat.InboxStyle();
+
+
+// Sets a title for the Inbox in expanded layout
+        inboxStyle.setBigContentTitle("Unread Messages");
+// Moves events into the expanded layout
+        for (int i=0; i < messages.length; i++) {
+
+            inboxStyle.addLine(messages[i].getMessage());
+        }
+// Moves the expanded layout object into the notification object.
+        mBuilder.setStyle(inboxStyle);
+
          mBuilder.setSound(alarmSound);
          mBuilder.setContentIntent(contentIntent);
          mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
