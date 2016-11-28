@@ -30,7 +30,6 @@ import com.example.kushagra.meetupapp.navDrawer.recyclerView.ClickListener;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonAdapter;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonCoursesAdapter;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonQueryAdapter;
-import com.example.kushagra.meetupapp.navDrawer.recyclerView.DividerItemDecoration;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.RecyclerTouchListener;
 
 import java.io.File;
@@ -108,7 +107,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+      //  recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter((CommonCoursesAdapter)mAdapter);
@@ -186,7 +185,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+      //  recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter((CommonQueryAdapter)mAdapter);
@@ -201,10 +200,14 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
 
                 Query query = commonQueryList.get(position);
-                Toast.makeText(getApplicationContext(), query.getQueryId() + " q is selected!", Toast.LENGTH_SHORT).show();
+                Toast.makeText( CommonCoursesListActivity.this , query.getQueryId() + " q is selected!", Toast.LENGTH_SHORT).show();
 
 
-                Intent i = new Intent( getApplicationContext() ,StudentFollowUpQueryActivity.class);
+                Intent i = new Intent( CommonCoursesListActivity.this ,StudentFollowUpQueryActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+
 
 
                 i.putExtra( AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA , query.getQueryId() );
@@ -334,6 +337,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
      //   commonCoursesList.add(new Course("Student crsc Dummy" , "def002" , null));
 
         Log.d(AllCoursesActivity.TAG , "Courses  Size  = " +dbManipulate.getMyCourses().size() );
+
         commonCoursesList.addAll(
                 dbManipulate.getMyCourses()
         );
@@ -346,6 +350,8 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
     private void setAndPopulateTACourses()
     {
+
+
 
         commonCoursesList.clear();
         isTaSelected = true;

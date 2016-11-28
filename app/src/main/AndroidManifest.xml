@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+
 
     <application
         android:allowBackup="true"
@@ -50,7 +53,8 @@
 
         <service android:name=".background.PingService"
             android:exported="false"
-            />
+            android:enabled="true"
+            android:stopWithTask="false" />
 
         <activity
             android:name=".navDrawer.CommonCoursesListActivity"

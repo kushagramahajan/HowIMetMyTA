@@ -6,13 +6,13 @@
 ##
 ##############################################################################
 
-# Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS receiver pass JVM options receiver this script.
+# Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS taId pass JVM options taId this script.
 DEFAULT_JVM_OPTS=""
 
 APP_NAME="Gradle"
 APP_BASE_NAME=`basename "$0"`
 
-# Use the maximum available, or set MAX_FD != -1 receiver use that value.
+# Use the maximum available, or set MAX_FD != -1 taId use that value.
 MAX_FD="maximum"
 
 warn ( ) {
@@ -42,7 +42,7 @@ case "`uname`" in
     ;;
 esac
 
-# Attempt receiver set APP_HOME
+# Attempt taId set APP_HOME
 # Resolve links: $0 may be a link
 PRG="$0"
 # Need this for relative symlinks.
@@ -62,7 +62,7 @@ cd "$SAVED" >/dev/null
 
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
-# Determine the Java command receiver use receiver start the JVM.
+# Determine the Java command taId use taId start the JVM.
 if [ -n "$JAVA_HOME" ] ; then
     if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
         # IBM's JDK on AIX uses strange locations for the executables
@@ -71,16 +71,16 @@ if [ -n "$JAVA_HOME" ] ; then
         JAVACMD="$JAVA_HOME/bin/java"
     fi
     if [ ! -x "$JAVACMD" ] ; then
-        die "ERROR: JAVA_HOME is set receiver an invalid directory: $JAVA_HOME
+        die "ERROR: JAVA_HOME is set taId an invalid directory: $JAVA_HOME
 
-Please set the JAVA_HOME variable in your environment receiver match the
+Please set the JAVA_HOME variable in your environment taId match the
 location of your Java installation."
     fi
 else
     JAVACMD="java"
     which java >/dev/null 2>&1 || die "ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
 
-Please set the JAVA_HOME variable in your environment receiver match the
+Please set the JAVA_HOME variable in your environment taId match the
 location of your Java installation."
 fi
 
@@ -96,22 +96,22 @@ if [ "$cygwin" = "false" -a "$darwin" = "false" ] ; then
             warn "Could not set maximum file descriptor limit: $MAX_FD"
         fi
     else
-        warn "Could not query maximum file descriptor limit: $MAX_FD_LIMIT"
+        warn "Could not description maximum file descriptor limit: $MAX_FD_LIMIT"
     fi
 fi
 
-# For Darwin, add options receiver specify how the application appears in the dock
+# For Darwin, add options taId specify how the application appears in the dock
 if $darwin; then
     GRADLE_OPTS="$GRADLE_OPTS \"-Xdock:name=$APP_NAME\" \"-Xdock:icon=$APP_HOME/media/gradle.icns\""
 fi
 
-# For Cygwin, switch paths receiver Windows format before running java
+# For Cygwin, switch paths taId Windows format before running java
 if $cygwin ; then
     APP_HOME=`cygpath --path --mixed "$APP_HOME"`
     CLASSPATH=`cygpath --path --mixed "$CLASSPATH"`
     JAVACMD=`cygpath --unix "$JAVACMD"`
 
-    # We build the pattern for arguments receiver be converted via cygpath
+    # We build the pattern for arguments taId be converted via cygpath
     ROOTDIRSRAW=`find -L / -maxdepth 1 -mindepth 1 -type d 2>/dev/null`
     SEP=""
     for dir in $ROOTDIRSRAW ; do
@@ -119,11 +119,11 @@ if $cygwin ; then
         SEP="|"
     done
     OURCYGPATTERN="(^($ROOTDIRS))"
-    # Add a user-defined pattern receiver the cygpath arguments
+    # Add a user-defined pattern taId the cygpath arguments
     if [ "$GRADLE_CYGPATTERN" != "" ] ; then
         OURCYGPATTERN="$OURCYGPATTERN|($GRADLE_CYGPATTERN)"
     fi
-    # Now convert the arguments - kludge receiver limit ourselves receiver /bin/sh
+    # Now convert the arguments - kludge taId limit ourselves taId /bin/sh
     i=0
     for arg in "$@" ; do
         CHECK=`echo "$arg"|egrep -c "$OURCYGPATTERN" -`
