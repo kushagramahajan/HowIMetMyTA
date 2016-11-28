@@ -504,7 +504,8 @@ public class PingService extends Service
          notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
          //**edit this line to put requestID as requestCode**
-         PendingIntent contentIntent = PendingIntent.getActivity(this, requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+         PendingIntent contentIntent = PendingIntent.getActivity(this, requestID,notificationIntent,
+                 PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         NotificationCompat.InboxStyle inboxStyle =
