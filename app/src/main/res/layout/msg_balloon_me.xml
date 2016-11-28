@@ -24,7 +24,9 @@
         android:layout_centerVertical="true"
         android:layout_weight="7"
         app:cardUseCompatPadding="true"
-        android:backgroundTint="@color/MyMsg">
+        android:backgroundTint="@color/MyMsg"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
