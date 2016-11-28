@@ -9,7 +9,7 @@ import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -213,7 +213,7 @@ public class PingService extends Service
         try
         {
             latch.await();  //main thread is waiting on CountDownLatch to finish
-            Thread.sleep(3000);
+            Thread.sleep(2000);
 
             Log.d( TAG  , "All Booleans are up, Again now");
 
@@ -479,11 +479,8 @@ public class PingService extends Service
 
 
 
-        String notificationMessage = "";
-
-        for (int i = 0 ; i < messages. length ; i++)
-            notificationMessage += messages[i].getMessage() + "\n";
-
+        String notificationMessage = "typo";
+        Integer NOTIFICATION_ID = 1;
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -495,7 +492,10 @@ public class PingService extends Service
          Intent notificationIntent = new Intent(getApplicationContext(), StudentFollowUpQueryActivity.class);
 
         notificationIntent.putExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA, queryId);
+
         notificationIntent.putExtra(AllCoursesActivity.COURSE_ID_EXTRA, courseId);
+
+
         notificationIntent.putExtra( AllCoursesActivity.IS_DESCREPANCY_EXTRA , true);
 
 
@@ -504,37 +504,32 @@ public class PingService extends Service
          notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
          //**edit this line to put requestID as requestCode**
-         PendingIntent contentIntent = PendingIntent.getActivity(this, requestID,notificationIntent,
-                 PendingIntent.FLAG_UPDATE_CURRENT);
+         PendingIntent contentIntent = PendingIntent.getActivity(this, requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+         .setSmallIcon(R.drawable.logo)
+         .setContentTitle("My Notification")
+         .setStyle(new NotificationCompat.BigTextStyle()
+         .bigText(notificationMessage))
+         .setContentText(notificationMessage).setAutoCancel(true);
 
         NotificationCompat.InboxStyle inboxStyle =
                 new NotificationCompat.InboxStyle();
 
-        inboxStyle.setBigContentTitle("bigcontitle");
-        // Moves events into the expanded layout
 
+// Sets a title for the Inbox in expanded layout
+        inboxStyle.setBigContentTitle("Unread Messages");
+// Moves events into the expanded layout
         for (int i=0; i < messages.length; i++) {
 
             inboxStyle.addLine(messages[i].getMessage());
         }
 // Moves the expanded layout object into the notification object.
-        // Creates
-
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-         .setSmallIcon(R.drawable.logo)
-         .setContentTitle(  messages.length + " messages from " + messages[0].getSender()    )
-         .setStyle( inboxStyle )
-         .setContentText(notificationMessage).setAutoCancel(true);
-
+        mBuilder.setStyle(inboxStyle);
 
          mBuilder.setSound(alarmSound);
          mBuilder.setContentIntent(contentIntent);
-
-
-         mNotificationManager.notify(AllCoursesActivity.OLD_MESSAGE_NOTIFICATION_ID
-                 , mBuilder.build());
+         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 
     }
 
