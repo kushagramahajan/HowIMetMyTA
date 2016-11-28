@@ -148,7 +148,21 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                 chatBox.setVisibility(View.GONE);
                 send.setVisibility(View.GONE);
                 meet.setVisibility(View.GONE);
-                insertOneEntryIntoBalloonList(msgObject);
+
+                String s = null;
+                if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
+                {
+                    s = "You have fixed a meeting with "+ invertStudentTa(my_emailId)+ " on "+ day+"/"+
+                            month + "/" + year + " at " + hour + ":" + minute;
+                }
+                else
+                {
+                    s = invertStudentTa(my_emailId)+" has fixed a meeting with you on "+ day + "/" +
+                            month + "/" + year + " at " + hour + ":" + minute;
+                }
+                dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
+
+                insertOneEntryIntoBalloonList(new Message("neutral","neutral",s,qid));
                 break;
             }
             insertOneEntryIntoBalloonList(msgObject);
@@ -180,8 +194,11 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
     public void clickSendMessage(View v) throws IOException, ClassNotFoundException
     {
+        sendAction("doNot");
+    }
 
-
+    public void sendAction(String mark)
+    {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AllCoursesActivity.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -198,7 +215,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         String message = chatBox.getText().toString();
         chatBox.setText("");
 
-        if(v == null)
+        if(mark.equals("doIt"))
         {
             message = "TIME~"+day+"~"+month+"~"+year+"~"+hour+"~"+minute;
 
@@ -256,11 +273,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
 
         });
-
-
     }
-
-
 
 
     ArrayList<Query> readQueryFile(File file)
@@ -392,13 +405,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                     msg_list.addView(view2);
                     dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
 
-                    try {
-                        clickSendMessage(null);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    sendAction("doIt");
 
                     alertDialog.cancel();
                 }
