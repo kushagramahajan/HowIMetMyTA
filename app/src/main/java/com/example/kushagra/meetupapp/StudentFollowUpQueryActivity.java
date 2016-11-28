@@ -162,7 +162,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                     s = invertStudentTa(my_emailId)+" has fixed a meeting with you on "+ day + "/" +
                             month + "/" + year + " at " + hour + ":" + minute;
                 }
-                dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
+                //dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
                 insertOneEntryIntoBalloonList(new Message("neutral","neutral",s,qid));
 
                 break;
