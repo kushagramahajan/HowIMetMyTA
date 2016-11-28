@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -135,6 +137,22 @@ public class SignInActivity extends AppCompatActivity implements
         }
     }
     // [END onActivityResult]
+
+
+    public File getPrivateAlbumStorageDir(Context context)
+    {
+        // Get the directory for the app's private pictures directory.
+        File folder = new File(context.getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES), AllCoursesActivity.PROFILE_IMAGE_FILE_NAME);
+
+        if((!folder.exists()) && (!folder.mkdirs()))
+        {
+            Log.e( MainActivity.TAG , "Directory not created");
+
+        }
+
+        return folder;
+    }
 
     // [START handleSignInResult]
     private void handleSignInResult(GoogleSignInResult result)
