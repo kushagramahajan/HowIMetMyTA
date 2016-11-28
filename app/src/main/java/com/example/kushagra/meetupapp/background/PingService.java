@@ -506,16 +506,32 @@ public class PingService extends Service
          //**edit this line to put requestID as requestCode**
          PendingIntent contentIntent = PendingIntent.getActivity(this, requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+
+        NotificationCompat.InboxStyle inboxStyle =
+                new NotificationCompat.InboxStyle();
+
+        inboxStyle.setBigContentTitle("bigcontitle");
+        // Moves events into the expanded layout
+
+        for (int i=0; i < messages.length; i++) {
+
+            inboxStyle.addLine(messages[i].getMessage());
+        }
+// Moves the expanded layout object into the notification object.
+        // Creates
+
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
          .setSmallIcon(R.drawable.logo)
-         .setContentTitle(  messages[0].getSender() + ":"  + messages.length + " Messages" )
-         .setStyle
-                 (new NotificationCompat.BigTextStyle()
-         .bigText(notificationMessage)
-         )
+         .setContentTitle(  messages.length + " messages from " + messages[0].getSender()    )
+         .setStyle( inboxStyle )
          .setContentText(notificationMessage).setAutoCancel(true);
+
+
          mBuilder.setSound(alarmSound);
          mBuilder.setContentIntent(contentIntent);
+
+
          mNotificationManager.notify(AllCoursesActivity.OLD_MESSAGE_NOTIFICATION_ID
                  , mBuilder.build());
 
