@@ -13,8 +13,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d99f42c4-1470-4ec8-a03c-055ebec653e0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/back.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/back.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
     </list>
     <ignored path="mc_proj_student.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,7 +46,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="back.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="back.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/back.xml">
           <provider editor-type-id="text-editor">
             <state relative-caret-position="360">
@@ -63,10 +62,23 @@
       <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="125" column="75" selection-start-line="125" selection-start-column="75" selection-end-line="125" selection-end-column="75" />
+            <state relative-caret-position="274">
+              <caret line="91" column="16" selection-start-line="91" selection-start-column="16" selection-end-line="91" selection-end-column="16" />
               <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="29" column="28" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-manifest">
+            <state />
           </provider>
         </entry>
       </file>
@@ -1834,7 +1846,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_ta_follow_up_query.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/TaFollowUpQueryActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout-land/activity_sign_in.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_queries_list_common.xml" />
@@ -1853,8 +1864,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/meeting.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/background/PingService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/back.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -1991,6 +2003,10 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -2641,7 +2657,21 @@
       <option name="project" value="LOCAL" />
       <updated>1480373069619</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="login1">
+      <created>1480373467444</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1480373467444</updated>
+    </task>
+    <task id="LOCAL-00026" summary="login2">
+      <created>1480373845395</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1480373845395</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2718,7 +2748,9 @@
     <MESSAGE value="pass 4" />
     <MESSAGE value="not1" />
     <MESSAGE value="login" />
-    <option name="LAST_COMMIT_MESSAGE" value="login" />
+    <MESSAGE value="login1" />
+    <MESSAGE value="login2" />
+    <option name="LAST_COMMIT_MESSAGE" value="login2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2727,17 +2759,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_ta_query.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/app_bar_queries_list_common.xml">
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -3220,14 +3241,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="125" column="75" selection-start-line="125" selection-start-column="75" selection-end-line="125" selection-end-column="75" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/back.xml">
       <provider editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -3236,6 +3249,25 @@
         </state>
       </provider>
       <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="91" column="16" selection-start-line="91" selection-start-column="16" selection-end-line="91" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="29" column="28" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
         <state />
       </provider>
     </entry>
