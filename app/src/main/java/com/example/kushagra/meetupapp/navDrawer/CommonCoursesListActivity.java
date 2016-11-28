@@ -202,7 +202,8 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
                 Intent i = new Intent( getApplicationContext() ,StudentFollowUpQueryActivity.class);
 
-                i.putExtra(AllCoursesActivity.RECYCLER_VIEW_POSITION_EXTRA , position );
+
+                i.putExtra( AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA , query.getQueryId() );
                 i.putExtra( AllCoursesActivity.IS_TA_SELECTED_EXTRA , isTaSelected);
                 i.putExtra( AllCoursesActivity.COURSE_ID_EXTRA , currentCourse.getCourseId() );
 
@@ -238,7 +239,9 @@ public class CommonCoursesListActivity extends AppCompatActivity
         {
             commonQueryList.clear();
 
-            Log.d(AllCoursesActivity.TAG , "Reading All Queries"  + dbManipulate.getAllTAQueries(currentCourse.getCourseId()).size() );
+            Log.d(AllCoursesActivity.TAG , "Reading All Queries "  + currentCourse.getCourseId() + " = " +
+
+                    dbManipulate.getAllTAQueries(currentCourse.getCourseId()).size() );
 
             commonQueryList.addAll( dbManipulate.getAllTAQueries(currentCourse.getCourseId()) );
 

@@ -45,7 +45,6 @@ public class SplashScreen extends AppCompatActivity
     String[] newQueries,oldQueries;
     String[] oldCourseIds;
 
-    DbManipulate dbman;
 
     public static boolean isOnline()
     {
@@ -72,6 +71,7 @@ public class SplashScreen extends AppCompatActivity
                 .build();
 
         ServerApi service = retrofit.create(ServerApi.class);
+
         SharedPreferences editor = getApplicationContext()
                 .getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
 
@@ -92,14 +92,18 @@ public class SplashScreen extends AppCompatActivity
                     oldQueries=response.body().getOldQueryId();
                     newQueries=response.body().getNewQueryId();
 
+                    String[] newCourseIds = response.body().getNewCourseIds() ;
+                    String[] oldCourseIds = response.body().getOldCourseIds() ;
+
+
+                    if(isAnyNew==true)
+                    {                //ta
+                        getPendingNewQueries(newCourseIds);
+                    }
                     if(isAnyOld==true && isAnyNew==false)
                     {              //student
-                        getPendingOldQueries();
+                        getPendingOldQueries(oldCourseIds);
 
-                    }
-                    else if(isAnyNew==true)
-                    {                //ta
-                        getPendingNewQueries();
                     }
 
 
@@ -125,8 +129,14 @@ public class SplashScreen extends AppCompatActivity
 
     }
 
-    private void getPendingNewQueries()
+    private void getPendingNewQueries(String[] newCourseIds)
     {
+
+
+        Log.d(MainActivity.TAG, "Getting new pending queries ");
+
+        final DbManipulate dbMan = new DbManipulate(getApplicationContext());
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AllCoursesActivity.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -134,10 +144,15 @@ public class SplashScreen extends AppCompatActivity
 
         ServerApi service = retrofit.create(ServerApi.class);
 
+        SharedPreferences sp = getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE);
+        final String studentId = sp.getString(AllCoursesActivity.EMAIL_ID_EXTRA , "Default");
+
+
         // sending individual query ids for new
         //handling by ta
 
-        for(int i=0;i<newQueries.length;i++) {
+        for(int i=0;i<newQueries.length;i++)
+        {
             final String temp=newQueries[i];
 
 
@@ -148,7 +163,6 @@ public class SplashScreen extends AppCompatActivity
             call.enqueue(new Callback<TaNewMessage>() {
                 @Override
                 public void onResponse(Call<TaNewMessage> call, Response<TaNewMessage> response) {
-                    Log.d(MainActivity.TAG, "inside on response for getting new pending queries ");
 
 
                     if (response.body() != null) {
@@ -161,7 +175,17 @@ public class SplashScreen extends AppCompatActivity
                         String title = messforaquery.getTitle();
                         String queryid=queryIdToInsert;
 
+// public TaNewMessage(String taId, String studentId, String courseId, String title, String description, boolean isResolved, String queryId) {
 
+                        TaNewMessage taNewMessage = new TaNewMessage( messforaquery.getTaId()  ,
+                                messforaquery.getStudentId() , messforaquery.getCourseId() ,
+                                title ,description , false , queryIdToInsert);
+
+                        dbMan.insertTAQueries(taNewMessage);
+                        Log.d(MainActivity.TAG , "New Query" + messforaquery.getCourseId() + " " + messforaquery.getTitle()
+                        + messforaquery.getTaId() );
+
+                        Log.d(MainActivity.TAG , dbMan.getAllTAQueries(courseid).size()  + "--" + dbMan.getAllTAQueries(courseid).get(0).getTitle() );
 
                         //////////////////
 
@@ -244,8 +268,12 @@ public class SplashScreen extends AppCompatActivity
 
     }
 
-    private void getPendingOldQueries()
+    private void getPendingOldQueries(final String[] oldCourseIds)
     {
+        Log.d(MainActivity.TAG,  "getting old pending queries ");
+
+        final DbManipulate dbMan = new DbManipulate(getApplicationContext());
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AllCoursesActivity.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -266,14 +294,16 @@ public class SplashScreen extends AppCompatActivity
         {
 
 
-            final int indexOfQuery=i;
+
+            final int indexOfQuery = i;
             final String QueryId=oldQueries[i];
             RecentMessages rmessage=new RecentMessages(oldQueries[i],null);
             Call<RecentMessages> call = service.getPendingOldQueryList(rmessage);
-            call.enqueue(new Callback<RecentMessages>() {
+
+            call.enqueue(new Callback<RecentMessages>()
+            {
                 @Override
                 public void onResponse(Call<RecentMessages> call, Response<RecentMessages> response) {
-                    Log.d(MainActivity.TAG, "inside on response for getting old pending queries ");
 
                     if (response.body() != null) {
 
@@ -281,8 +311,16 @@ public class SplashScreen extends AppCompatActivity
                         Message[] messforaquery= messquery.getMessages();
 
                         for(int j=0;j<messforaquery.length;j++)
-                            dbman.insertMessageOfQuery(messforaquery[j],QueryId);
+                        {
 
+                            Message insertableMsg = new Message(messforaquery[j].getSender() ,
+                                    messforaquery[j].getReceiver() , messforaquery[j].getMessage() ,
+                                    messforaquery[j].getQueryId());
+
+                            Log.d(MainActivity.TAG , insertableMsg.getSender() + "says" + insertableMsg.getMessage() );
+                            dbMan.insertMessageOfQuery(insertableMsg , QueryId);
+
+                        }
 
 //                        FileInputStream fileIn = null;// Read serial file.
 //                        FileOutputStream fileOut=null;
@@ -363,7 +401,8 @@ public class SplashScreen extends AppCompatActivity
 //                            e.printStackTrace();
 //                        }
 
-                        String courseId=dbman.getCourseId(QueryId);
+                        String courseId = oldCourseIds[indexOfQuery];
+
                         generateNotificationOldMessage(QueryId,messforaquery,indexOfQuery,courseId);
 
 
@@ -387,7 +426,8 @@ public class SplashScreen extends AppCompatActivity
     }
 
 
-    private void generateNotificationOldMessage(String queryId,Message[] messages,int index,String courseId){
+    private void generateNotificationOldMessage(String queryId,Message[] messages,int index,String courseId)
+    {
 
         NotificationCompat.Builder mBuilder =
                 (NotificationCompat.Builder) new NotificationCompat.Builder(this)
@@ -397,8 +437,11 @@ public class SplashScreen extends AppCompatActivity
 
 
         // Creates an explicit intent for an Activity in your app
+
         Intent resultIntent = new Intent(this, StudentFollowUpQueryActivity.class);
-        resultIntent.putExtra(AllCoursesActivity.RECYCLER_VIEW_POSITION_EXTRA, index);
+
+        resultIntent.putExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA, queryId);
+
         resultIntent.putExtra(AllCoursesActivity.COURSE_ID_EXTRA, courseId);
 
 
@@ -518,7 +561,6 @@ public class SplashScreen extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        dbman=new DbManipulate(getApplicationContext());
 
         getSupportActionBar().hide();
 

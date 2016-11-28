@@ -28,83 +28,97 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
-    EditText Editmessege;
-    LinearLayout msg_list;
-    File file;
+    private EditText chatBox;
+    private LinearLayout msg_list;
+    private File file;
+
+    private String my_emailId;
+
+    private Query globalCurrentQuery = null ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_follow_up_query);
-        Editmessege=(EditText)findViewById(R.id.message);
+        chatBox =(EditText)findViewById(R.id.message);
         msg_list = (LinearLayout)findViewById(R.id.msg_list);
 
         DbManipulate dbman=new DbManipulate(getApplicationContext());
 
+        ArrayList<Query> Querarr;
+        String courseId_file_name = getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
 
-        // get the particular description object
+        if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
+        {
+            Querarr = dbman.getAllTAQueries(courseId_file_name);
 
-//        String file_name = getIntent().getStringExtra("MAMA");
-        String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
-        file = new File(getApplicationContext().getFilesDir(),file_name);
+        }
+        else
+        {
+            file = new File(getApplicationContext().getFilesDir(), courseId_file_name);
+            Querarr = readQueryFile(file);
 
-        Log.d(MainActivity.TAG , file_name + " ...");
-        ArrayList<Query> Querarr = readQueryFile(file);
+        }
 
-        Log.d(MainActivity.TAG , Querarr.size()+ " " +
-                "" );
+        String reqQueryId = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
 
-// this is original code to add messages to the array list
+        for( Query q : Querarr)
+        {
+            if(q.getQueryId().equalsIgnoreCase(reqQueryId))
+            {
+                globalCurrentQuery = q;
+            }
+        }
+        if( globalCurrentQuery ==null)
+        {
+            Log.d(MainActivity.TAG , "Entry NOT Created in Queries");
 
-        int position = getIntent().getIntExtra(AllCoursesActivity.RECYCLER_VIEW_POSITION_EXTRA,0);
-        Query modquer=Querarr.get(position);
-//        ArrayList<Message> messArr=modquer.getMessages();
+        }
+
+        Log.d(MainActivity.TAG , "Quearr size" + Querarr.size() + " currentQuery = " + globalCurrentQuery.getTitle() );
+
+
+//        ArrayList<Message> messArr=globalCurrentQuery.getMessages();
 
 
         //used this code to add following shit messages for testing. pleasee remove
 
 
-
-
-
         ArrayList<Message> messArr;
-        messArr=dbman.getAllMessagesOfQueryId(modquer.getQueryId());
+        messArr=dbman.getAllMessagesOfQueryId(globalCurrentQuery.getQueryId());
 
+        Log.d(MainActivity.TAG , "Size of All  Messages " + messArr.size() );
 
-
-//        messArr = new ArrayList<>();
-//        messArr.add(new Message("ta","me","i wanna drink ur blood"));
-//        messArr.add(new Message("me","ta","no i wanna drink urs, plz"));
-//        messArr.add(new Message("ta","me","no, i wanna drink ur blood, or else grade reduction"));
-//        messArr.add(new Message("me","ta","ok. i'll just gonna cut me-self"));
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
                 AllCoursesActivity.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE
         );
-        String student_email_id=sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user");
+        my_emailId = sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user");
 
         //code to add message UI
-        for(com.example.kushagra.meetupapp.Message m : messArr)
-        {
-            View view;
-
-
-            if(m.getSender().equals(student_email_id))
-            {
-                view = getLayoutInflater().inflate(R.layout.msg_balloon_me,null);
-            }
-            else
-            {
-                view = getLayoutInflater().inflate(R.layout.msg_balloon_them,null);
-            }
-            TextView t = (TextView)view.findViewById(R.id.msg_text);
-            t.setText(m.getMessage());
-            msg_list.addView(view);
-        }
-
+        for(com.example.kushagra.meetupapp.Message msgObject : messArr)
+            insertOneEntryIntoBalloonList(msgObject);
     }
 
+    private void insertOneEntryIntoBalloonList(Message msgObject)
+    {
+        View view;
+
+
+        if(msgObject.getSender().equalsIgnoreCase(my_emailId))
+        {
+            view = getLayoutInflater().inflate(R.layout.msg_balloon_me,null);
+        }
+        else
+        {
+            view = getLayoutInflater().inflate(R.layout.msg_balloon_them,null);
+        }
+        TextView t = (TextView)view.findViewById(R.id.msg_text);
+        t.setText(msgObject.getMessage());
+        msg_list.addView(view);
+
+    }
 
     public void clickSendMessage(View v) throws IOException, ClassNotFoundException
     {
@@ -114,31 +128,32 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                 .baseUrl(AllCoursesActivity.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         ServerApi service = retrofit.create(ServerApi.class);
-
-        String message = Editmessege.getText().toString();
-        String file_name = getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA);
-        Log.d(MainActivity.TAG , "inside click Msg  courseID"+ file_name );
-        file = new File(getApplicationContext().getFilesDir(),file_name);
 
         SharedPreferences sp = getApplicationContext()
                 .getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
 
+
+
         final String my_emailId = sp.getString(AllCoursesActivity.EMAIL_ID_EXTRA, "default@email.com");
-        Log.d(AllCoursesActivity.TAG, "emailId" + my_emailId);
+        String receiver_emailId = invertStudentTa( my_emailId );
+        String message = chatBox.getText().toString();
+        chatBox.setText("");
 
-        ArrayList<Query> Querarr = readQueryFile(file);
 
+        Log.d(AllCoursesActivity.TAG, "sender emailId" + my_emailId + "receive email" + globalCurrentQuery.getTaId());
 
-        int position = getIntent().getIntExtra(AllCoursesActivity.RECYCLER_VIEW_POSITION_EXTRA,0);
-
-        final Query modquer = Querarr.get(position);
 
         final Message toadd = new Message(
-                my_emailId
-                , modquer.getTaId(), message);
+                my_emailId,
+                receiver_emailId,
+                message,
+                globalCurrentQuery.getQueryId()
+        );
 
+
+
+        insertOneEntryIntoBalloonList(toadd);
 
 
         Call<Message> call = service.sendMessage(toadd);
@@ -155,7 +170,14 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
 
                     DbManipulate dbman = new DbManipulate(getApplicationContext());
-                    dbman.insertMessageOfQuery(toadd, modquer.getQueryId());
+                    dbman.insertMessageOfQuery(toadd, globalCurrentQuery.getQueryId());
+
+
+
+                    /*
+
+                   NEeD to update UI
+                     */
 
                 }
                 else{
@@ -170,8 +192,8 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
             //check wheher posotion sender 0 or 1
 
-//        modquer.getMessages().add(toadd);
-//        Querarr.set(position,modquer);
+//        globalCurrentQuery.getMessages().add(toadd);
+//        Querarr.set(position,globalCurrentQuery);
 
         //write the Querarr
 
@@ -228,6 +250,19 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         return Querarr;
     }
 
+    private String invertStudentTa(String my_emailId)
+    {
+        if(globalCurrentQuery.getTaId().equalsIgnoreCase(my_emailId))
+        {
+            return globalCurrentQuery.getStudentId();
+
+        }
+        else
+        {
+            return globalCurrentQuery.getTaId();
+
+        }
+    }
 
 
 

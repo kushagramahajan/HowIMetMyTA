@@ -342,8 +342,10 @@ public class DbManipulate
                     new Message(
                     cursor.getString( cursor.getColumnIndex(DbContract.TableMessages.COLUMN_NAME_MESSAGE_SENDER) ),
                             cursor.getString( cursor.getColumnIndex(DbContract.TableMessages.COLUMN_NAME_MESSAGE_RECEIVER) ),
-                    cursor.getString( cursor.getColumnIndex(DbContract.TableMessages.COLUMN_NAME_MESSAGE_STRING ) )
-            ));
+                    cursor.getString( cursor.getColumnIndex(DbContract.TableMessages.COLUMN_NAME_MESSAGE_STRING ) ),
+                            cursor.getString( cursor.getColumnIndex(DbContract.TableMessages.COLUMN_NAME_MESSAGE_QUERY_ID ) )
+
+                            ));
 
             cursor.moveToNext();
 

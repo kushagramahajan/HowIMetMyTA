@@ -1,17 +1,37 @@
 package com.example.kushagra.meetupapp.network.model;
 
-import java.util.ArrayList;
-
 /**
  * Created by kushagra on 29-10-2016.
  */
 
-public class StatusClass {
+public class StatusClass
+{
+
     boolean isAnyOld;
     boolean isAnyNew;
 
     String[] oldQueryId;
     String[] newQueryId;
+    String[] newCourseIds;
+
+    public String[] getNewCourseIds() {
+        return newCourseIds;
+    }
+
+    public void setNewCourseIds(String[] newCourseIds) {
+        this.newCourseIds = newCourseIds;
+    }
+
+    public String[] getOldCourseIds() {
+        return oldCourseIds;
+    }
+
+    public void setOldCourseIds(String[] oldCourseIds) {
+        this.oldCourseIds = oldCourseIds;
+    }
+
+    String[] oldCourseIds;
+
     String studentId;
 
     public StatusClass(boolean isAnyOld, boolean isAnyNew, String[] oldQueryId,String[] newQueryId) {

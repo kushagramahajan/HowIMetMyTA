@@ -5,12 +5,21 @@ package com.example.kushagra.meetupapp;
  */
 
 public class Message {
-    String sender, receiver, message;
+    String sender, receiver, message ,queryId;
 
-    public Message(String from, String to, String messege) {
+    public Message(String from, String to, String messege , String queryId) {
         this.sender = from;
         this.receiver = to;
         this.message = messege;
+        this.queryId = queryId;
+    }
+
+    public String getQueryId() {
+        return queryId;
+    }
+
+    public void setQueryId(String queryId) {
+        this.queryId = queryId;
     }
 
     public String getSender() {
