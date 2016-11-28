@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -46,6 +47,7 @@ public class LoginActivity extends AppCompatActivity
     ArrayList<Course> a;
     ArrayAdapter<String> spinnerAdapter;
     ArrayList<String> serverCourses;
+    CheckBox[] cb;
 
     private static final String TAG ="SP_Main";
 
@@ -73,24 +75,21 @@ public class LoginActivity extends AppCompatActivity
         {
             serverCourses.add(c.getCourseName());
         }
-        spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, serverCourses);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerAdapter);
 
         email = (TextView) findViewById(R.id.email);
         SharedPreferences sh=getApplicationContext().getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
-
         email.setText(sh.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user"));
 
-
-        /*
-
-        Demo
-
-
-
-
-         */
+        int i=0;
+        cb = new CheckBox[serverCourses.size()];
+        for(String s : serverCourses)
+        {
+            cb[i] = new CheckBox(this);
+            cb[i].setText(s);
+            cb[i].setChecked(false);
+            cb[i].setTextSize(20);
+            table.addView(cb[i]);
+        }
 
     }
 
@@ -118,7 +117,24 @@ public class LoginActivity extends AppCompatActivity
     public void clickAdd(View view)
     {
         stobj = new StudentRegisterClass("" , "");
-        //email_text=mEmail.getText().toString();
+
+        for(CheckBox ch : cb)
+        {
+            if(ch.isChecked())
+            {
+                currentCourse = ch.getText().toString();
+                serverCourses.remove(serverCourses.indexOf(currentCourse));
+                spinnerAdapter.notifyDataSetChanged();
+                for(Course c : a)
+                {
+                    if(c.getCourseName().equals(currentCourse)) {
+                        myCourses.add(c);
+                        break;
+                    }
+                }
+            }
+        }
+
         SharedPreferences sh = getApplicationContext().getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
 
         Log.d(MainActivity.TAG , sh.getString(AllCoursesActivity.USER_NAME_EXTRA,"name") + " ");
