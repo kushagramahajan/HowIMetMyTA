@@ -143,13 +143,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                 insertEveryMessageIntoLinearLayout();
 
             }
-
-
-
-
         }
-
-
     }
     private class DataUpdateReceiver extends BroadcastReceiver
     {
