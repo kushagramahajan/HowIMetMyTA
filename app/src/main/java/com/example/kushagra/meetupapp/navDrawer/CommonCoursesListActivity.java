@@ -2,9 +2,8 @@ package com.example.kushagra.meetupapp.navDrawer;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -35,6 +34,7 @@ import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonAdapter;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonCoursesAdapter;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonQueryAdapter;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.RecyclerTouchListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -99,7 +99,13 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
         handleCourseSideRecyclerView();
 
-        loadUserImageFromPrivateExternalStorage(getApplicationContext());
+        SharedPreferences sp = getApplicationContext().getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME ,
+                Context.MODE_PRIVATE);
+        String imageUri = sp.getString(AllCoursesActivity.PROFILE_IMAGE_FILE_URL , "");
+        ImageView imageView = (ImageView) findViewById(R.id.imageView_UserProfilePic);
+
+        if(!imageUri.equalsIgnoreCase(""))
+            Picasso.with(getApplicationContext()).load(imageUri).into(imageView);
 
     }
 
@@ -475,36 +481,4 @@ I AM TA OF MY COURSES */
 
 
 
-    private void loadUserImageFromPrivateExternalStorage(Context context)
-    {
-        File folder = getPrivateAlbumStorageDir(context);
-        String path =  folder + AllCoursesActivity.PROFILE_IMAGE_FILE_NAME;
-
-        if(Drawable.createFromPath(path)!=null)
-        {
-            ImageView profilePic = (ImageView) findViewById(R.id.imageView_UserProfilePic);
-            profilePic.setImageDrawable(Drawable.createFromPath(path));
-
-        }
-        else
-        {
-            Log.d(MainActivity.TAG , "Image Private Failed");
-        }
-
-    }
-
-    public File getPrivateAlbumStorageDir(Context context)
-    {
-        // Get the directory for the app's private pictures directory.
-        File folder = new File(context.getExternalFilesDir(
-                Environment.DIRECTORY_PICTURES), AllCoursesActivity.PROFILE_IMAGE_FILE_NAME);
-
-        if((!folder.exists()) && (!folder.mkdirs()))
-        {
-            Log.e( MainActivity.TAG , "Directory not created");
-
-        }
-
-        return folder;
-    }
-}
+   }

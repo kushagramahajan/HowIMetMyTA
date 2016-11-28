@@ -213,7 +213,7 @@ public class PingService extends Service
         try
         {
             latch.await();  //main thread is waiting on CountDownLatch to finish
-            Thread.sleep(2000);
+            Thread.sleep(3000);
 
             Log.d( TAG  , "All Booleans are up, Again now");
 

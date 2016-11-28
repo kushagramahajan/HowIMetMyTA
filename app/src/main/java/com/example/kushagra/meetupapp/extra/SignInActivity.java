@@ -4,11 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,10 +25,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
@@ -139,20 +132,7 @@ public class SignInActivity extends AppCompatActivity implements
     // [END onActivityResult]
 
 
-    public File getPrivateAlbumStorageDir(Context context)
-    {
-        // Get the directory for the app's private pictures directory.
-        File folder = new File(context.getExternalFilesDir(
-                Environment.DIRECTORY_PICTURES), AllCoursesActivity.PROFILE_IMAGE_FILE_NAME);
 
-        if((!folder.exists()) && (!folder.mkdirs()))
-        {
-            Log.e( MainActivity.TAG , "Directory not created");
-
-        }
-
-        return folder;
-    }
 
     // [START handleSignInResult]
     private void handleSignInResult(GoogleSignInResult result)
@@ -168,44 +148,18 @@ public class SignInActivity extends AppCompatActivity implements
 
             Uri imageUri = acct.getPhotoUrl();
 
-            File folder = getPrivateAlbumStorageDir(getApplicationContext());
-            String path =  folder + AllCoursesActivity.PROFILE_IMAGE_FILE_NAME;
-
-
-            FileOutputStream out = null;
-                try
-                {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-
-                    out = new FileOutputStream( path );
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
-                    // PNG is a lossless format, the compression factor (100) is ignored
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-                finally
-                {
-                    try {
-                        if (out != null) {
-                            out.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
 
             String personName = acct.getDisplayName();
             String personEmail = acct.getEmail();
 
             SharedPreferences.Editor editor = getApplicationContext()
                     .getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE).edit();
+
+            editor.putString(AllCoursesActivity.PROFILE_IMAGE_FILE_URL , imageUri.getPath() );
             editor.putString(AllCoursesActivity.EMAIL_ID_EXTRA, personEmail);
             editor.putString(AllCoursesActivity.USER_NAME_EXTRA, personName);
 
-            Log.d(MainActivity.TAG, personName  + "personName");
+            Log.d(MainActivity.TAG, personName  + "personName"+ "url" + imageUri.getPath() );
             editor.apply();
 
 
