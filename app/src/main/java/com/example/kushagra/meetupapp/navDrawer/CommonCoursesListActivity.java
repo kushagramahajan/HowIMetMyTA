@@ -1,7 +1,10 @@
 package com.example.kushagra.meetupapp.navDrawer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.kushagra.meetupapp.AllCoursesActivity;
@@ -95,6 +99,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
         handleCourseSideRecyclerView();
 
+        loadUserImageFromPrivateExternalStorage(getApplicationContext());
 
     }
 
@@ -466,5 +471,40 @@ I AM TA OF MY COURSES */
     {
         super.onStart();
         somethingSelected = false;
+    }
+
+
+
+    private void loadUserImageFromPrivateExternalStorage(Context context)
+    {
+        File folder = getPrivateAlbumStorageDir(context);
+        String path =  folder + AllCoursesActivity.PROFILE_IMAGE_FILE_NAME;
+
+        if(Drawable.createFromPath(path)!=null)
+        {
+            ImageView profilePic = (ImageView) findViewById(R.id.imageView_UserProfilePic);
+            profilePic.setImageDrawable(Drawable.createFromPath(path));
+
+        }
+        else
+        {
+            Log.d(MainActivity.TAG , "Image Private Failed");
+        }
+
+    }
+
+    public File getPrivateAlbumStorageDir(Context context)
+    {
+        // Get the directory for the app's private pictures directory.
+        File folder = new File(context.getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES), AllCoursesActivity.PROFILE_IMAGE_FILE_NAME);
+
+        if((!folder.exists()) && (!folder.mkdirs()))
+        {
+            Log.e( MainActivity.TAG , "Directory not created");
+
+        }
+
+        return folder;
     }
 }

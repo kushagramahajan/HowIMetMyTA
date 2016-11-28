@@ -168,13 +168,16 @@ public class SignInActivity extends AppCompatActivity implements
 
             Uri imageUri = acct.getPhotoUrl();
 
+            File folder = getPrivateAlbumStorageDir(getApplicationContext());
+            String path =  folder + AllCoursesActivity.PROFILE_IMAGE_FILE_NAME;
 
-                FileOutputStream out = null;
+
+            FileOutputStream out = null;
                 try
                 {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
 
-                    out = new FileOutputStream(AllCoursesActivity.PROFILE_IMAGE_FILE_NAME);
+                    out = new FileOutputStream( path );
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
                     // PNG is a lossless format, the compression factor (100) is ignored
                 }
