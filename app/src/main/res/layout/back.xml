@@ -17,7 +17,8 @@
             android:text="EMAIL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/email" />
+            android:id="@+id/email"
+            android:textSize="14sp" />
 
         <TextView
             android:text="Please select sender given courses :"
