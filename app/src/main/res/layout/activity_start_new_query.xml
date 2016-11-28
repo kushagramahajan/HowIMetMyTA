@@ -39,7 +39,7 @@
         android:id="@+id/ta"
         android:layout_alignParentEnd="true"
         android:completionThreshold="1"
-        android:hint='Wanna ask ur "friend" TA?'
+        android:hint='Any Specific TA?'
         android:paddingBottom="20dp" />
 
     <EditText
@@ -52,7 +52,8 @@
         android:maxLines="3"
         android:layout_below="@+id/title"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:minLines="2" />
 
     <Button
         android:text="Send Query"

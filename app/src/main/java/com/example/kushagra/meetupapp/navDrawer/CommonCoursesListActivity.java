@@ -345,7 +345,6 @@ public class CommonCoursesListActivity extends AppCompatActivity
         else if (id == R.id.nav_student_side)
         {
             setAndPopulateStudentCourses();
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
