@@ -63,7 +63,7 @@ public class QueryAdapter extends RecyclerView.Adapter
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflatedView = LayoutInflater.from(parent.getContext()).inflate(R.layout.tile, parent, false);
+        View inflatedView = LayoutInflater.from(parent.getContext()).inflate(R.layout.tile_query, parent, false);
         return new ItemHolder(inflatedView);
     }
 

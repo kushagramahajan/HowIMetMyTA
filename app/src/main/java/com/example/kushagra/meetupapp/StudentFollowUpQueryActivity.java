@@ -161,8 +161,8 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                             month + "/" + year + " at " + hour + ":" + minute;
                 }
                 dbman.insertMessageOfQuery(new Message("neutral","neutral",s,qid),qid);
-
                 insertOneEntryIntoBalloonList(new Message("neutral","neutral",s,qid));
+
                 break;
             }
             insertOneEntryIntoBalloonList(msgObject);
@@ -231,9 +231,10 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                 globalCurrentQuery.getQueryId()
         );
 
-
-
-        insertOneEntryIntoBalloonList(toadd);
+        if(!mark.equals("doIt"))
+        {
+            insertOneEntryIntoBalloonList(toadd);
+        }
 
 
         Call<Message> call = service.sendMessage(toadd);
