@@ -10,7 +10,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/GreenIt">
+
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity" >
         </activity>
@@ -39,7 +40,7 @@
             android:name=".StudentQueryActivity"
             android:label="@string/title_activity_student_query"
             android:parentActivityName=".AllCoursesActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/GreenIt.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.kushagra.meetupapp.AllCoursesActivity" />
@@ -47,10 +48,14 @@
         <activity android:name=".StartNewTaQueryActivity" />
         <activity android:name=".TaFollowUpQueryActivity" />
 
+        <service android:name=".background.PingService"
+            android:exported="false"
+            />
+
         <activity
             android:name=".navDrawer.CommonCoursesListActivity"
             android:label="@string/title_activity_courses_list_common"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/GreenIt.NoActionBar">
 
 
 

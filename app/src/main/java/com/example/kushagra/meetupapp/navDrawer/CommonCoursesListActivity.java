@@ -57,10 +57,14 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        Log.d(MainActivity.TAG , "Inside Target");
 
         dbManipulate = new DbManipulate(getApplicationContext());
 
