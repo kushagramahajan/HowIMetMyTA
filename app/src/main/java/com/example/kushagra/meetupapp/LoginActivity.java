@@ -2,6 +2,7 @@ package com.example.kushagra.meetupapp;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.kushagra.meetupapp.db.DbManipulate;
 import com.example.kushagra.meetupapp.db.objects.Course;
+import com.example.kushagra.meetupapp.navDrawer.CommonCoursesListActivity;
 import com.example.kushagra.meetupapp.network.api.ServerApi;
 import com.example.kushagra.meetupapp.network.model.StudentRegisterClass;
 
@@ -234,11 +236,9 @@ public class LoginActivity extends AppCompatActivity
         editor.apply();
 
 
-        //Intent i = new Intent(getApplicationContext(), AllCoursesActivity.class);
-
         //
-       // Intent i = new Intent(getApplicationContext(), CommonCoursesListActivity.class);
-        // startActivity(i);
+        Intent i = new Intent(getApplicationContext(), CommonCoursesListActivity.class);
+        startActivity(i);
 
         finish();
 
