@@ -43,6 +43,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
     private EditText chatBox;
     private LinearLayout msg_list;
     private File file;
+    TextView title,text;
     ImageButton send,meet;
     DbManipulate dbman;
 
@@ -59,6 +60,8 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         msg_list = (LinearLayout)findViewById(R.id.msg_list);
         send = (ImageButton) findViewById(R.id.send);
         meet = (ImageButton) findViewById(R.id.meet);
+        title = (TextView) findViewById(R.id.title);
+        text = (TextView) findViewById(R.id.text);
         SharedPreferences sp = getSharedPreferences("MySharedPreference",MODE_PRIVATE);
         Boolean status = sp.getBoolean(getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA),false);
 
@@ -117,6 +120,10 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
 
         //used this code to add following shit messages for testing. pleasee remove
+
+        title.setText(globalCurrentQuery.getTitle());
+        text.setText(globalCurrentQuery.getDescription());
+        getSupportActionBar().setTitle(globalCurrentQuery.getTitle());
 
 
         ArrayList<Message> messArr;
