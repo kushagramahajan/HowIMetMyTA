@@ -47,7 +47,7 @@ public class CommonCoursesAdapter extends RecyclerView.Adapter< CommonCoursesAda
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.queries_and_courses_list_common_row, parent, false);
+                .inflate(R.layout.tile_course, parent, false);
 
         return new ViewHolder(itemView);
     }

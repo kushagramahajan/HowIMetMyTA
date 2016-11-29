@@ -1,6 +1,8 @@
 package com.example.kushagra.meetupapp.navDrawer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -16,6 +18,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kushagra.meetupapp.AllCoursesActivity;
@@ -31,6 +35,7 @@ import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonAdapter;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonCoursesAdapter;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.CommonQueryAdapter;
 import com.example.kushagra.meetupapp.navDrawer.recyclerView.RecyclerTouchListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,22 +65,18 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d(MainActivity.TAG , "Inside Target");
+        Log.d(MainActivity.TAG, "Inside Target");
 
         dbManipulate = new DbManipulate(getApplicationContext());
-
 
 
         setContentView(R.layout.activity_queries_list_common);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
 
         newQueryFabButton = (FloatingActionButton) findViewById(R.id.fab);
@@ -95,6 +96,36 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
         handleCourseSideRecyclerView();
 
+        SharedPreferences sp = getApplicationContext().getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME,
+                Context.MODE_PRIVATE);
+
+        String imageUri =  "https://api.learn2crack.com/android/images/donut.png" ;
+        imageUri = sp.getString(AllCoursesActivity.PROFILE_IMAGE_FILE_URL, "");
+
+
+        View hView =  navigationView.getHeaderView(0);
+        ImageView imageView = (ImageView)hView.findViewById(R.id.imageView_UserProfilePic);
+
+        TextView textViewUserName = (TextView)hView.findViewById(R.id.textView_UserName);
+        TextView textViewEmailId = (TextView)hView.findViewById(R.id.textView_UserEmailId);
+
+
+        textViewUserName.setText( sp.getString(AllCoursesActivity.USER_NAME_EXTRA , "DefaultUserName") );
+        textViewEmailId.setText( sp.getString(AllCoursesActivity.EMAIL_ID_EXTRA , "DefaultEmail") );
+
+
+
+        if ( imageView!= null && !imageUri.equalsIgnoreCase(""))
+        {
+            Log.d(MainActivity.TAG ,"Runnginasdas");
+            Picasso.with( getApplicationContext() )
+                    .load(imageUri)
+                   // .resize(50,50)
+                    .centerCrop()
+                    .into(imageView);
+
+
+        }
 
     }
 
@@ -466,4 +497,7 @@ I AM TA OF MY COURSES */
         super.onStart();
         somethingSelected = false;
     }
-}
+
+
+
+   }

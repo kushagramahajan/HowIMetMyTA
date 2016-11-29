@@ -113,7 +113,8 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
         }
 
-        Log.d(MainActivity.TAG , "Quearr size" + Querarr.size() + " currentQuery = " + globalCurrentQuery.getTitle() );
+        Log.d(MainActivity.TAG , "Quearr size" + Querarr.size() + " currentQuery = " + globalCurrentQuery.getTitle() +
+        globalCurrentQuery.getStudentId() + " ta =" + globalCurrentQuery.getTaId() );
 
 
 //        ArrayList<Message> messArr=globalCurrentQuery.getMessages();
@@ -138,7 +139,8 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         my_emailId = sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user");
 
         //code to add message UI
-        for(com.example.kushagra.meetupapp.Message msgObject : messArr) {
+        for(com.example.kushagra.meetupapp.Message msgObject : messArr)
+        {
             if(msgObject.getMessage().contains("TIME~"))
             {
                 String[] arr = msgObject.getMessage().split("~");
@@ -228,7 +230,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
         }
 
-        Log.d(AllCoursesActivity.TAG, "sender emailId" + my_emailId + "receive email" + globalCurrentQuery.getTaId());
+        Log.d(AllCoursesActivity.TAG, "sender emailId" + my_emailId + "receive email" + receiver_emailId);
 
 
         final Message toadd = new Message(

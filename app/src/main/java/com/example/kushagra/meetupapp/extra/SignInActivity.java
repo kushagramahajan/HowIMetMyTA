@@ -3,6 +3,7 @@ package com.example.kushagra.meetupapp.extra;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -129,6 +130,9 @@ public class SignInActivity extends AppCompatActivity implements
     }
     // [END onActivityResult]
 
+
+
+
     // [START handleSignInResult]
     private void handleSignInResult(GoogleSignInResult result)
     {
@@ -138,7 +142,10 @@ public class SignInActivity extends AppCompatActivity implements
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            updateUI(true);
+
+            SharedPreferences sp = getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME , MODE_PRIVATE);
+
+            Uri imageUri = acct.getPhotoUrl();
 
 
             String personName = acct.getDisplayName();
@@ -146,11 +153,19 @@ public class SignInActivity extends AppCompatActivity implements
 
             SharedPreferences.Editor editor = getApplicationContext()
                     .getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE).edit();
+
+            editor.putString(AllCoursesActivity.PROFILE_IMAGE_FILE_URL , imageUri.toString() );
             editor.putString(AllCoursesActivity.EMAIL_ID_EXTRA, personEmail);
             editor.putString(AllCoursesActivity.USER_NAME_EXTRA, personName);
-            Log.d(MainActivity.TAG, personName  + "personName");
+
+            Log.d(MainActivity.TAG, personName  + "personName"+
+            "url  " + imageUri.toString());
+
             editor.apply();
 
+
+
+            updateUI(true);
 
             Intent intent = new Intent(this , LoginActivity.class);
             startActivity(intent);

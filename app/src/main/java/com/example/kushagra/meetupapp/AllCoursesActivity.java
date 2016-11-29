@@ -36,6 +36,10 @@ public class AllCoursesActivity extends AppCompatActivity
     public static final String IS_DESCREPANCY_EXTRA  = "com.exmaple.kushagra.isdiscrepamcy";
 
 
+    public static final String PROFILE_IMAGE_FILE_URL = "com_exmaple_kushagra_profileImage.png";
+    public static final Integer OLD_MESSAGE_NOTIFICATION_ID = 1;
+    public static final Integer NEW_QUERY_NOTIFICATION_ID = 2;
+
 
     private Context mContext;
     RecyclerView list;
