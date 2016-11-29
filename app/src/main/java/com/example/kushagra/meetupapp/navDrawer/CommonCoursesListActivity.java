@@ -121,7 +121,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
             Picasso.with( getApplicationContext() )
                     .load(imageUri)
                    // .resize(50,50)
-                    .centerCrop()
+            //        .centerCrop()
                     .into(imageView);
 
 
@@ -365,7 +365,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        handleCourseSideRecyclerView();
+        //handleCourseSideRecyclerView();
 
 
         if (id == R.id.nav_ta_side)
@@ -376,6 +376,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
         else if (id == R.id.nav_student_side)
         {
             setAndPopulateStudentCourses();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -393,7 +394,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
      //   commonCoursesList.add(new Course("Student crsc Dummy" , "def002" , null));
 
-        Log.d(AllCoursesActivity.TAG , "Courses  Size  = " +dbManipulate.getMyCourses().size() );
+        Log.d(AllCoursesActivity.TAG , "STUDENT SIDE  Size  = " + dbManipulate.getMyCourses().size() );
 
         commonCoursesList.addAll(
                 dbManipulate.getMyCourses()
@@ -416,17 +417,11 @@ public class CommonCoursesListActivity extends AppCompatActivity
         /*
 I AM TA OF MY COURSES */
 
+  commonCoursesList.addAll( dbManipulate.getTASideMyCourses() );
 
-        ArrayList<Course> edmo = new ArrayList<>();
-        edmo.add( dbManipulate.getMyCourses().get(0) );
+        Log.d(AllCoursesActivity.TAG , "TA SIDE size" + dbManipulate.getTASideMyCourses().size() );
 
-        Log.d(AllCoursesActivity.TAG , "edmo size" + edmo.size() );
 
-        /*............*/
-
-        commonCoursesList.addAll(
-        edmo
-        );
 
         ((CommonCoursesAdapter)mAdapter).notifyDataSetChanged();
         recyclerView.invalidate();

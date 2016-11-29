@@ -143,24 +143,28 @@ public class SignInActivity extends AppCompatActivity implements
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
 
-            SharedPreferences sp = getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME , MODE_PRIVATE);
+            SharedPreferences.Editor editor = getApplicationContext()
+                    .getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE).edit();
+
+
 
             Uri imageUri = acct.getPhotoUrl();
+            if(imageUri != null)
+            {
+                editor.putString(AllCoursesActivity.PROFILE_IMAGE_FILE_URL , imageUri.toString() );
+
+
+            }
 
 
             String personName = acct.getDisplayName();
             String personEmail = acct.getEmail();
 
-            SharedPreferences.Editor editor = getApplicationContext()
-                    .getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE).edit();
-
-            editor.putString(AllCoursesActivity.PROFILE_IMAGE_FILE_URL , imageUri.toString() );
             editor.putString(AllCoursesActivity.EMAIL_ID_EXTRA, personEmail);
             editor.putString(AllCoursesActivity.USER_NAME_EXTRA, personName);
 
             Log.d(MainActivity.TAG, personName  + "personName"+
-            "url  " + imageUri.toString());
-
+            "url  ");
             editor.apply();
 
 

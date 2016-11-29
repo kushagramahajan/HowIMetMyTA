@@ -18,18 +18,26 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity"
             android:label="Login"
-        />
+        >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+
+
+        </activity>
         <activity android:name=".AllCoursesActivity"
             android:label="All Courses"
         />
 
         <activity android:name=".extra.SplashScreen">
             android:label="@string/app_name"
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
 
         </activity>
         <activity android:name=".extra.SignInActivity"

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -43,17 +42,20 @@ public class LoginActivity extends AppCompatActivity
     StudentRegisterClass stobj;
     String currentCourse;
     LinearLayout table;
-    ArrayList<Course> myCourses;
+   // ArrayList<Course> myCourses;
     TextView email;
     ArrayList<Course> a;
     ArrayAdapter<String> spinnerAdapter;
     ArrayList<String> serverCourses;
+
     CheckBox[] cb;
-    boolean[] arr;
+    private DbManipulate dbManipulate;
+
+
+    private ArrayList<Course> myCourses = new ArrayList<>();
 
     private static final String TAG ="SP_Main";
 
-    DbManipulate dbManipulate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -62,15 +64,16 @@ public class LoginActivity extends AppCompatActivity
         setContentView(R.layout.back);
         dbManipulate = new DbManipulate(getApplicationContext());
 
+
         mEmail=(EditText)findViewById(R.id.email_edittext);
         spinner=(Spinner) findViewById(R.id.spinner);
         table = (LinearLayout)findViewById(R.id.table);
-        myCourses = new ArrayList<>();
+   //     myCourses = new ArrayList<>();
 
         serverCourses = new ArrayList<String>();
 
-        DbManipulate dbMan=new DbManipulate(getApplicationContext());
-        a= dbMan.getAllCourses();
+
+        a = dbManipulate.getAllCourses();
 
         for (Course c : a)
         {
@@ -81,47 +84,22 @@ public class LoginActivity extends AppCompatActivity
         SharedPreferences sh=getApplicationContext().getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
         email.setText(sh.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user"));
 
-        if(savedInstanceState==null)
-        {
-            arr = new boolean[serverCourses.size()];
-            int i=0;
-            while(i<serverCourses.size())
-                arr[i]=false;
-        }
-        else
-        {
-            arr = savedInstanceState.getBooleanArray("ARR");
-        }
-
         int i=0;
         cb = new CheckBox[serverCourses.size()];
         for(String s : serverCourses)
         {
             cb[i] = new CheckBox(this);
             cb[i].setText(s);
-            cb[i].setChecked(arr[i]);
+            cb[i].setChecked(false);
             cb[i].setTextSize(20);
             table.addView(cb[i]);
             i++;
         }
-
     }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        boolean[] arr = new boolean[cb.length];
-        int i=0;
-        for(CheckBox c : cb)
-        {
-            arr[i]=c.isChecked();
-            i++;
-        }
-        outState.putBooleanArray("ARR",arr);
-    }
-
+/*
     public void addToTable(View view)
     {
+
         currentCourse = spinner.getSelectedItem().toString();
         TextView t = new TextView(this);
         t.setText(currentCourse);
@@ -134,15 +112,19 @@ public class LoginActivity extends AppCompatActivity
         spinnerAdapter.notifyDataSetChanged();
         for(Course c : a)
         {
-            if(c.getCourseName().equals(currentCourse)) {
+            if(c.getCourseName().equals(currentCourse))
+            {
                 myCourses.add(c);
                 break;
             }
         }
     }
 
+  */
+
     public void clickAdd(View view)
     {
+
         stobj = new StudentRegisterClass("" , "");
 
         for(CheckBox ch : cb)
@@ -162,14 +144,18 @@ public class LoginActivity extends AppCompatActivity
             }
         }
 
-        SharedPreferences sh = getApplicationContext().getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sh = getApplicationContext().
+                getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
 
         Log.d(MainActivity.TAG , sh.getString(AllCoursesActivity.USER_NAME_EXTRA,"name") + " ");
+
+
         stobj.setStudentId( sh.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"email"));
         stobj.setName( sh.getString(AllCoursesActivity.USER_NAME_EXTRA,"name"));
 
 
         String[] reqCourseIDArray = new String[myCourses.size()];
+
         for(int i = 0 ; i< reqCourseIDArray.length ; i++)
         {
             reqCourseIDArray[i] = myCourses.get(i).getCourseId();
@@ -179,10 +165,7 @@ public class LoginActivity extends AppCompatActivity
         stobj.setMyStudentCourses( reqCourseIDArray  );
 
 
-        dbManipulate.insertMyCourses(myCourses);
-
-
-
+        ;
 
         for(Course c : myCourses)
         {
@@ -195,6 +178,21 @@ public class LoginActivity extends AppCompatActivity
                 e.printStackTrace();
             }
         }
+
+
+        ArrayList<Course> dummyCourse = new ArrayList<>();
+
+
+        for(Course ctemp : myCourses)
+        {
+            dummyCourse.add( new Course(ctemp.getCourseId() , ctemp.getCourseName() , null));
+
+        }
+
+
+
+
+
 
 
 
@@ -222,13 +220,21 @@ public class LoginActivity extends AppCompatActivity
 
                             Log.d(MainActivity.TAG , "Inner part" + response.body() );
 
-                            for(int i=0 ; i < reqArray.length ;i++) {
+                            for(int i=0 ; i < reqArray.length ;i++)
+                            {
                                 String cId = reqArray[i].split(";")[0];
                                 String cName = reqArray[i].split(";")[1];
                                 Course cTemp = new Course(cId, cName, null);
                                 myTaCourses.add(cTemp);
                             }
+
+                            if(myTaCourses.size() > 0)
+                            {
+                            Log.d(MainActivity.TAG , myTaCourses.get(0).getCourseName() + "as a TA");
                             dbManipulate.insertTASideMyCourses(myTaCourses);
+                            }
+                            dbManipulate.insertMyCourses(myCourses);
+
 
                         }
                         else
@@ -263,7 +269,7 @@ public class LoginActivity extends AppCompatActivity
 
 
         //
-        Intent i = new Intent(getApplicationContext(), CommonCoursesListActivity.class);
+        Intent i = new Intent( LoginActivity.this , CommonCoursesListActivity.class);
         startActivity(i);
 
         finish();
