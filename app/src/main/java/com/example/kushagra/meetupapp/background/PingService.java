@@ -494,7 +494,7 @@ public class PingService extends Service
 
 
 
-        String notificationMessage = "You received a new response to your query";
+        String notificationMessage = "You received "+messages.length+" messages";
         Integer NOTIFICATION_ID = 1;
 
         NotificationManager mNotificationManager =

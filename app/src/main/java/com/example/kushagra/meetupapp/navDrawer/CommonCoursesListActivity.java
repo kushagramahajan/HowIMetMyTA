@@ -94,6 +94,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
         isInsideQuerySide_ofCourse = false;
 
         handleCourseSideRecyclerView();
+        setAndPopulateStudentCourses();
 
         SharedPreferences sp = getApplicationContext().getSharedPreferences(Constants.SHARED_PREF_FILE_NAME,
                 Context.MODE_PRIVATE);
@@ -192,7 +193,6 @@ public class CommonCoursesListActivity extends AppCompatActivity
             }
         }));
 
-        setAndPopulateStudentCourses();
 
     }
 
@@ -347,6 +347,8 @@ public class CommonCoursesListActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+                finish();
+            System.exit(0);
             super.onBackPressed();
         }
     }
@@ -367,13 +369,20 @@ public class CommonCoursesListActivity extends AppCompatActivity
         //handleCourseSideRecyclerView();
 
 
+
+
         if (id == R.id.nav_ta_side)
         {
 
+            isTaSelected = true;
+            handleCourseSideRecyclerView();
             setAndPopulateTACourses();
         }
         else if (id == R.id.nav_student_side)
         {
+
+            isTaSelected = false;
+            handleCourseSideRecyclerView();
             setAndPopulateStudentCourses();
 
         }
@@ -411,7 +420,6 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
 
         commonCoursesList.clear();
-        isTaSelected = true;
 
         /*
 I AM TA OF MY COURSES */
@@ -491,7 +499,5 @@ I AM TA OF MY COURSES */
         super.onStart();
         somethingSelected = false;
     }
-
-
 
 }

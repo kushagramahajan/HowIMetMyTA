@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -86,7 +85,7 @@ public class LoginActivity extends AppCompatActivity
         SharedPreferences sh=getApplicationContext().getSharedPreferences(Constants.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
         email.setText(sh.getString(Constants.EMAIL_ID_EXTRA,"user"));
 
-        if(savedInstanceState==null)
+       /* if(savedInstanceState==null)
         {
             arr = new boolean[serverCourses.size()];
             int i=0;
@@ -97,6 +96,7 @@ public class LoginActivity extends AppCompatActivity
         {
             arr = savedInstanceState.getBooleanArray("ARR");
         }
+*/
 
         int i=0;
         cb = new CheckBox[serverCourses.size()];
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity
         {
             cb[i] = new CheckBox(this);
             cb[i].setText(s);
-            cb[i].setChecked(arr[i]);
+            cb[i].setChecked(false);
             cb[i].setTextSize(20);
             table.addView(cb[i]);
             i++;
@@ -246,7 +246,33 @@ public class LoginActivity extends AppCompatActivity
                     {
                         Log.d(Constants.TAG , myTaCourses.get(0).getCourseName() + "as a TA");
                         dbManipulate.insertTASideMyCourses(myTaCourses);
+
+                        ArrayList<Integer
+                                > marks = new ArrayList<Integer>();
+
+                        for(int i = 0 ; i < myTaCourses.size() ; i ++)
+                            for(int j = 0 ; j < myCourses.size() ; j ++)
+                            {
+                                if( myCourses.get(j).getCourseId().equalsIgnoreCase( myTaCourses.get(i).getCourseId() ) )
+                                {
+                                    marks.add( j );
+                                    Log.d(Constants.TAG , "removing "  + myCourses.get(j).getCourseId() );
+
+                                }
+                            }
+                        Log.d(Constants.TAG , "Intial Size"  + myCourses.size() );
+
+                        for(Integer index : marks)
+                        {
+                            myCourses.remove(myCourses.get(index));
+                            Log.d(Constants.TAG , "Update Size"  + myCourses.size() );
+
+
+                        }
+
+
                     }
+
                     dbManipulate.insertMyCourses(myCourses);
 
 
@@ -290,17 +316,12 @@ public class LoginActivity extends AppCompatActivity
 
     }
 
+
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        boolean[] arr = new boolean[cb.length];
-        int i=0;
-        for(CheckBox c : cb)
-        {
-            arr[i]=c.isChecked();
-            i++;
-        }
-        outState.putBooleanArray("ARR",arr);
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        System.exit(0);
     }
 }
 

@@ -23,6 +23,12 @@
 
         </activity>
 
+        <activity android:name=".StartNewStudentQueryActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".navDrawer.CommonCoursesListActivity" />
+        </activity>
+
         <activity android:name=".extra.SplashScreen">
             android:label="@string/app_name"
 
@@ -37,8 +43,16 @@
         <activity android:name=".extra.SignInActivity"
             android:label="Sign In" />
 
-        <activity android:name=".StudentFollowUpQueryActivity"
-            android:label="Query"/>
+        <activity
+            android:name=".StudentFollowUpQueryActivity"
+            android:label="Query">
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".navDrawer.CommonCoursesListActivity"/>
+
+
+        </activity>
 
         <service android:name=".background.PingService"
             android:exported="false"

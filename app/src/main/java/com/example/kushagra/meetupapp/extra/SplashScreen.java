@@ -1,6 +1,5 @@
 package com.example.kushagra.meetupapp.extra;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -63,6 +62,8 @@ public class SplashScreen extends AppCompatActivity
 
     private void fetchFromServerUpdateDB()
     {
+        final DbManipulate dbMan = new DbManipulate(getApplicationContext());
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -96,13 +97,12 @@ public class SplashScreen extends AppCompatActivity
                         clist.add(ctemp);
                     }
 
-                    DbManipulate dbMan=new DbManipulate(getApplicationContext());
                     dbMan.insertAllCourses(clist);
 
                     SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
 
 
-                    if(sharedPreferences.getBoolean(Constants.IS_LOGGED_IN_EXTRA , false))
+            /*        if(sharedPreferences.getBoolean(Constants.IS_LOGGED_IN_EXTRA , false))
                     {
 
                         Intent intent = new Intent(getApplicationContext(), CommonCoursesListActivity.class);
@@ -116,7 +116,7 @@ public class SplashScreen extends AppCompatActivity
                         startActivity(intent);
 
                     }
-
+*/
                         /*
 
                     CAll to db manipulate update All courses
@@ -156,7 +156,7 @@ public class SplashScreen extends AppCompatActivity
     {
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
-                Constants.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
+                Constants.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
         return !(sharedPreferences.getBoolean(Constants.IS_LOGGED_IN_EXTRA, false));
     }
 
@@ -213,6 +213,11 @@ public class SplashScreen extends AppCompatActivity
         {
             fetchFromServerUpdateDB();
             Log.d(Constants.TAG , "Splash NotLoggedIn isOnline");
+
+
+            Intent intent = new Intent( SplashScreen.this ,SignInActivity.class);
+            startActivity(intent);
+
         }
         else if( !isNotLoggedIn() && isOnline())
         {
@@ -265,6 +270,12 @@ public class SplashScreen extends AppCompatActivity
     * */
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        System.exit(0);
+    }
 
     ArrayList<Query> readQueryFile(File file)
     {
@@ -280,6 +291,8 @@ public class SplashScreen extends AppCompatActivity
             e.printStackTrace();
             Log.d("FILETAG","Object Input did not stream opened...");
         }
+
+
 
         ArrayList<Query> Querarr = new ArrayList<Query>();
 

@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="true"
                 android:datePickerMode="spinner"
+                android:calendarViewShown="false"
                 android:id="@+id/date" />
 
             <TextView
