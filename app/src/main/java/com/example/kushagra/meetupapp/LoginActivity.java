@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +49,7 @@ public class LoginActivity extends AppCompatActivity
     ArrayAdapter<String> spinnerAdapter;
     ArrayList<String> serverCourses;
     CheckBox[] cb;
+    boolean[] arr;
 
     private static final String TAG ="SP_Main";
 
@@ -59,7 +61,6 @@ public class LoginActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.back);
         dbManipulate = new DbManipulate(getApplicationContext());
-
 
         mEmail=(EditText)findViewById(R.id.email_edittext);
         spinner=(Spinner) findViewById(R.id.spinner);
@@ -80,18 +81,43 @@ public class LoginActivity extends AppCompatActivity
         SharedPreferences sh=getApplicationContext().getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
         email.setText(sh.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user"));
 
+        if(savedInstanceState==null)
+        {
+            arr = new boolean[serverCourses.size()];
+            int i=0;
+            while(i<serverCourses.size())
+                arr[i]=false;
+        }
+        else
+        {
+            arr = savedInstanceState.getBooleanArray("ARR");
+        }
+
         int i=0;
         cb = new CheckBox[serverCourses.size()];
         for(String s : serverCourses)
         {
             cb[i] = new CheckBox(this);
             cb[i].setText(s);
-            cb[i].setChecked(false);
+            cb[i].setChecked(arr[i]);
             cb[i].setTextSize(20);
             table.addView(cb[i]);
             i++;
         }
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        boolean[] arr = new boolean[cb.length];
+        int i=0;
+        for(CheckBox c : cb)
+        {
+            arr[i]=c.isChecked();
+            i++;
+        }
+        outState.putBooleanArray("ARR",arr);
     }
 
     public void addToTable(View view)

@@ -63,7 +63,7 @@
 
         <activity
             android:name=".navDrawer.CommonCoursesListActivity"
-            android:label="Queries"
+            android:label="how i met my ta"
             android:theme="@style/GreenIt.NoActionBar">
 
 

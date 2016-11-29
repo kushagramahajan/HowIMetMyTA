@@ -484,7 +484,7 @@ public class PingService extends Service
 
 
 
-        String notificationMessage = "typo";
+        String notificationMessage = "You received a new response to your query";
         Integer NOTIFICATION_ID = 1;
 
         NotificationManager mNotificationManager =
@@ -492,9 +492,9 @@ public class PingService extends Service
 
         int requestID = (int) System.currentTimeMillis();
 
-         Uri alarmSound = getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri alarmSound = getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-         Intent notificationIntent = new Intent(getApplicationContext(), StudentFollowUpQueryActivity.class);
+        Intent notificationIntent = new Intent(getApplicationContext(), StudentFollowUpQueryActivity.class);
 
         notificationIntent.putExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA, queryId);
 
@@ -513,7 +513,7 @@ public class PingService extends Service
 
          NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
          .setSmallIcon(R.drawable.logo)
-         .setContentTitle("My Notification")
+         .setContentTitle("New Response")
          .setStyle(new NotificationCompat.BigTextStyle()
          .bigText(notificationMessage))
          .setContentText(notificationMessage).setAutoCancel(true);
