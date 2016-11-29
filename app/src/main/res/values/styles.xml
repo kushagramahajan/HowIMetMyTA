@@ -34,6 +34,7 @@
         <item name="colorPrimary">@color/colorPrimaryGreenIt</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkGreenIt</item>
         <item name="colorAccent">@color/colorAccentGreenIt</item>
+        <item name="android:colorBackground">@color/background_material_light_grrenit</item>
     </style>
 
     <style name="GreenIt.NoActionBar">
