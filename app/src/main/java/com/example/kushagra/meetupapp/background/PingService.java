@@ -12,7 +12,7 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.example.kushagra.meetupapp.AllCoursesActivity;
+import com.example.kushagra.meetupapp.Constants;
 import com.example.kushagra.meetupapp.Message;
 import com.example.kushagra.meetupapp.R;
 import com.example.kushagra.meetupapp.StudentFollowUpQueryActivity;
@@ -120,7 +120,7 @@ public class PingService extends Service
             catch (InterruptedException ie)
             {
                 ie.printStackTrace();
-                Log.d(AllCoursesActivity.TAG, "Service Stopped");
+                Log.d(Constants.TAG, "Service Stopped");
 //                return START_STICKY;
 
             }
@@ -139,16 +139,16 @@ public class PingService extends Service
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AllCoursesActivity.IP_ADD)
+                .baseUrl(Constants.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ServerApi service = retrofit.create(ServerApi.class);
 
         SharedPreferences editor = getApplicationContext()
-                .getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
+                .getSharedPreferences( Constants.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
 
-        Call<StatusClass> call = service.getStatus( new StatusClass(editor.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"default@de.com")));
+        Call<StatusClass> call = service.getStatus( new StatusClass(editor.getString(Constants.EMAIL_ID_EXTRA,"default@de.com")));
 
         Log.d(TAG , "inside check pending request");
 
@@ -244,14 +244,14 @@ public class PingService extends Service
         Log.d( TAG, "Getting new pending queries ");
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AllCoursesActivity.IP_ADD)
+                .baseUrl(Constants.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ServerApi service = retrofit.create(ServerApi.class);
 
-        SharedPreferences sp = getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE);
-        final String studentId = sp.getString(AllCoursesActivity.EMAIL_ID_EXTRA , "Default");
+        SharedPreferences sp = getSharedPreferences(Constants.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE);
+        final String studentId = sp.getString(Constants.EMAIL_ID_EXTRA , "Default");
 
 
         // sending individual query ids for new
@@ -329,14 +329,14 @@ public class PingService extends Service
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AllCoursesActivity.IP_ADD)
+                .baseUrl(Constants.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ServerApi service = retrofit.create(ServerApi.class);
 
 
-//        String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
+//        String file_name=getIntent().getStringExtra(Constants.COURSE_ID_EXTRA );
 //        File file = new File(getApplicationContext().getFilesDir(),file_name);
 //        ArrayList<Query> Querarr = readQueryFile(file);
 
@@ -433,12 +433,12 @@ public class PingService extends Service
 
 
 
-        resultIntent.putExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA, queryId);
+        resultIntent.putExtra(Constants.RECYCLER_VIEW_QUERY_ID_EXTRA, queryId);
 
-        resultIntent.putExtra(AllCoursesActivity.COURSE_ID_EXTRA, courseId);
+        resultIntent.putExtra(Constants.COURSE_ID_EXTRA, courseId);
 
 
-        resultIntent.putExtra( AllCoursesActivity.IS_DESCREPANCY_EXTRA , true);
+        resultIntent.putExtra( Constants.IS_DESCREPANCY_EXTRA , true);
 
 
 
@@ -506,27 +506,27 @@ public class PingService extends Service
 
         Intent notificationIntent = new Intent(getApplicationContext(), StudentFollowUpQueryActivity.class);
 
-        notificationIntent.putExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA, queryId);
+        notificationIntent.putExtra(Constants.RECYCLER_VIEW_QUERY_ID_EXTRA, queryId);
 
-        notificationIntent.putExtra(AllCoursesActivity.COURSE_ID_EXTRA, courseId);
+        notificationIntent.putExtra(Constants.COURSE_ID_EXTRA, courseId);
 
 
-        notificationIntent.putExtra( AllCoursesActivity.IS_DESCREPANCY_EXTRA , true);
+        notificationIntent.putExtra( Constants.IS_DESCREPANCY_EXTRA , true);
 
 
 
         //**add this line**
-         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-         //**edit this line to put requestID as requestCode**
-         PendingIntent contentIntent = PendingIntent.getActivity(this, requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //**edit this line to put requestID as requestCode**
+        PendingIntent contentIntent = PendingIntent.getActivity(this, requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-         .setSmallIcon(R.drawable.logo)
-         .setContentTitle("New Response")
-         .setStyle(new NotificationCompat.BigTextStyle()
-         .bigText(notificationMessage))
-         .setContentText(notificationMessage).setAutoCancel(true);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle("New Response")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(notificationMessage))
+                .setContentText(notificationMessage).setAutoCancel(true);
 
         NotificationCompat.InboxStyle inboxStyle =
                 new NotificationCompat.InboxStyle();
@@ -542,9 +542,9 @@ public class PingService extends Service
 // Moves the expanded layout object into the notification object.
         mBuilder.setStyle(inboxStyle);
 
-         mBuilder.setSound(alarmSound);
-         mBuilder.setContentIntent(contentIntent);
-         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        mBuilder.setSound(alarmSound);
+        mBuilder.setContentIntent(contentIntent);
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 
     }
 
