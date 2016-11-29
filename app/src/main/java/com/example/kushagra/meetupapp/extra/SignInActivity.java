@@ -10,9 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.kushagra.meetupapp.AllCoursesActivity;
+import com.example.kushagra.meetupapp.Constants;
 import com.example.kushagra.meetupapp.LoginActivity;
-import com.example.kushagra.meetupapp.MainActivity;
 import com.example.kushagra.meetupapp.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -144,14 +143,14 @@ public class SignInActivity extends AppCompatActivity implements
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
 
             SharedPreferences.Editor editor = getApplicationContext()
-                    .getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE).edit();
+                    .getSharedPreferences( Constants.SHARED_PREF_FILE_NAME, MODE_PRIVATE).edit();
 
 
 
             Uri imageUri = acct.getPhotoUrl();
             if(imageUri != null)
             {
-                editor.putString(AllCoursesActivity.PROFILE_IMAGE_FILE_URL , imageUri.toString() );
+                editor.putString(Constants.PROFILE_IMAGE_FILE_URL , imageUri.toString() );
 
 
             }
@@ -160,11 +159,11 @@ public class SignInActivity extends AppCompatActivity implements
             String personName = acct.getDisplayName();
             String personEmail = acct.getEmail();
 
-            editor.putString(AllCoursesActivity.EMAIL_ID_EXTRA, personEmail);
-            editor.putString(AllCoursesActivity.USER_NAME_EXTRA, personName);
+            editor.putString(Constants.EMAIL_ID_EXTRA, personEmail);
+            editor.putString(Constants.USER_NAME_EXTRA, personName);
 
-            Log.d(MainActivity.TAG, personName  + "personName"+
-            "url  ");
+            Log.d(Constants.TAG, personName  + "personName"+
+                    "url  ");
             editor.apply();
 
 
@@ -245,7 +244,7 @@ public class SignInActivity extends AppCompatActivity implements
     private void updateUI(boolean signedIn) {
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-          //  findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+            //  findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
         } else {
             mStatusTextView.setText(R.string.signed_out);
 

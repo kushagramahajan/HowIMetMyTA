@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/GreenIt">
 
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Constants" />
         <activity android:name=".LoginActivity"
             android:label="Login"
         >

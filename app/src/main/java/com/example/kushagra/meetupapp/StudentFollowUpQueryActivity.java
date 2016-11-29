@@ -87,7 +87,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         ArrayList<Message> messArr;
         messArr = dbman.getAllMessagesOfQueryId(globalCurrentQuery.getQueryId());
 
-        Log.d(MainActivity.TAG , "Size of All  Messages " + messArr.size() );
+        Log.d(Constants.TAG , "Size of All  Messages " + messArr.size() );
 
 
         for(com.example.kushagra.meetupapp.Message msgObject : messArr)
@@ -101,7 +101,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                 hour = Integer.parseInt(arr[4]);
                 minute = Integer.parseInt(arr[5]);
                 SharedPreferences.Editor editor = getSharedPreferences("MySharedPreference", MODE_PRIVATE).edit();
-                String qid = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
+                String qid = getIntent().getStringExtra(Constants.RECYCLER_VIEW_QUERY_ID_EXTRA);
                 editor.putBoolean(qid, true);
                 editor.apply();
 
@@ -110,7 +110,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                 meet.setVisibility(View.GONE);
 
                 String s = null;
-                if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
+                if(getIntent().getBooleanExtra(Constants.IS_TA_SELECTED_EXTRA , false))
                 {
                     s = "You have fixed a meeting with "+ invertStudentTa(my_emailId)+ " on "+ day+"/"+
                             month + "/" + year + " at " + hour + ":" + minute;
@@ -151,7 +151,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(REFRESH_CHAT_UI_INTENT))
             {
-                Log.d(MainActivity.TAG , "From Receiver" + intent.getStringExtra(QUERY_ID_BROADCAST_RECV));
+                Log.d(Constants.TAG , "From Receiver" + intent.getStringExtra(QUERY_ID_BROADCAST_RECV));
                 refreshChatUI(intent.getStringExtra( QUERY_ID_BROADCAST_RECV ));
 
                 // Do stuff - maybe update my view based on the changed DB contents
@@ -171,7 +171,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         title = (TextView) findViewById(R.id.title);
         text = (TextView) findViewById(R.id.text);
         SharedPreferences sp = getSharedPreferences("MySharedPreference",MODE_PRIVATE);
-        Boolean status = sp.getBoolean(getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA),false);
+        Boolean status = sp.getBoolean(getIntent().getStringExtra(Constants.RECYCLER_VIEW_QUERY_ID_EXTRA),false);
 
         if(status)
         {
@@ -183,9 +183,9 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         dbman=new DbManipulate(getApplicationContext());
 
         ArrayList<Query> Querarr;
-        String courseId_file_name = getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
+        String courseId_file_name = getIntent().getStringExtra(Constants.COURSE_ID_EXTRA );
 
-        if(getIntent().getBooleanExtra(AllCoursesActivity.IS_DESCREPANCY_EXTRA , false))
+        if(getIntent().getBooleanExtra(Constants.IS_DESCREPANCY_EXTRA , false))
         {
             Querarr = dbman.getAllTAQueries(courseId_file_name);
             if(Querarr.size() == 0)
@@ -194,7 +194,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                 Querarr = readQueryFile(file);
             }
         }
-        else if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
+        else if(getIntent().getBooleanExtra(Constants.IS_TA_SELECTED_EXTRA , false))
         {
             Querarr = dbman.getAllTAQueries(courseId_file_name);
 
@@ -206,7 +206,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
             meet.setVisibility(View.GONE);
         }
 
-        String reqQueryId = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
+        String reqQueryId = getIntent().getStringExtra(Constants.RECYCLER_VIEW_QUERY_ID_EXTRA);
 
         for( Query q : Querarr)
         {
@@ -217,12 +217,12 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         }
         if( globalCurrentQuery ==null)
         {
-            Log.d(MainActivity.TAG , "Entry NOT Created in Queries");
+            Log.d(Constants.TAG , "Entry NOT Created in Queries");
 
         }
 
-        Log.d(MainActivity.TAG , "Quearr size" + Querarr.size() + " currentQuery = " + globalCurrentQuery.getTitle() +
-        globalCurrentQuery.getStudentId() + " ta =" + globalCurrentQuery.getTaId() );
+        Log.d(Constants.TAG , "Quearr size" + Querarr.size() + " currentQuery = " + globalCurrentQuery.getTitle() +
+                globalCurrentQuery.getStudentId() + " ta =" + globalCurrentQuery.getTaId() );
 
 
 //        ArrayList<Message> messArr=globalCurrentQuery.getMessages();
@@ -236,9 +236,9 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
-                AllCoursesActivity.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE
+                Constants.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE
         );
-        my_emailId = sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user");
+        my_emailId = sharedPreferences.getString(Constants.EMAIL_ID_EXTRA,"user");
 
 
         insertEveryMessageIntoLinearLayout();
@@ -275,17 +275,17 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
     public void sendAction(String mark)
     {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AllCoursesActivity.IP_ADD)
+                .baseUrl(Constants.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ServerApi service = retrofit.create(ServerApi.class);
 
         SharedPreferences sp = getApplicationContext()
-                .getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
+                .getSharedPreferences(Constants.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
 
 
 
-        final String my_emailId = sp.getString(AllCoursesActivity.EMAIL_ID_EXTRA, "default@email.com");
+        final String my_emailId = sp.getString(Constants.EMAIL_ID_EXTRA, "default@email.com");
         String receiver_emailId = invertStudentTa( my_emailId );
         String message = chatBox.getText().toString();
         chatBox.setText("");
@@ -296,7 +296,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
         }
 
-        Log.d(AllCoursesActivity.TAG, "sender emailId" + my_emailId + "receive email" + receiver_emailId);
+        Log.d(Constants.TAG, "sender emailId" + my_emailId + "receive email" + receiver_emailId);
 
 
         final Message toadd = new Message(
@@ -318,10 +318,10 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Message> call, Response<Message> response)
             {
-                Log.d(MainActivity.TAG ," Query done Response");
+                Log.d(Constants.TAG ," Query done Response");
                 if(response.body()!=null)
                 {
-                    Log.d(MainActivity.TAG, "non null reposnce for sending message");
+                    Log.d(Constants.TAG, "non null reposnce for sending message");
 
 
 
@@ -337,13 +337,13 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
 
                 }
                 else{
-                    Log.d(MainActivity.TAG,"null respons on sending messages to server");
+                    Log.d(Constants.TAG,"null respons on sending messages to server");
                 }
             }
 
             @Override
             public void onFailure(Call<Message> call, Throwable t) {
-                Log.d(MainActivity.TAG, "failure to send message");
+                Log.d(Constants.TAG, "failure to send message");
             }
 
 
@@ -431,7 +431,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String qid = getIntent().getStringExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA);
+                String qid = getIntent().getStringExtra(Constants.RECYCLER_VIEW_QUERY_ID_EXTRA);
                 SharedPreferences.Editor editor = getSharedPreferences("MySharedPreference", MODE_PRIVATE).edit();
                 editor.putBoolean(qid, true);
                 editor.commit();
@@ -466,7 +466,7 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
                     View view2 = getLayoutInflater().inflate(R.layout.msg_balloon_neutral,null);
                     TextView t = (TextView)view2.findViewById(R.id.msg_text);
                     String s = null;
-                    if(getIntent().getBooleanExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA , false))
+                    if(getIntent().getBooleanExtra(Constants.IS_TA_SELECTED_EXTRA , false))
                     {
                         s = "You have fixed a meeting with "+ invertStudentTa(my_emailId)+ " on "+ day+"/"+
                                 month + "/" + year + " at " + hour + ":" + minute;
@@ -488,13 +488,13 @@ public class StudentFollowUpQueryActivity extends AppCompatActivity {
         });
         button_discard.setOnClickListener(
                 new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                flag=false;
-                alertDialog.cancel();
-            }
-        });
+                    @Override
+                    public void onClick(View v)
+                    {
+                        flag=false;
+                        alertDialog.cancel();
+                    }
+                });
         flag=true;
         alertDialog.show();
     }

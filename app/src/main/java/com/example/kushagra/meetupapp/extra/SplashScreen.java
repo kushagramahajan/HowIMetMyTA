@@ -9,8 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.kushagra.meetupapp.AllCoursesActivity;
-import com.example.kushagra.meetupapp.MainActivity;
+import com.example.kushagra.meetupapp.Constants;
 import com.example.kushagra.meetupapp.Query;
 import com.example.kushagra.meetupapp.R;
 import com.example.kushagra.meetupapp.background.PingService;
@@ -55,7 +54,7 @@ public class SplashScreen extends AppCompatActivity
     private void fetchFromServerUpdateDB()
     {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AllCoursesActivity.IP_ADD)
+                .baseUrl(Constants.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -63,20 +62,20 @@ public class SplashScreen extends AppCompatActivity
         ArrayList<String> allCourses = null;
         Call< ArrayList<String> > call = service.getAllCoursesList();
 
-        Log.d(MainActivity.TAG , "Inside Fetch");
+        Log.d(Constants.TAG , "Inside Fetch");
 
         call.enqueue(new Callback<ArrayList<String>>() {
             @Override
             public void onResponse(Call<ArrayList<String>> call, Response<ArrayList<String>> response)
             {
-                Log.d(MainActivity.TAG , response.body().size()+" " );
+                Log.d(Constants.TAG , response.body().size()+" " );
 
                 if(response.body()!=null)
                 {
                     ArrayList<Course> clist = new ArrayList<Course>();
                     ArrayList<String> allcoures = response.body();
 
-                    Log.d(MainActivity.TAG , "Inner part" + response.body() );
+                    Log.d(Constants.TAG , "Inner part" + response.body() );
 
                     for(int i=0;i<allcoures.size();i++)
                     {
@@ -90,10 +89,10 @@ public class SplashScreen extends AppCompatActivity
                     DbManipulate dbMan=new DbManipulate(getApplicationContext());
                     dbMan.insertAllCourses(clist);
 
-                    SharedPreferences sharedPreferences = getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
+                    SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREF_FILE_NAME, MODE_PRIVATE);
 
 
-                    if(sharedPreferences.getBoolean(AllCoursesActivity.IS_LOGGED_IN_EXTRA , false))
+                    if(sharedPreferences.getBoolean(Constants.IS_LOGGED_IN_EXTRA , false))
                     {
 
                         Intent intent = new Intent(getApplicationContext(), CommonCoursesListActivity.class);
@@ -118,7 +117,7 @@ public class SplashScreen extends AppCompatActivity
                 }
                 else
                 {
-                    Log.d(MainActivity.TAG , "Response Body null");
+                    Log.d(Constants.TAG , "Response Body null");
 
                 }
 
@@ -127,7 +126,7 @@ public class SplashScreen extends AppCompatActivity
             @Override
             public void onFailure(Call<ArrayList<String>> call, Throwable t)
             {
-                Log.d(MainActivity.TAG , "Failure"  + call.toString() );
+                Log.d(Constants.TAG , "Failure"  + call.toString() );
 
             }
         });
@@ -142,8 +141,8 @@ public class SplashScreen extends AppCompatActivity
     {
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
-                AllCoursesActivity.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
-        return !(sharedPreferences.getBoolean(AllCoursesActivity.IS_LOGGED_IN_EXTRA, false));
+                Constants.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
+        return !(sharedPreferences.getBoolean(Constants.IS_LOGGED_IN_EXTRA, false));
     }
 
 
@@ -157,7 +156,7 @@ public class SplashScreen extends AppCompatActivity
         }
         catch (Exception e)
         {
-            Log.d(MainActivity.TAG , "Refreshing Service");
+            Log.d(Constants.TAG , "Refreshing Service");
 
         }
     }
@@ -165,7 +164,7 @@ public class SplashScreen extends AppCompatActivity
     private void initiateService()
     {
 
-        Log.d(MainActivity.TAG , "Inside init");
+        Log.d(Constants.TAG , "Inside init");
         Intent i = new Intent( SplashScreen.this , PingService.class);
         // i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startService(i);
@@ -187,16 +186,16 @@ public class SplashScreen extends AppCompatActivity
         if(isNotLoggedIn() && isOnline())
         {
             fetchFromServerUpdateDB();
-            Log.d(AllCoursesActivity.TAG , "Splash NotLoggedIn isOnline");
+            Log.d(Constants.TAG , "Splash NotLoggedIn isOnline");
         }
         else if( !isNotLoggedIn() && isOnline())
         {
-            Log.d(AllCoursesActivity.TAG , "Splash Going ahead");
+            Log.d(Constants.TAG , "Splash Going ahead");
 
 
             initiateService();
 
-            Log.d(MainActivity.TAG , "Starting Intent");
+            Log.d(Constants.TAG , "Starting Intent");
 
 
             //  removeService();

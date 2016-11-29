@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity
     StudentRegisterClass stobj;
     String currentCourse;
     LinearLayout table;
-   // ArrayList<Course> myCourses;
+    // ArrayList<Course> myCourses;
     TextView email;
     ArrayList<Course> a;
     ArrayAdapter<String> spinnerAdapter;
@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity
         mEmail=(EditText)findViewById(R.id.email_edittext);
         spinner=(Spinner) findViewById(R.id.spinner);
         table = (LinearLayout)findViewById(R.id.table);
-   //     myCourses = new ArrayList<>();
+        //     myCourses = new ArrayList<>();
 
         serverCourses = new ArrayList<String>();
 
@@ -83,8 +83,8 @@ public class LoginActivity extends AppCompatActivity
         }
 
         email = (TextView) findViewById(R.id.email);
-        SharedPreferences sh=getApplicationContext().getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
-        email.setText(sh.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user"));
+        SharedPreferences sh=getApplicationContext().getSharedPreferences(Constants.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
+        email.setText(sh.getString(Constants.EMAIL_ID_EXTRA,"user"));
 
         if(savedInstanceState==null)
         {
@@ -159,13 +159,13 @@ public class LoginActivity extends AppCompatActivity
         }
 
         SharedPreferences sh = getApplicationContext().
-                getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
+                getSharedPreferences(Constants.SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
 
-        Log.d(MainActivity.TAG , sh.getString(AllCoursesActivity.USER_NAME_EXTRA,"name") + " ");
+        Log.d(Constants.TAG , sh.getString(Constants.USER_NAME_EXTRA,"name") + " ");
 
 
-        stobj.setStudentId( sh.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"email"));
-        stobj.setName( sh.getString(AllCoursesActivity.USER_NAME_EXTRA,"name"));
+        stobj.setStudentId( sh.getString(Constants.EMAIL_ID_EXTRA,"email"));
+        stobj.setName( sh.getString(Constants.USER_NAME_EXTRA,"name"));
 
 
         String[] reqCourseIDArray = new String[myCourses.size()];
@@ -183,7 +183,7 @@ public class LoginActivity extends AppCompatActivity
 
         for(Course c : myCourses)
         {
-            Log.d(MainActivity.TAG , c.getCourseName() + c.getCourseId());
+            Log.d(Constants.TAG , c.getCourseName() + c.getCourseId());
             File file = new File(getApplicationContext().getFilesDir(),c.getCourseId());
             try {
                 file.createNewFile();
@@ -211,73 +211,73 @@ public class LoginActivity extends AppCompatActivity
 
 
 //check the ips
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(AllCoursesActivity.IP_ADD)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.IP_ADD)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-                ServerApi service = retrofit.create(ServerApi.class);
+        ServerApi service = retrofit.create(ServerApi.class);
 
-                Call<StudentRegisterClass> call = service.registerStudentOnServer(stobj);
+        Call<StudentRegisterClass> call = service.registerStudentOnServer(stobj);
 
-                call.enqueue(new Callback<StudentRegisterClass>()
+        call.enqueue(new Callback<StudentRegisterClass>()
+        {
+            @Override
+            public void onResponse(Call<StudentRegisterClass> call, Response<StudentRegisterClass> response)
+            {
+                if(response!=null)
                 {
-                    @Override
-                    public void onResponse(Call<StudentRegisterClass> call, Response<StudentRegisterClass> response)
+                    StudentRegisterClass studentRegisterClass = response.body();
+                    String[] reqArray = studentRegisterClass.getMyTaCourses();
+
+                    ArrayList<Course> myTaCourses = new ArrayList<Course>();
+
+                    Log.d(Constants.TAG , "Inner part" + response.body() );
+
+                    for(int i=0 ; i < reqArray.length ;i++)
                     {
-                        if(response!=null)
-                        {
-                            StudentRegisterClass studentRegisterClass = response.body();
-                            String[] reqArray = studentRegisterClass.getMyTaCourses();
-
-                            ArrayList<Course> myTaCourses = new ArrayList<Course>();
-
-                            Log.d(MainActivity.TAG , "Inner part" + response.body() );
-
-                            for(int i=0 ; i < reqArray.length ;i++)
-                            {
-                                String cId = reqArray[i].split(";")[0];
-                                String cName = reqArray[i].split(";")[1];
-                                Course cTemp = new Course(cId, cName, null);
-                                myTaCourses.add(cTemp);
-                            }
-
-                            if(myTaCourses.size() > 0)
-                            {
-                            Log.d(MainActivity.TAG , myTaCourses.get(0).getCourseName() + "as a TA");
-                            dbManipulate.insertTASideMyCourses(myTaCourses);
-                            }
-                            dbManipulate.insertMyCourses(myCourses);
-
-
-                        }
-                        else
-                        {
-                            ///toast
-                            Log.d(TAG,"No response after logging student");
-                        }
-
-
+                        String cId = reqArray[i].split(";")[0];
+                        String cName = reqArray[i].split(";")[1];
+                        Course cTemp = new Course(cId, cName, null);
+                        myTaCourses.add(cTemp);
                     }
 
-                    @Override
-                    public void onFailure(Call<StudentRegisterClass> call, Throwable t)
+                    if(myTaCourses.size() > 0)
                     {
-
-
+                        Log.d(Constants.TAG , myTaCourses.get(0).getCourseName() + "as a TA");
+                        dbManipulate.insertTASideMyCourses(myTaCourses);
                     }
+                    dbManipulate.insertMyCourses(myCourses);
+
+
+                }
+                else
+                {
+                    ///toast
+                    Log.d(TAG,"No response after logging student");
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<StudentRegisterClass> call, Throwable t)
+            {
+
+
+            }
 
 
 
 
-                });
+        });
 
 
 
-        SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences( AllCoursesActivity.SHARED_PREF_FILE_NAME, MODE_PRIVATE).edit();
-        editor.putBoolean(AllCoursesActivity.IS_LOGGED_IN_EXTRA , true);
+        SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences( Constants.SHARED_PREF_FILE_NAME, MODE_PRIVATE).edit();
+        editor.putBoolean(Constants.IS_LOGGED_IN_EXTRA , true);
 
-        Log.d(MainActivity.TAG,  AllCoursesActivity.IS_LOGGED_IN_EXTRA + "true");
+        Log.d(Constants.TAG,  Constants.IS_LOGGED_IN_EXTRA + "true");
 
         editor.apply();
 

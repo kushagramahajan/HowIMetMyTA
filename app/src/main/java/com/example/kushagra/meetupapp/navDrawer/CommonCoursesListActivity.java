@@ -22,8 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kushagra.meetupapp.AllCoursesActivity;
-import com.example.kushagra.meetupapp.MainActivity;
+import com.example.kushagra.meetupapp.Constants;
 import com.example.kushagra.meetupapp.Query;
 import com.example.kushagra.meetupapp.R;
 import com.example.kushagra.meetupapp.StartNewStudentQueryActivity;
@@ -68,7 +67,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d(MainActivity.TAG, "Inside Target");
+        Log.d(Constants.TAG, "Inside Target");
 
         dbManipulate = new DbManipulate(getApplicationContext());
 
@@ -96,11 +95,11 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
         handleCourseSideRecyclerView();
 
-        SharedPreferences sp = getApplicationContext().getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME,
+        SharedPreferences sp = getApplicationContext().getSharedPreferences(Constants.SHARED_PREF_FILE_NAME,
                 Context.MODE_PRIVATE);
 
         String imageUri =  "https://api.learn2crack.com/android/images/donut.png" ;
-        imageUri = sp.getString(AllCoursesActivity.PROFILE_IMAGE_FILE_URL, "");
+        imageUri = sp.getString(Constants.PROFILE_IMAGE_FILE_URL, "");
 
 
         View hView =  navigationView.getHeaderView(0);
@@ -110,18 +109,18 @@ public class CommonCoursesListActivity extends AppCompatActivity
         TextView textViewEmailId = (TextView)hView.findViewById(R.id.textView_UserEmailId);
 
 
-        textViewUserName.setText( sp.getString(AllCoursesActivity.USER_NAME_EXTRA , "DefaultUserName") );
-        textViewEmailId.setText( sp.getString(AllCoursesActivity.EMAIL_ID_EXTRA , "DefaultEmail") );
+        textViewUserName.setText( sp.getString(Constants.USER_NAME_EXTRA , "DefaultUserName") );
+        textViewEmailId.setText( sp.getString(Constants.EMAIL_ID_EXTRA , "DefaultEmail") );
 
 
 
         if ( imageView!= null && !imageUri.equalsIgnoreCase(""))
         {
-            Log.d(MainActivity.TAG ,"Runnginasdas");
+            Log.d(Constants.TAG ,"Runnginasdas");
             Picasso.with( getApplicationContext() )
                     .load(imageUri)
-                   // .resize(50,50)
-            //        .centerCrop()
+                    // .resize(50,50)
+                    //        .centerCrop()
                     .into(imageView);
 
 
@@ -156,7 +155,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
-      //  recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        //  recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter((CommonCoursesAdapter)mAdapter);
@@ -181,7 +180,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
                     //Start Student Query ACtivity
 
                     //TA Query Act
-                somethingSelected = false;
+                    somethingSelected = false;
                 }
 
             }
@@ -213,13 +212,13 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
                     Intent i = new Intent(getApplicationContext(), StartNewStudentQueryActivity.class);
 
-                    Log.d(MainActivity.TAG, "Name" + currentCourse.getCourseName()
+                    Log.d(Constants.TAG, "Name" + currentCourse.getCourseName()
                             + "Id" + currentCourse.getCourseId() );
 
-                    i.putExtra(AllCoursesActivity.COURSE_NAME_EXTRA,
+                    i.putExtra(Constants.COURSE_NAME_EXTRA,
                             currentCourse.getCourseName());
 
-                    i.putExtra(AllCoursesActivity.COURSE_ID_EXTRA,
+                    i.putExtra(Constants.COURSE_ID_EXTRA,
                             currentCourse.getCourseId());
 
                     startActivity(i);
@@ -242,7 +241,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
-      //  recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        //  recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter((CommonQueryAdapter)mAdapter);
@@ -266,9 +265,9 @@ public class CommonCoursesListActivity extends AppCompatActivity
                     i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 
-                    i.putExtra(AllCoursesActivity.RECYCLER_VIEW_QUERY_ID_EXTRA, query.getQueryId());
-                    i.putExtra(AllCoursesActivity.IS_TA_SELECTED_EXTRA, isTaSelected);
-                    i.putExtra(AllCoursesActivity.COURSE_ID_EXTRA, currentCourse.getCourseId());
+                    i.putExtra(Constants.RECYCLER_VIEW_QUERY_ID_EXTRA, query.getQueryId());
+                    i.putExtra(Constants.IS_TA_SELECTED_EXTRA, isTaSelected);
+                    i.putExtra(Constants.COURSE_ID_EXTRA, currentCourse.getCourseId());
 
                     startActivity(i);
 
@@ -304,7 +303,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
         {
             commonQueryList.clear();
 
-            Log.d(AllCoursesActivity.TAG , "Reading All Queries "  + currentCourse.getCourseId() + " = " +
+            Log.d(Constants.TAG , "Reading All Queries "  + currentCourse.getCourseId() + " = " +
 
                     dbManipulate.getAllTAQueries(currentCourse.getCourseId()).size() );
 
@@ -320,7 +319,7 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
             String file_name = currentCourse.getCourseId();
 
-            Log.d(AllCoursesActivity.TAG , "Student Course Id" + file_name );
+            Log.d(Constants.TAG , "Student Course Id" + file_name );
 
             File file = new File(getApplicationContext().getFilesDir(), file_name);
 
@@ -392,9 +391,9 @@ public class CommonCoursesListActivity extends AppCompatActivity
 
         commonCoursesList.clear();
 
-     //   commonCoursesList.add(new Course("Student crsc Dummy" , "def002" , null));
+        //   commonCoursesList.add(new Course("Student crsc Dummy" , "def002" , null));
 
-        Log.d(AllCoursesActivity.TAG , "STUDENT SIDE  Size  = " + dbManipulate.getMyCourses().size() );
+        Log.d(Constants.TAG , "STUDENT SIDE  Size  = " + dbManipulate.getMyCourses().size() );
 
         commonCoursesList.addAll(
                 dbManipulate.getMyCourses()
@@ -417,9 +416,9 @@ public class CommonCoursesListActivity extends AppCompatActivity
         /*
 I AM TA OF MY COURSES */
 
-  commonCoursesList.addAll( dbManipulate.getTASideMyCourses() );
+        commonCoursesList.addAll( dbManipulate.getTASideMyCourses() );
 
-        Log.d(AllCoursesActivity.TAG , "TA SIDE size" + dbManipulate.getTASideMyCourses().size() );
+        Log.d(Constants.TAG , "TA SIDE size" + dbManipulate.getTASideMyCourses().size() );
 
 
 
@@ -495,4 +494,4 @@ I AM TA OF MY COURSES */
 
 
 
-   }
+}

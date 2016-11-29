@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.kushagra.meetupapp.MainActivity;
+import com.example.kushagra.meetupapp.Constants;
 import com.example.kushagra.meetupapp.Message;
 import com.example.kushagra.meetupapp.Query;
 import com.example.kushagra.meetupapp.db.objects.Course;
@@ -207,7 +207,7 @@ public class DbManipulate
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         boolean isDel = db.delete(DbContract.ScheduleEntry.TABLE_NAME, DbContract.ScheduleEntry.COLUMN_NAME_ID + "=" + slot.getType() , null) > 0;
-        Log.d(MainActivity.TAG , "Deleted" + slot.getType() + isDel);
+        Log.d(Constants.TAG , "Deleted" + slot.getType() + isDel);
 
 
     }

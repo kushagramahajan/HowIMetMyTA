@@ -36,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.example.kushagra.meetupapp.navDrawer.CommonCoursesListActivity.commonQueryList;
 import static com.example.kushagra.meetupapp.navDrawer.CommonCoursesListActivity.mAdapter;
 
-public class StartNewStudentQueryActivity extends AppCompatActivity 
+public class StartNewStudentQueryActivity extends AppCompatActivity
 {
 
     AutoCompleteTextView tags,ta;
@@ -95,29 +95,29 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AllCoursesActivity.IP_ADD)
+                .baseUrl(Constants.IP_ADD)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ServerApi service = retrofit.create(ServerApi.class);
 
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(AllCoursesActivity.SHARED_PREF_FILE_NAME,
-                AllCoursesActivity.MODE_PRIVATE);
-        String studentId = sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA, "");
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constants.SHARED_PREF_FILE_NAME,
+                Context.MODE_PRIVATE);
+        String studentId = sharedPreferences.getString(Constants.EMAIL_ID_EXTRA, "");
 
-        String courseId = getIntent().getStringExtra( AllCoursesActivity.COURSE_ID_EXTRA );
+        String courseId = getIntent().getStringExtra( Constants.COURSE_ID_EXTRA );
 
         EditText editText = (EditText)findViewById(R.id.title);
         EditText editTextDesp = (EditText)findViewById(R.id.description);
         final EditText editTextTA = (EditText)findViewById(R.id.ta);
 
 
-        Log.d(MainActivity.TAG , "editext" + "ccc" );
+        Log.d(Constants.TAG , "editext" + "ccc" );
 
 
         final StudentQueryClass studentQueryClass = new StudentQueryClass(
-            editText.getText().toString(),
+                editText.getText().toString(),
                 editTextDesp.getText().toString(),
                 studentId,
                 courseId,
@@ -134,18 +134,18 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<StudentQueryClass> call, Response<StudentQueryClass> response)
             {
-                Log.d(MainActivity.TAG ," Query done Response");
+                Log.d(Constants.TAG ," Query done Response");
                 if(response.body()!=null)
                 {
                     // new object
                     SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
-                            AllCoursesActivity.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE
+                            Constants.SHARED_PREF_FILE_NAME , Context.MODE_PRIVATE
                     );
 
-                    String student_email_id = sharedPreferences.getString(AllCoursesActivity.EMAIL_ID_EXTRA,"user");
+                    String student_email_id = sharedPreferences.getString(Constants.EMAIL_ID_EXTRA,"user");
 
                     //public Query(String qid, String title, String description, String taId, String studentId)
-                    String courseId=getIntent().getStringExtra( AllCoursesActivity.COURSE_ID_EXTRA );
+                    String courseId=getIntent().getStringExtra( Constants.COURSE_ID_EXTRA );
                     Query qadd = new
                             Query( response.body().getQueryId(),
                             studentQueryClass.getTitle(),
@@ -156,7 +156,7 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                     //file initialization
                     dbman.insertQueryCourse(response.body().queryId,courseId);
 
-                    String file_name=getIntent().getStringExtra(AllCoursesActivity.COURSE_ID_EXTRA );
+                    String file_name=getIntent().getStringExtra(Constants.COURSE_ID_EXTRA );
                     file = new File(getApplicationContext().getFilesDir(),file_name);
 
 
@@ -192,7 +192,7 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
                 }
                 else
                 {
-                    Log.d(MainActivity.TAG,"null respons on sending qeury");
+                    Log.d(Constants.TAG,"null respons on sending qeury");
                 }
 
 
@@ -201,7 +201,7 @@ public class StartNewStudentQueryActivity extends AppCompatActivity
             @Override
             public void onFailure(Call<StudentQueryClass> call, Throwable t) {
 
-                Log.d(MainActivity.TAG , "failed description");
+                Log.d(Constants.TAG , "failed description");
             }
         });
 
