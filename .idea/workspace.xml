@@ -12,19 +12,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d99f42c4-1470-4ec8-a03c-055ebec653e0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/picasso_2_5_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/background/PingService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/background/PingService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/back.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/back.xml" />
     </list>
     <ignored path="mc_proj_student.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -57,11 +46,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PingService.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PingService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/background/PingService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1639">
-              <caret line="403" column="73" selection-start-line="403" selection-start-column="73" selection-end-line="403" selection-end-column="73" />
+            <state relative-caret-position="-1928">
+              <caret line="408" column="73" selection-start-line="408" selection-start-column="73" selection-end-line="408" selection-end-column="73" />
+              <folding>
+                <element signature="e#1906#1907#0" expanded="true" />
+                <element signature="e#1933#1934#0" expanded="true" />
+                <element signature="e#2280#2436#0" expanded="true" />
+                <element signature="e#2435#2436#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="279">
+              <caret line="293" column="58" selection-start-line="293" selection-start-column="58" selection-end-line="293" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -1851,9 +1855,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/back.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/background/PingService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java" />
       </list>
     </option>
   </component>
@@ -2008,22 +2012,13 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/AllCourseAdapter.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/AllCoursesActivity.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/AndroidManifest.xml</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/QueryAdapter.java</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/StudentFollowUpQueryActivity.java</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/background/PingService.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/db/DbManipulate.java</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/extra/SignInActivity.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/extra/SplashScreen.java</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/navDrawer/CommonCoursesListActivity.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/navDrawer/recyclerView/CommonCoursesAdapter.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/navDrawer/recyclerView/CommonQueryAdapter.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/network/model/StudentRegisterClass.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/res/layout/meeting.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/res/layout/nav_header_queries_list_common.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/res/layout/tile_course.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/src/main/res/layout/tile_query.xml</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -2662,7 +2657,14 @@
       <option name="project" value="LOCAL" />
       <updated>1480382946503</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="notification">
+      <created>1480392065409</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1480392065409</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2748,7 +2750,8 @@
     <MESSAGE value="theme tweaks" />
     <MESSAGE value="progress bar1" />
     <MESSAGE value="bgrnd" />
-    <option name="LAST_COMMIT_MESSAGE" value="bgrnd" />
+    <MESSAGE value="notification" />
+    <option name="LAST_COMMIT_MESSAGE" value="notification" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3156,14 +3159,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="101" column="37" selection-start-line="101" selection-start-column="37" selection-end-line="101" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -3242,8 +3237,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/background/PingService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1639">
-          <caret line="403" column="73" selection-start-line="403" selection-start-column="73" selection-end-line="403" selection-end-column="73" />
+        <state relative-caret-position="-1928">
+          <caret line="408" column="73" selection-start-line="408" selection-start-column="73" selection-end-line="408" selection-end-column="73" />
+          <folding>
+            <element signature="e#1906#1907#0" expanded="true" />
+            <element signature="e#1933#1934#0" expanded="true" />
+            <element signature="e#2280#2436#0" expanded="true" />
+            <element signature="e#2435#2436#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/kushagra/meetupapp/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="293" column="58" selection-start-line="293" selection-start-column="58" selection-end-line="293" selection-end-column="58" />
           <folding />
         </state>
       </provider>
